@@ -1,25 +1,27 @@
-# RepoAtlas — MVP Documentation
+# RepoAtlas Documentation Index
 
-RepoAtlas is a small tool that reads a source repository and turns it into documentation a human doesn't have to write by hand. The MVP has one job: read the code, understand it well enough to describe it accurately, and produce two documents from that understanding.
+## Document Map
 
-## What the MVP delivers
+| #   | Document                 | Content                                                                       |
+| --- | ------------------------ | ----------------------------------------------------------------------------- |
+| 1   | `vision.md`              | Vision, principles, the 4 wiki documents, local-first LLM                     |
+| 2   | `executive-summary.md`   | Intended system & data flow (authored design)                                 |
+| 3   | `system-overview.md`     | Pipeline, the 5 tools, local/remote LLM, how Architecture/Modules are derived |
+| 4   | `architecture.md`        | System/component/module view, as-is + intended design                         |
+| 5   | `repository-analysis.md` | Structure, build, deps — as observed                                          |
+| 6   | `product.md`             | FR/NFR, personas, capabilities                                                |
+| 7   | `epics.md`               | 5 Epics                                                                       |
+| 8   | `user-stories.md`        | Stories per Epic, including local/remote/no-LLM cases                         |
+| 9   | `adrs.md`                | 9 ADRs (fixed 4-doc/5-tool scope)                                             |
 
-1. **Tech Docs** — a technical description of the codebase, split into:
-   - **Architecture** — the overall shape of the system: which modules exist and how they depend on each other.
-   - **Modules** — a closer look at each module on its own: what it does, its main pieces, and how those pieces fit together.
-2. **Test Docs** — a description of the existing test suite: what's tested, where the tests live, and which part of the codebase each test covers.
+## Reading Order
 
-A third document, a short **Project Overview**, is nice to have but not required — it can ship with the MVP or be skipped without holding anything back.
+1. `executive-summary.md` — facts + what's new in project.
+2. `vision.md` + `system-overview.md` — intended design.
+3. `repository-analysis.md` + `architecture.md` — as-built truth.
+4. `epics.md` → `user-stories.md` — backlog.
+5. `adrs.md` — decisions, including why scope stays fixed at 4 docs / 5 tools.
 
-## Documents in this set
+## Guiding Constraint for This Version
 
-| File              | What's in it                                                                                          |
-| ----------------- | ----------------------------------------------------------------------------------------------------- |
-| `vision.md`       | Why this exists, what the MVP actually covers, what's left for later                                  |
-| `architecture.md` | How the tool works internally — the tools it uses and the pipeline that turns code into documentation |
-| `epics.md`        | The work broken into epics                                                                            |
-| `user-stories.md` | The epics broken into concrete stories                                                                |
-
-## Reading order
-
-Start with `vision.md` to get the scope, then `architecture.md` to see how it's built, then `epics.md` and `user-stories.md` as the backlog.
+Every design document in this set is written to keep RepoAtlas **small on purpose**: a fixed toolset, a fixed document set, one config switch for the LLM, and no service layer. If a future need doesn't fit, the right move is to write a new ADR explaining why the scope grows — not to expand silently.

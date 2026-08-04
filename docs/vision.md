@@ -1,43 +1,63 @@
-# RepoAtlas — Vision
+# RepoAtlas — Project Vision
 
-## The problem
+## Purpose
 
-Anyone dropping into an unfamiliar repository — a new hire, a reviewer, or the original author six months later — runs into the same two questions: what does this codebase actually look like architecturally, and what does the test suite actually cover? Answering either one by reading code file by file takes hours, and the answer goes stale the moment the code changes again.
+RepoAtlas is a lightweight CLI tool that analyzes a single repository and generates a wiki that helps developers understand and maintain its source code.
 
-RepoAtlas exists to answer those two questions automatically, straight from the source code, so the documentation stays honest instead of drifting away from what the code really does.
+## RepoAtlas in One Sentence
 
-## What the MVP is
+**RepoAtlas is a self-hostable CLI tool that analyzes a repository and generates a four-part wiki (Tech, Tests, Architecture, and Modules) from a knowledge graph of its structure, using an LLM that can run locally or through a remote API.**
 
-A tool that scans a repository and produces two documents:
+## Core Principles
 
-- **Tech Docs**, covering the overall **Architecture** (the modules and how they relate) and a **Modules** breakdown (what each module does on its own).
-- **Test Docs**, covering what the existing tests check and which parts of the code they map to.
+1. **Single-Shot Analysis** — One execution performs a complete analysis of the repository. No state is preserved between runs except the generated output files.
+2. **File-Based Architecture** — The knowledge graph is stored as a single `graph.json` file.
+3. **Full Re-analysis** — Repository changes are handled by running the analysis again rather than maintaining incremental updates.
+4. **Model-Agnostic, Local-First** — The summarization model can run locally (for example through Ollama or another local inference server) or use a remote API. Local execution is the default, while remote execution is optional.
+5. **Template-Driven Analysis** — Repository-specific guidance is defined through prompt templates rather than a dedicated framework.
+6. **Human-Readable Output** — Every analysis generates the same four wiki documents instead of an extensible artifact system.
+7. **Open Source and Self-Hosted** — The tool runs entirely on the user's machine and does not require any hosted backend services.
 
-A short **Project Overview** document is a nice extra on top, but it's optional — it doesn't block the two documents above.
+## Generated Wiki
 
-## What's deliberately left out for now
+Each execution generates exactly four Markdown documents.
 
-Some ideas that show up in the broader repository-intelligence space are useful directions but not part of this MVP:
+| #   | Document         | Description                                                                              |
+| --- | ---------------- | ---------------------------------------------------------------------------------------- |
+| 1   | **Tech**         | Programming languages, frameworks, dependencies, build process, and runtime environment. |
+| 2   | **Tests**        | Available test suites, test coverage, and instructions for running tests.                |
+| 3   | **Architecture** | High-level architecture, major layers, services, and their relationships.                |
+| 4   | **Modules**      | The purpose of each module and its primary components.                                   |
 
-- A persistent, cross-repository knowledge graph that stays around between runs.
-- A scheduler that re-runs analysis automatically on every commit.
-- A dedicated guardrail/policy layer for the tools — for now, quality control is just "every claim points back to a real file" plus a human reading the output before it ships.
-- A web UI — the output is markdown for now.
-- Routing across multiple LLM providers.
+For repositories with a clear frontend and backend separation, the Modules documentation may present specialized views such as component summaries for frontend applications or MVC summaries for backend applications. These views are different presentations of the same knowledge graph rather than separate analysis pipelines.
 
-These stay on the table for later; they're just not what "done" means for this version.
+## Core Concepts
 
-## The approach, in short
+| Term                | Definition                                                                                                        |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Repository**      | The repository analyzed during a single execution, provided as a local directory or Git URL.                      |
+| **Index**           | Structured metadata extracted from source code, including files, symbols, dependencies, and import relationships. |
+| **Knowledge Graph** | Relationships derived from the repository index and stored in `graph.json`.                                       |
+| **Analysis Pass**   | A bounded set of LLM calls guided by prompt templates to generate the wiki documentation.                         |
+| **Wiki**            | The four generated Markdown documents.                                                                            |
 
-Understanding a whole repository well enough to describe it accurately is harder than summarizing one file at a time — code that implements one piece of functionality is usually scattered across several files, not laid out sequentially in one place. Systems built for this kind of task (LingmaAgent, RepoUnderstander, and similar work) handle it by first building a structural map of the repository — a hierarchy of files, classes, and functions plus the call relationships between them — and only then summarizing, working from that map instead of reading everything in file order. RepoAtlas follows the same idea at MVP scale: build the structure first, then summarize guided by it, and always keep a pointer back to the exact file/class/function a claim came from.
+## Out of Scope
 
-A few technical questions need answers before this can be built:
+The following capabilities are intentionally excluded:
 
-- Which LLM to use for summarization.
-- Which sample repositories to test the pipeline against — ideally a handful spanning different languages and architectures.
-- How to segment a repository into pieces that fit a model's context window without cutting a class or component in half.
-- How to reliably pull out an accurate Architecture view and accurate Module boundaries instead of a plausible-sounding but wrong one.
+- Multi-repository workspace management.
+- Plugin systems, marketplaces, or framework registries.
+- Agent orchestration or scheduling.
+- Incremental refresh mechanisms.
+- API, Gateway, or Control Plane services.
+- Policy or guardrail engines for tool execution.
 
-## What success looks like
+## Assumptions
 
-Given any repository from the sample set, the pipeline produces Tech Docs and Test Docs without manual editing, and everything in those documents can be traced back to a real file, class, or function — nothing invented.
+- The input is a Git repository or a local project directory.
+- A local or remote LLM is available for summarization. If no LLM is available, the tool still generates documentation from structural analysis, although Architecture and Modules descriptions will be limited.
+- The tool executes entirely on the user's local machine.
+
+## Summary
+
+RepoAtlas analyzes a repository, builds a knowledge graph (`graph.json`), performs a bounded analysis using prompt templates and an optional LLM, and generates four wiki documents: **Tech**, **Tests**, **Architecture**, and **Modules**. The project intentionally maintains a focused scope with a single CLI workflow, a fixed toolset, and a fixed documentation output.

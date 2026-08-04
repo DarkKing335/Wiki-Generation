@@ -1,68 +1,48 @@
-# RepoAtlas — Product (inferred)
+# RepoAtlas — Product
 
-> These are **inferences** drawn from the repo's folder taxonomy (`docs/vision.md` and `docs/system-overview.md` intend) and the naming of empty directories. No capability is implemented; statements are classified as **Inferred / Planned** vs **Not Determined**.
+## 1. Product Vision
 
-## 1. Product Vision (inferred)
+RepoAtlas is a lightweight CLI tool that analyzes a single repository and generates exactly four wiki documents (**Tech**, **Tests**, **Architecture**, and **Modules**) using a fixed analysis toolset and an optional LLM that can run locally or through a remote API.
 
-**Working vision (from `docs/vision.md`):** *"An AI-powered repository intelligence platform that reads, understands, and evolves software repositories into navigable knowledge using AI, Knowledge Graphs, Harnesses, and AI Agents."*
+## 2. Functional Requirements
 
-**Determined intent from folder names** (`graph`, `index`, `agents`, `wiki`): the product is meant to take a repo → an index → a knowledge graph → continuously-maintained wiki/artifacts, driven by agents. Confirmed aspirational, not yet built.
+| ID    | Requirement                | Description                                                                                                          | Status |
+| ----- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------ |
+| FR-1  | Repository Input           | Accept a local repository path or Git URL for a single analysis.                                                     | —      |
+| FR-2  | Repository Analysis        | Scan the repository structure, read source files, and build an import graph.                                         | —      |
+| FR-3  | LLM Support                | Support both local and remote LLM providers through configuration.                                                   | —      |
+| FR-4  | Tech Documentation         | Generate a **Tech** document containing programming languages, frameworks, dependencies, and build/run instructions. | —      |
+| FR-5  | Tests Documentation        | Generate a **Tests** document describing available test suites and how to execute them.                              | —      |
+| FR-6  | Architecture Documentation | Generate an **Architecture** document describing repository layers and component relationships.                      | —      |
+| FR-7  | Modules Documentation      | Generate a **Modules** document describing repository modules and their responsibilities.                            | —      |
+| FR-8  | Knowledge Graph            | Build a knowledge graph and save it as `graph.json`.                                                                 | —      |
+| FR-9  | Operation Without LLM      | Continue generating documentation from structural analysis even when no LLM is configured.                           | —      |
+| FR-10 | Full Re-analysis           | Regenerate the knowledge graph and documentation whenever the analysis is executed again.                            | —      |
 
-## 2. Functional Requirements (Inferred — NOT implemented)
+## 3. Non-Functional Requirements
 
-The taxonomy yields a candidate functional surface. **Status: Not Determined** (no code); these are the *implied* requirements of a future version.
+- **Simplicity** — The system consists of a single CLI command, a fixed analysis workflow, and four generated documents.
+- **Privacy** — Local LLM execution is supported to avoid sending repository code to external services.
+- **Reproducibility** — Identical repository states should produce consistent knowledge graphs and documentation.
+- **Portability** — The application runs entirely on the user's machine without requiring backend services.
 
-| # | Requirement (inferred) | Implied by | Realized? |
-|---|---|---|---|
-| FR-1 | Ingest one or more repositories | `repositories/` | — |
-| FR-2 | Index repo into structured metadata | `indexes/` | — |
-| FR-3 | Build/maintain a knowledge graph | `graphs/` | — |
-| FR-4 | Run AI agents over the graph | `agents/` | — |
-| FR-5 | Generate wiki artifacts | `wiki/`, `output/` | — |
-| FR-6 | Share/manage reusable packages | `packages/` | — |
+## 4. Personas
 
-## 3. Non-functional Requirements (inferred, all **NotDetermined**)
+| Persona                   | Goal                                                                                                             |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Software Engineer**     | Understand an unfamiliar repository by generating documentation with a single command.                           |
+| **Repository Maintainer** | Regenerate project documentation whenever the repository changes while keeping source code on the local machine. |
 
-- Extensibility (agents/harnesses), model-agnosticism, incremental-refresh efficiency, observability, security — all stated as design goals in `docs/vision.md` but **not observable in code**.
+## 5. Core Capabilities
 
-## 4. Personas (inferred)
+| Capability          | Implementation                                      |
+| ------------------- | --------------------------------------------------- |
+| Repository Input    | CLI command                                         |
+| Structural Analysis | `scan_structure`, `read_file`, `build_import_graph` |
+| AI Summarization    | `summarize`                                         |
+| Knowledge Graph     | `graph.json`                                        |
+| Wiki Generation     | Tech, Tests, Architecture, Modules                  |
 
-| Persona | Goal with RepoAtlas |
-|---|---|
-| Software Engineer | Understand an unfamiliar repo quickly; find dependencies |
-| Architect | See cross-cutting/module structure; review architecture |
-| Platform Engineer | Keep documentation fresh automatically |
-| Tech Writer | Publish accurate, current wiki artifacts |
-| Researcher / Evaluator | (from corpus) compare reference tools, study approaches |
+## 6. Summary
 
-No UI exists; these are **intended users**, not evidenced users.
-
-## 5. Business Capabilities (inferred)
-
-| Capability | Mapped to | Detail |
-| Repository Management | `repositories/` | add/manage repos; Workspace grouping |
-| Code & Dependency Understanding | `indexes/`, `graphs` | parse, entities, relationships |
-| Automated Analysis Agents | `agents/` | ongoing survey/refresh |
-| Wiki/Docs Generation | `wiki/`, `output/` | derived artifacts |
-| Packaging/Sharing | `packages/` | reusable modules |
-
-### Business capability map
-
-```mermaid
-graph LR
-    C[Repository Management] -->|feeds| I[Indexing]
-    I -->|feeds| G[Knowledge Graph]
-    G -->|drives| A[Agents]
-    G -->|renders| W[Wiki/Output]
-    P[Packaging] -.shared-. FG
-```
-
-## 6. Evidence & Confidence
-
-- **Inferred:** business capabilities, personas, FR/NFR list, product intent.
-- **Determined: the folder taxonomy** (determined) and the design `docs/vision` & `docs/system-overview` (authored).
-- **Not Determined:** all realized behavior, metrics, and performance.
-
-## 7. Summary
-
-The product lives at **Stage: ideation/scaffolding**. One must refrain from claiming a shipped platform turns; instead the doc positions RepoAtlas as cleanly intended but **unbuilt**, with product view sparkline from naming + design docs alone.
+RepoAtlas focuses on a simple workflow: analyze one repository, build a knowledge graph, optionally enrich it with an LLM, and generate four wiki documents. The product intentionally maintains a fixed scope with a single CLI interface, a small analysis toolset, and predictable outputs.

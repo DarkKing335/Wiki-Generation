@@ -1,65 +1,254 @@
 # RepoAtlas — User Stories
 
-## Epic 1 — Core toolset
+## Epic 1 — Repository Indexing
 
-**Scan the project structure**
-As someone building the pipeline, I want to scan a repo's full folder/file tree, so I know what's there before analyzing anything. Vendor and build folders (`node_modules`, `.git`, `dist`, etc.) are excluded.
+### US-1.1 Analyze a Repository
 
-**Build the dependency tree**
-As someone building the pipeline, I want the file tree broken down into classes and functions with their call relationships recorded, so later steps can navigate the codebase by structure instead of by guesswork.
+**As a** software engineer,
+**I want** to analyze a repository from a local path or Git URL,
+**so that** RepoAtlas can extract its structure without additional setup.
 
-**Search within the structure**
-As someone building the pipeline, I want to look up a specific class, function, or snippet by name, so I don't have to re-scan the repo for every question.
+**Acceptance Criteria**
 
-**Summarize a unit of code**
-As someone building the pipeline, I want to summarize a file, class, or function, so I know what it's responsible for. Every summary keeps a reference back to its source location.
+- Accept both local paths and Git URLs.
+- Clone remote repositories automatically.
+- Generate the repository structure and import graph.
+- Display clear error messages for invalid repositories.
 
-**Link module knowledge**
-As someone building the pipeline, I want to merge the summaries of the pieces inside one module into a single module-level summary, so the Modules doc reflects a coherent picture of the module instead of a loose list of unrelated snippets.
+**Definition of Done**
 
-## Epic 2 — Tech Docs: Architecture
-
-**Generate the architecture overview**
-As an engineer or architect, I want an automatically generated Architecture doc, so I can understand the main modules and how they relate without reading the whole codebase. The module list matches reality, the diagram shows real relationships, and every claim traces back to actual files.
-
-## Epic 3 — Tech Docs: Modules
-
-**Summarize each module**
-As an engineer, I want a standalone summary for each module — purpose, main pieces, related files — so I know what it does before diving into the code.
-
-**Summarize by component (frontend)**
-As a frontend engineer, I want frontend modules broken down component by component, so I can look up a specific component quickly.
-
-**Summarize by MVC (backend)**
-As a backend engineer, I want backend modules broken down by Model/View/Controller, so I can follow how a request flows through the system.
-
-## Epic 4 — Test Docs
-
-**List and summarize existing tests**
-As an engineer, I want a list of existing tests with short descriptions, so I know what's covered and what isn't. Every test file gets found, and every test/group is described along with the module it maps to.
-
-## Epic 5 — End-to-end workflow
-
-**Run the whole pipeline in one command**
-As an operator, I want to run scan → summarize → link → generate as a single command driven by `AGENTS.md`, so I don't have to run each step by hand. One run on a sample repo produces both Tech Docs and Test Docs.
-
-**Configure the LLM and sample repos**
-As someone building the pipeline, I want to configure which LLM is used and which repos serve as the test set, so I can evaluate pipeline quality across different kinds of repos before expanding scope. The sample set stays fixed so it can be used as a regression check when the pipeline changes.
-
-## Epic 6 (optional) — Project Overview
-
-**Generate a project overview**
-As someone new to the project, I want a short, high-level overview document, so I can understand what the project does before getting into the technical details. Optional — skip if it's competing with the two required documents.
+- Successfully analyzes at least one supported programming language.
 
 ---
 
-## Story-to-epic map
+### US-1.2 Save Repository Structure
 
-| Story                                                                                                           | Epic              |
-| --------------------------------------------------------------------------------------------------------------- | ----------------- |
-| Scan structure, Build dependency tree, Search within structure, Summarize a unit of code, Link module knowledge | Epic 1            |
-| Generate the architecture overview                                                                              | Epic 2            |
-| Summarize each module, Summarize by component, Summarize by MVC                                                 | Epic 3            |
-| List and summarize existing tests                                                                               | Epic 4            |
-| Run the whole pipeline, Configure LLM and sample repos                                                          | Epic 5            |
-| Generate a project overview                                                                                     | Epic 6 (optional) |
+**As a** software engineer,
+**I want** the scanned repository structure to be stored locally during execution,
+**so that** later stages can reuse it without scanning the repository again.
+
+**Acceptance Criteria**
+
+- Repository structure is saved after scanning.
+- Later processing stages reuse the saved structure.
+
+**Definition of Done**
+
+- Structure file is successfully generated and reused during the same execution.
+
+---
+
+## Epic 2 — Knowledge Graph
+
+### US-2.1 Generate a Knowledge Graph
+
+**As a** software engineer,
+**I want** the repository metadata to be converted into a knowledge graph,
+**so that** I can inspect the project structure.
+
+**Acceptance Criteria**
+
+- Generate `graph.json`.
+- Store repository entities and relationships.
+- Define a documented graph schema.
+
+**Definition of Done**
+
+- Graph generation passes validation tests.
+
+---
+
+### US-2.2 Query the Knowledge Graph
+
+**As a** software engineer,
+**I want** to query repository relationships,
+**so that** I can understand dependencies without repeating the analysis.
+
+**Acceptance Criteria**
+
+- Load `graph.json`.
+- Support relationship queries.
+- Return dependency information.
+
+**Definition of Done**
+
+- Representative graph queries execute successfully.
+
+---
+
+### US-2.3 Regenerate After Repository Changes
+
+**As a** software engineer,
+**I want** to rerun the analysis after modifying the repository,
+**so that** the documentation remains up to date.
+
+**Acceptance Criteria**
+
+- Running the analysis recreates `graph.json`.
+- Previous results are replaced completely.
+
+**Definition of Done**
+
+- Repository updates are correctly reflected in regenerated documentation.
+
+---
+
+## Epic 3 — AI Analysis
+
+### US-3.1 Configure a Local LLM
+
+**As a** software engineer,
+**I want** to use a locally hosted LLM,
+**so that** repository code remains on my machine.
+
+**Acceptance Criteria**
+
+- Configure a local inference endpoint.
+- Repository summaries are generated through the local model.
+
+**Definition of Done**
+
+- Successfully tested with a supported local LLM.
+
+---
+
+### US-3.2 Run Without an LLM
+
+**As a** user,
+**I want** RepoAtlas to work without an LLM,
+**so that** I can still generate documentation.
+
+**Acceptance Criteria**
+
+- Structural documentation is generated.
+- Missing AI descriptions do not interrupt execution.
+
+**Definition of Done**
+
+- Complete analysis succeeds without LLM configuration.
+
+---
+
+### US-3.3 Generate Architecture Summaries
+
+**As a** software engineer,
+**I want** architecture components to be summarized automatically,
+**so that** I can quickly understand the repository architecture.
+
+**Acceptance Criteria**
+
+- Repository layers are identified.
+- Descriptions are generated when an LLM is available.
+
+**Definition of Done**
+
+- Architecture information is included in the generated knowledge graph.
+
+---
+
+### US-3.4 Generate Module Summaries
+
+**As a** software engineer,
+**I want** repository modules to be summarized automatically,
+**so that** I can understand their responsibilities.
+
+**Acceptance Criteria**
+
+- Modules are identified automatically.
+- Descriptions are generated when an LLM is available.
+
+**Definition of Done**
+
+- Module information is included in the generated knowledge graph.
+
+---
+
+## Epic 4 — Wiki Generation
+
+### US-4.1 Generate Tech Documentation
+
+**As a** software engineer,
+**I want** a Tech document describing the project technology stack,
+**so that** I can build and run the project.
+
+**Definition of Done**
+
+- `tech.md` is generated.
+
+---
+
+### US-4.2 Generate Tests Documentation
+
+**As a** software engineer,
+**I want** documentation describing project testing,
+**so that** I understand how to execute the test suite.
+
+**Definition of Done**
+
+- `tests.md` is generated.
+
+---
+
+### US-4.3 Generate Architecture Documentation
+
+**As a** software engineer,
+**I want** an Architecture document describing the system structure,
+**so that** I understand the repository at a high level.
+
+**Definition of Done**
+
+- `architecture.md` is generated.
+
+---
+
+### US-4.4 Generate Modules Documentation
+
+**As a** software engineer,
+**I want** documentation describing repository modules,
+**so that** I understand the responsibilities of each module.
+
+**Definition of Done**
+
+- `modules.md` is generated.
+
+---
+
+## Epic 5 — Command-Line Interface
+
+### US-5.1 Execute the Complete Workflow
+
+**As a** software engineer,
+**I want** a single command that performs the complete analysis,
+**so that** I do not need to execute each stage manually.
+
+**Definition of Done**
+
+- `repoatlas analyze <path|url>` generates all documentation.
+
+---
+
+### US-5.2 Configure the LLM
+
+**As a** software engineer,
+**I want** to choose between local or disabled LLM modes,
+**so that** I can control privacy, cost, and execution environment.
+
+**Definition of Done**
+
+- All supported LLM modes are tested.
+
+---
+
+## Story Mapping
+
+| User Story      | Epic   |
+| --------------- | ------ |
+| US-1.1 – US-1.2 | Epic 1 |
+| US-2.1 – US-2.3 | Epic 2 |
+| US-3.1 – US-3.5 | Epic 3 |
+| US-4.1 – US-4.4 | Epic 4 |
+| US-5.1 – US-5.2 | Epic 5 |
+
+## Status
+
+**Planned — Not yet implemented.**

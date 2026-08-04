@@ -1,84 +1,145 @@
 # RepoAtlas — Epics
 
-## Epic 1 — Core toolset
+## Epic 1 — Repository Indexing
 
-Build the small set of tools everything else depends on: scanning the repo, building the file/class/function structure with its call graph, searching within that structure, summarizing a unit of code, and merging summaries into a module-level picture.
+### Goal
 
-**Done when:**
+Analyze a repository from a local path or Git URL and extract its structural information.
 
-- `scan_structure` returns a full, clean tree for a sample repo (no vendor/build noise).
-- `build_dependency_tree` correctly extracts classes, functions, and call relationships for at least one sample repo per major language in scope.
-- `summarize` always returns a source reference alongside its summary.
-- `link_module_knowledge` produces a coherent module summary out of several smaller ones.
+### Scope
 
-**Depends on:** picking an LLM.
+- `scan_structure`
+- `save_structure`
+- `read_file`
+- `build_import_graph`
 
-## Epic 2 — Tech Docs: Architecture
+### Acceptance Criteria
 
-Turn module-level summaries plus the inter-module dependency graph into a single architecture overview.
+- The system successfully scans a local repository or Git repository.
+- A directory and file structure is generated.
+- An import graph is created from the source code.
+- Repository structure is saved locally for use during the current analysis.
 
-**Done when:**
+### Dependencies
 
-- The Architecture doc for a sample repo lists exactly the modules that actually exist — nothing invented, nothing missing.
-- It includes a diagram of how the main modules relate to each other.
-
-**Depends on:** Epic 1.
-
-## Epic 3 — Tech Docs: Modules
-
-Produce a detailed, per-module breakdown — components for frontend modules, MVC layers for backend modules.
-
-**Done when:**
-
-- Every module has its own section: purpose, main pieces, related files.
-- Frontend modules are broken down by component; backend modules by MVC (or the framework's equivalent).
-
-**Depends on:** Epic 1.
-
-## Epic 4 — Test Docs
-
-Identify the existing test suite and describe what it covers.
-
-**Done when:**
-
-- Every test file in a sample repo is found and listed.
-- Each test/test group has a short description of what it checks and which module it belongs to.
-
-**Depends on:** Epic 1.
-
-## Epic 5 — End-to-end workflow
-
-Wire Epics 1–4 into a single pipeline driven by an `AGENTS.md` config, runnable with one command.
-
-**Done when:**
-
-- One run on a sample repo produces both Tech Docs (Architecture + Modules) and Test Docs.
-- Re-running on the same repo produces consistent results.
-
-**Depends on:** Epics 1–4.
-
-## Epic 6 (optional) — Project Overview
-
-A short, high-level intro document summarizing what the project is, on top of whatever README/description already exists in the repo.
-
-**Status:** nice to have — safe to skip if it's competing with the two required documents.
-
-**Depends on:** Epic 1.
+None.
 
 ---
 
-## Dependency graph
+## Epic 2 — Knowledge Graph
+
+### Goal
+
+Build a knowledge graph from the repository metadata and persist it as `graph.json`.
+
+### Acceptance Criteria
+
+- A `graph.json` file is generated from repository metadata.
+- Repository entities and relationships are represented in the graph.
+- Basic relationship queries can be performed using the generated graph.
+- Running the analysis again completely regenerates the knowledge graph.
+
+### Dependencies
+
+Epic 1.
+
+---
+
+## Epic 3 — AI Analysis
+
+### Goal
+
+Generate descriptive content for the documentation using structural repository information and an optional LLM.
+
+### Scope
+
+- Support local and remote LLM providers.
+- Summarize repository technologies.
+- Summarize testing information.
+- Describe architectural layers.
+- Summarize repository modules.
+
+### Acceptance Criteria
+
+- When an LLM is available, all documentation includes generated descriptions.
+- Without an LLM, documentation is generated from structural analysis with reduced descriptive content.
+
+### Dependencies
+
+Epic 1.
+
+Provides information for Epics 2 and 4.
+
+---
+
+## Epic 4 — Wiki Generation
+
+### Goal
+
+Generate documentation from the knowledge graph.
+
+### Scope
+
+Generate the following Markdown documents:
+
+- `tech.md`
+- `tests.md`
+- `architecture.md`
+- `modules.md`
+
+### Acceptance Criteria
+
+- All four documents are generated for every analysis.
+- Documentation is produced from the generated knowledge graph.
+- Documentation formatting adapts to repository structure when appropriate (for example, frontend components or backend MVC layouts).
+
+### Dependencies
+
+Epic 2.
+
+Optionally enhanced by Epic 3.
+
+---
+
+## Epic 5 — Command-Line Interface
+
+### Goal
+
+Provide a single CLI command that executes the complete repository analysis workflow.
+
+### Scope
+
+- `repoatlas analyze <path|url>`
+- Repository configuration
+- LLM configuration
+- Console logging
+
+### Acceptance Criteria
+
+- One command executes the complete workflow.
+- Documentation is generated successfully.
+- Local or disabled LLM configurations are supported.
+
+### Dependencies
+
+Epics 1–4.
+
+---
+
+## Epic Dependency Diagram
 
 ```mermaid
 graph LR
-    E1[Epic1 Core toolset] --> E2[Epic2 Tech Docs: Architecture]
-    E1 --> E3[Epic3 Tech Docs: Modules]
-    E1 --> E4[Epic4 Test Docs]
-    E1 -.optional.-> E6[Epic6 Project Overview]
-    E2 --> E5[Epic5 End-to-end workflow]
+    E1[Repository Indexing] --> E2[Knowledge Graph]
+    E1 --> E3[AI Analysis]
+    E3 --> E2
+    E2 --> E4[Wiki Generation]
+    E1 --> E5[CLI]
+    E2 --> E5
     E3 --> E5
     E4 --> E5
-    E6 -.optional.-> E5
 ```
 
-MVP is done when Epics 1–5 are done. Epic 6 is a bonus if there's time left.
+## Status
+
+**Planned — Not yet implemented.**
