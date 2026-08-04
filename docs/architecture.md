@@ -1,244 +1,71 @@
-# RepoAtlas — Architecture
+# RepoAtlas — Architecture (Harness & Tools)
 
-## Preamble on Method
+## Core idea
 
-This document describes the architecture **as it actually exists** in the workspace. It is grounded in evidence from files and folders; anything not observable is labeled **Not Determined**. Where RepoAtlas has designed-not-built intent, the source of that intent is the authored design docs (`E:\FPT\Wiki Generation\docs\*.md`) and explicit folder names.
+Getting an AI to actually understand a large repository — hundreds of files, thousands of functions — doesn't work by summarizing files one at a time in isolation. Systems like LingmaAgent (Alibaba) and RepoUnderstander handle this by building a structural picture of the repository first, then working through it deliberately instead of reading everything in file order. RepoAtlas MVP takes the same approach, scaled down to what's needed to produce Tech Docs and Test Docs.
 
----
+The pipeline has two phases:
 
-## 1. System Overview
+1. **Build the structure** — scan the whole repository, break it into a hierarchy (repo → folder → file → class → function), then add the call relationships between those pieces. This structure is the map that later steps use to decide what to read and in what order, instead of wandering through files aimlessly.
+2. **Summarize guided by that structure, bottom-up** — summarize individual functions/classes first, merge those into component/module summaries, then merge those into the overall architecture picture. This mirrors how a summary agent works in practice: it doesn't hold the whole repo in context at once, it keeps building up a description of what each piece does and where it lives, without carrying the raw code forward at every step.
 
-### Current System (observable)
+## Toolset (the Harness)
 
-The system today is **not a runtime platform**. It is a **static workspace aggregation** with two categories of assets and a scaffolding taxonomy:
+| Tool                                                                         | Input                                         | Output                                                             | What it does                                                                                                                                                                                                        |
+| ---------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scan_structure`                                                             | repo path                                     | folder/file tree                                                   | Walks the whole project, skipping noise directories (`node_modules`, `.git`, `dist`, etc.)                                                                                                                          |
+| `build_dependency_tree`                                                      | folder/file tree                              | hierarchy of file → class → function, plus a call graph            | Parses each file (via AST) into classes and functions, and records which functions call which — this is what replaces "just reading raw files" with something structurally meaningful                               |
+| `search_code` (three layers: `search_class`, `search_method`, `search_code`) | a name or keyword                             | the matching class, function, or code snippet                      | Lets later steps look up one specific piece of the repo without re-reading everything, using the tree built above                                                                                                   |
+| `summarize`                                                                  | one file, class, function, or a related group | a short summary plus its source location (`file`, `class`, `func`) | Summarizes a single unit of code, always keeping a pointer back to where it came from                                                                                                                               |
+| `link_module_knowledge`                                                      | the summaries of the pieces inside one module | one module-level summary                                           | Merges several smaller summaries (components, functions) into one coherent picture of a module — this plays the same role a summary agent plays: keep the description of roles and relationships, drop the raw code |
 
-1. **A declared (empty) product architecture** — seven top-level folders that name the modules RepoAtlas intends to ship.
-2. **A vendored asset library** — research references and UI templates used to inform/seed that future product.
+Every tool returns results with a source location attached (file path, class name, function name), so nothing in the generated docs is disconnected from an actual place in the code.
 
-There is no running service, no data flow between components, and no consumer-facing surface.
+## Avoiding reading everything
 
-### Intended System (from design docs — Not Yet Built)
+A repository is usually too large to summarize file by file in full. One useful trick, borrowed from how correlation-based expansion works in repo-exploration agents, is to prioritize the parts of the code most connected to everything else — rank by relevance (e.g. how many other files import or call a given piece) rather than walking files alphabetically. RepoAtlas MVP uses a simplified version of that idea:
 
-Per `docs/system-overview.md`, the intended system is a closed loop:
-`Connect → Index → Setup Harness → Analyze → Validate Commit → __→ Generate → Serve → Refresh`.
+1. Summarize the files/classes with the most incoming references first — these are usually the backbone of a module.
+2. From there, expand outward to directly related pieces (things it calls, or things that call it), instead of summarizing every file in isolation and in an arbitrary order.
+3. Stop expanding once a module's role is fully described, rather than trying to feed the whole module's code into the model at once.
 
-Since no code realizes this loop, the "system overview" of the platform is documented as **design intent**, not as implemented behavior.
+## Producing Tech Docs
+
+**Architecture** comes from combining the module-level summaries (the output of `link_module_knowledge`) with the dependency relationships between modules from `build_dependency_tree` — which module imports or calls which. The result is the overall picture: what modules exist, what each one is for, and how they connect.
+
+**Modules** keeps the more detailed, per-module view:
+
+- Frontend modules are described component by component — each component's purpose, its main props/behavior, and which other components it uses.
+- Backend modules are described along Model / View / Controller lines (or the equivalent for whatever framework is in use), describing how a request flows through those layers.
+
+## Producing Test Docs
+
+While the structure is being built, test files are identified separately (by path convention — `test/`, `tests/`, `__tests__` — or by the test framework's naming convention). Each test file or group gets summarized: what it checks, and which module it maps back to (cross-referenced against the module tree from the structure-building step). That mapping is what makes Test Docs useful — not just a list of tests, but tests tied to the code they actually protect.
+
+## End-to-end workflow
+
+All of this is wired together through an `AGENTS.md` file that defines the run order:
 
 ```mermaid
 graph TD
-    subgraph "Observable Now"
-        SCL["RepoAtlas/ scaffolding (empty modules)"]
-        REF["research/ (vendored references)"]
-        TPL["templates/ (vendored UI)"]
-    end
-    subgraph "Intended (design docs, NOT implemented)"
-        C["Connect: VCS repos"]
-        I["Indexer"]
-        KG["Knowledge Graph"]
-        H["Harness Framework"]
-        A["Agent Orchestration"]
-        G["Generation Pipeline"]
-        C --> I --> KG --> G
-        H --> A --> KG
-    end
-    SCL -. "intended container for" .-> C
+    A[Scan structure] --> B[Build dependency tree: files, classes, functions, call graph]
+    B --> C[Summarize in priority order: backbone pieces first, then expand outward]
+    C --> D1[Frontend: summarize by component]
+    C --> D2[Backend: summarize by MVC]
+    D1 --> E[Link module knowledge]
+    D2 --> E
+    E --> F1[Tech Docs: Architecture]
+    E --> F2[Tech Docs: Modules]
+    B --> G[Identify and summarize test files]
+    G --> F3[Test Docs]
 ```
 
-**Determined:** the current system = scaffolding + library. **Not Determined:** all runtime behavior.
+## Quality control
 
----
+The MVP doesn't need a dedicated guardrail or policy layer. The bar for this stage is simple: every summary carries a pointer back to real code, and a human reads the output before treating it as final. Adding an automated review pass on top of that is worth revisiting later, once there's enough data to tell whether it actually helps — early attempts at automated review in similar systems have shown it can hurt quality as often as it helps, since an LLM reviewing its own output tends to catch surface-level issues but miss deeper semantic ones.
 
-## 2. High-Level Architecture — Not Determined (as implemented)
+## Open questions before building this
 
-No `main`, no services, no binaries — so a high‑level system architecture **cannot be observed**.
-
-The only high‑level decomposition that exists is **the folder taxonomy**, which the design docs interpret for module boundaries:
-
-| Folder | Intended role (inferred from name + design docs) | Status |
-|---|---|---|
-| `repositories/` | Input: repositories under analysis | Empty |
-| `indexes/` | Repository index / search layer | Empty |
-| `graphs/` | Knowledge graph layer | Empty |
-| `agents/` | Agent/orchestration layer | Empty |
-| `harnesses/` → **none** | (no such folder exists) | **Not Determined** |
-| `packages/` | Shared packages/modules | Empty |
-| `wiki/` | Generated wiki artifacts | Empty |
-| `output/` | Other generated artifacts | Empty |
-
-The intended architecture (per `system-overview` design) would distribute these into Engagement, Orchestration, Intelligence, Knowledge, and Persistence **layers** — but as **not implemented**, this is captured only as intended design.
-
-```mermaid
-graph LR
-    subgraph "Intended Layering (design)"
-        ORDER["Engagement (CLI/Web)"] --> OR["Orchestration"]
-        OR --> INT["Intelligence (Agents, Harness, RAG)"]
-        INT --> KNW["Knowledge (Graph, Index, Vector)"]
-        KNW --> PERS["Persistence"]
-    end
-```
-
----
-
-## 3. Component Architecture — What Actually Exists
-
-The real, present **components** are not RepoAtlas modules but the vendored directories. These are components **of the research/template corpus**, not deployments.
-
-```mermaid
-graph BT
-    subgraph "Study template stock (present)"
-        TEMPLATES --> UI[ui: chakra-ui, mantine, tremor, ui]
-        TEMPLATES --> ARCH[architecture: analog, nx-examples]
-        TEMPLATES --> DASH[dashboard: payload]
-        TEMPLATES --> REACT[react: examples]
-    end
-    subgraph "Research corpus (vendored)"
-        RESEARCH --> CW[CodeWiki]
-        RESEARCH --> SOURCE[sourcebridge]
-        RESEARCH --> UN[Understand-Anything]
-        RESEARCH --> LLM[llm_wiki]
-        RESEARCH --> ER[ExplainThisRepo]
-        RESEARCH --> SWE[Lingma-SWE-GPT]
-        RESEARCH --> RU[RepoUnderstander]
-    end
-```
-
-**Determined** — presence and composition of the above. **Not Determined** — any RepoAtlas service components.
-
----
-
-## 4. Module Architecture — **Not Determined (scaffolding only)**
-
-### Determined: The intended module boundaries (folder names only)
-
-```text
-Repositories -> Indexes -> Graphs -> Agents -> Packages -> Wiki/Output
-```
-
-### Not Determined
-
-- Any source code, package manifests, or exported modules for RepoAtlas.
-- Dependency direction between the intended modules (only implied: `repositories → indexes → graphs → wiki`).
-
----
-
-## 5. Domain Architecture — Inferred from naming
-
-| Domain | Inferred concern | Evidence |
-|---|---|---|
-| **Ingestion** | Manage repositories | `repositories/`, `research/projects/` |
-| **Indexing** | Extract structured metadata | `indexes/` |
-| **Knowledge** | Graph + query | `graphs/` |
-| **Automation** | AI agents & orchestration | `agents/` |
-| **Content** | Wiki/artifacts | `wiki/`, `output/` |
-| **Reuse** | Shared packages | `packages/` |
-| **Research** | Reference/intel corpus | `research/` |
-
----
-
-## 6. Deployment Architecture — **NotDetermined**
-
-- No `Dockerfile`, no CI, no `docker-compose.yml` in the product folders (the vendored `sourcebridge` has its own, but that is third‑party).
-- No package metadata (`package.json`, `pyproject.toml`, `go.mod`) **for RepoAtlas itself**.
-
-**Determined:** none of the product is currently deployable as a service.
-
----
-
-## 7. Runtime Architecture — **NotDetermined**
-
-There is no process, no async runtime, no job queue, no daemon in RepoAtlas. The design docs describe an intended long‑running scheduler/agent loop, but nothing runs today.
-
----
-
-## 8. Data Flow — **NotDetermined (runtime)**
-
-**Determined:** the intended data flow exists only as a design (`docs/system-overview.md`):
-
-### Intended request/analysis flow (design, not implemented)
-
-```mermaid
-sequenceDiagram
-    participant U as User (planned)
-    participant C as Connect (planned)
-    participant I as Indexer (planned)
-    participant G as KnowledgeGraph (planned)
-    participant A as Agent (planned)
-    participant W as Wiki (planned)
-    U->>C: point at a repository
-    C->>I: fetch+parse
-    I->>G: commit index
-    A->>G: analyze, validate
-    G->>W: render wiki
-    W-->>U: serve
-```
-
-This is a **design artifact**, clearly labeled — no actual data moves anywhere yet.
-
----
-
-## 9. Request Flow — **NotDetermined**
-
-No HTTP/gRPC/CLI endpoints exist in the product code. The design proposes a Gateway/API (`system-overview`), but **no requests are served today**.
-
-**Component/request flow diagram (presenting the design intent only):**
-
-```mermaid
-graph LR
-    CLI[CLI (design)] --> API[Gateway (design)]
-    WEB[Web UI (design)] --> API
-    API --> ORCH[Orchestrator (design)]
-    ORCH --> AG[Agent Runtime (design)]
-    AG --> HK[Harness (design)]
-    AG --> KG[Knowledge Graph (design)]
-```
-
-Label: *"Proposed design — none of these nodes are implemented."*
-
----
-
-## 10. Dependency Graph
-
-### Determined — RepoAtlas has no runtime dependencies
-
-`git`-only. No `package.json`, no lockfile, no `requirements.txt` at the product root — the first evidence of "first commit" with files only staged.
-
-### Determined — Vendored corpus has its own deps (unmanaged)
-
-- `sourcebridge`: Go modules + gql generator dependencies.
-- `CodeWiki`/`ExplainThisRepo`/`Lingma`...: Python deps.
-- `llm_wiki`/`Understand-Anything`/templates: npm/pnpm deps with lockfiles.
-
-(Belong third‑party, not RepoAtlas? They are assets, not dependencies of a RepoAtlas module.)
-
-```mermaid
-graph LR
-    A[RepoAtlas] -->|"imports (none)"| B
-    A --> C[research: 3rd-party depend library]
-    A --> D[templates: 3rd-party depend library]
-    B["Determined: no imports"]
-    C -. unmanaged (vendored).-> D
-```
-
----
-
-## 11. Integration Architecture — **NotDetermined**
-
-- The product does not integrate with anything (VCS, LLM providers, vector DB, blob store) at code level.
-- The research corpus accidentally "integrates" with many third‑party ecosystems (GitHub sources, model endpoints) — but that belongs to the sourced projects, not Repo.
-
----
-
-## 12. Cross-Cutting Concerns
-
-| Concern | Status |
-|---|---|
-| Security / Authn / Authz | **NotDetermined** (no surface) |
-| Configuration | **NotDetermined** (product) — vendored corpus has its own `.env.example` etc. (3rd‑party) |
-| Observability | **NotDetermined** |
-| Testing strategy | **NotDetermined** (product tests) — template `tests/` fixtures exist but belong to the vendored `templates/ui/…` test packs |
-
----
-
-## 13. Conclusion
-
-The material that materially exists is: an empty taxonomy (`repositories → indexes → graphs → agents → packages → wiki/output`), a vendored *research* and *template* library, and my authored design docs. Every architectural sub‑topic that implies a running system — component/module/runtime/deployment/dataflow/dependency/integration/security/testing — is **Not Determined** because there is no code to infer it from. Any future reader should treat the *design* statements (clearly set off with diagrams) as aspirational, and the *observable* statements (folder tree) as factual.
+- Which LLM to use for `summarize` and `link_module_knowledge`.
+- A sample set of repositories spanning different languages and architectures to validate the pipeline against before widening scope.
+- How to segment a repository for the model — by module rather than by line count, so each call has a complete, meaningful unit of context (a whole class, a whole component) instead of a piece cut off mid-way through.

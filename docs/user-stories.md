@@ -1,105 +1,65 @@
-# RepoAtlas — User Stories (inferred)
+# RepoAtlas — User Stories
 
-> Every User Story is **inferred from the Epics** (which themselves are inferred from the empty folder taxonomy and the authored design docs). Implementation is **Not Determined**. Each story carries a **Technical Notes** section that reflects today's observable repo state.
+## Epic 1 — Core toolset
 
-## Epic 1 — Repository Ingestion & Management
+**Scan the project structure**
+As someone building the pipeline, I want to scan a repo's full folder/file tree, so I know what's there before analyzing anything. Vendor and build folders (`node_modules`, `.git`, `dist`, etc.) are excluded.
 
-### US-1.1 Register a repository
-- **As a** platform engineer, **I want** to add a repository to a Workspace, **so that** RepoAtlas can analyze it and I can manage my fleet in one place.
-- **Acceptance Criteria:**
-  - A repository can be added with a unique identifier.
-  - The repository appears in the managed set with its VCS origin.
-  - Adding a duplicate or invalid target is rejected with a clear message.
-- **Technical Notes:** Target module `repositories/`; currently **empty — not implemented**.
-- **Definition of Done:** Add flow works end-to-end (CLI or API); tests cover success + failure paths; docs updated.
+**Build the dependency tree**
+As someone building the pipeline, I want the file tree broken down into classes and functions with their call relationships recorded, so later steps can navigate the codebase by structure instead of by guesswork.
 
-### US-1.2 List and remove repositories
-- **As a** platform engineer, **I want** to list and remove repositories, **so that** I can keep the Workspace accurate.
-- **Acceptance Criteria:** Listing shows all managed repos; removal detaches downstream data with confirmation; removal is idempotent.
-- **Technical Notes:** `repositories/` is an empty placeholder today.
-- **Definition of Done:** CRUD covered by tests; behavior documented.
+**Search within the structure**
+As someone building the pipeline, I want to look up a specific class, function, or snippet by name, so I don't have to re-scan the repo for every question.
 
-## Epic 2 — Repository Indexing
+**Summarize a unit of code**
+As someone building the pipeline, I want to summarize a file, class, or function, so I know what it's responsible for. Every summary keeps a reference back to its source location.
 
-### US-2.1 Index a repository into structured metadata
-- **As a** platform engineer, **I want** to run indexing on a repository, **so that** files, symbols, and dependencies become queryable.
-- **Acceptance Criteria:** Indexing produces structured entities; re-indexing after code change reflects deltas; partial failures are reported per-file.
-- **Technical Notes:** Target module `indexes/`; currently **empty — not implemented**.
-- **Definition of Done:** Index produced, stored, queryable; delta re-index tested.
+**Link module knowledge**
+As someone building the pipeline, I want to merge the summaries of the pieces inside one module into a single module-level summary, so the Modules doc reflects a coherent picture of the module instead of a loose list of unrelated snippets.
 
-### US-2.2 Query the index
-- **As a** software engineer, **I want** to query the index by symbol/path/type, **so that** I can locate code fast.
-- **Acceptance Criteria:** Symbol, path, and type queries return correct matches; results include file/line references.
-- **Technical Notes:** No index query API exists yet.
-- **Definition of Done:** Query API tested; example queries in docs.
+## Epic 2 — Tech Docs: Architecture
 
-## Epic 3 — Knowledge Graph
+**Generate the architecture overview**
+As an engineer or architect, I want an automatically generated Architecture doc, so I can understand the main modules and how they relate without reading the whole codebase. The module list matches reality, the diagram shows real relationships, and every claim traces back to actual files.
 
-### US-3.1 Load index into the knowledge graph
-- **As a** architect, **I want** the index to feed the graph, **so that** entities and relationships are canonical and queryable.
-- **Acceptance Criteria:** Nodes/edges created from index; schema validated; provenance recorded.
-- **Technical Notes:** Target `graphs/`; currently **empty**.
-- **Definition of Done:** Loader tested against fixtures; provenance fields populated.
+## Epic 3 — Tech Docs: Modules
 
-### US-3.2 Ask relationship queries
-- **As a** software engineer, **I want** to ask "what depends on X" / "who uses Y", **so that** I can assess change impact.
-- **Acceptance Criteria:** Correct neighbor/dependency answers; performance acceptable for workspace size; results cite source.
-- **Technical Notes:** Graph query surface is **Not Determined**.
-- **Definition of Done:** Representative queries tested and benchmarked.
+**Summarize each module**
+As an engineer, I want a standalone summary for each module — purpose, main pieces, related files — so I know what it does before diving into the code.
 
-## Epic 4 — AI Agents & Harnesses
+**Summarize by component (frontend)**
+As a frontend engineer, I want frontend modules broken down component by component, so I can look up a specific component quickly.
 
-### US-4.1 Run an agent using a harness
-- **As a** platform engineer, **I want** an agent to run a harness over a repo, **so that** analysis is consistent and reproducible.
-- **Acceptance Criteria:** Harness selection automatic by ecosystem; agent produces candidate facts; results are reviewable.
-- **Technical Notes:** `agents/` is empty; harness folder does **not exist** (see ADR-002).
-- **Definition of Done:** Agent run recorded with traceable provenance.
+**Summarize by MVC (backend)**
+As a backend engineer, I want backend modules broken down by Model/View/Controller, so I can follow how a request flows through the system.
 
-### US-4.2 Refresh facts on code change
-- **As a** platform engineer, **I want** the graph to refresh on deltas, **so that** documentation never goes stale.
-- **Acceptance Criteria:** Change detection triggers targeted re-analysis; unchanged facts are retained; refresh is incremental.
-- **Technical Notes:** No scheduler exists yet.
-- **Definition of Done:** Delta test passes; cost/coverage metrics recorded.
+## Epic 4 — Test Docs
 
-## Epic 5 — Wiki & Artifact Generation
+**List and summarize existing tests**
+As an engineer, I want a list of existing tests with short descriptions, so I know what's covered and what isn't. Every test file gets found, and every test/group is described along with the module it maps to.
 
-### US-5.1 Generate wiki from the graph
-- **As a** technical writer, **I want** wiki pages rendered from graph truth, **so that** documentation is current and accurate.
-- **Acceptance Criteria:** Pages linkable and navigable; content derived from graph; provenance links shown.
-- **Technical Notes:** `wiki/` empty; `templates/` provides candidate rendering scaffolds (shadcn/Next/etc.).
-- **Definition of Done:** Sample wiki generated from fixtures; regeneration idempotent.
+## Epic 5 — End-to-end workflow
 
-### US-5.2 Regenerate and publish artifacts
-- **As a** platform engineer, **I want** to regenerate artifacts when the graph changes, **so that** the published docs reflect the code.
-- **Acceptance Criteria:** Regeneration is on-demand or triggered; output versioned; stale artifacts flagged.
-- **Technical Notes:** `output/` empty.
-- **Definition of Done:** Versioned artifact history demonstrated.
+**Run the whole pipeline in one command**
+As an operator, I want to run scan → summarize → link → generate as a single command driven by `AGENTS.md`, so I don't have to run each step by hand. One run on a sample repo produces both Tech Docs and Test Docs.
 
-## Epic 6 — Developer Experience & Packaging
+**Configure the LLM and sample repos**
+As someone building the pipeline, I want to configure which LLM is used and which repos serve as the test set, so I can evaluate pipeline quality across different kinds of repos before expanding scope. The sample set stays fixed so it can be used as a regression check when the pipeline changes.
 
-### US-6.1 Initialize and configure RepoAtlas
-- **As a** developer, **I want** to install and initialize RepoAtlas, **so that** I can run it on my own infrastructure.
-- **Acceptance Criteria:** Installer/CLI works; config validated; first-run guide shown.
-- **Technical Notes:** No installers or config exist.
-- **Definition of Done:** Fresh-install walkthrough passes.
+## Epic 6 (optional) — Project Overview
 
-### US-6.2 Observe runs
-- **As a** platform engineer, **I want** logs and metrics for jobs, **so that** I can monitor health and cost.
-- **Acceptance Criteria:** Structured logs; job-level metrics; failure surfaced.
-- **Technical Notes:** Observability stack **Not Determined**.
-- **Definition of Done:** Metrics dashboards/example queries provided.
+**Generate a project overview**
+As someone new to the project, I want a short, high-level overview document, so I can understand what the project does before getting into the technical details. Optional — skip if it's competing with the two required documents.
 
 ---
 
-## Story-to-Epic mapping
+## Story-to-epic map
 
-| Story | Epic |
-|---|---|
-| US-1.1, US-1.2 | Epic 1 — Ingestion & Management |
-| US-2.1, US-2.2 | Epic 2 — Indexing |
-| US-3.1, US-3.2 | Epic 3 — Knowledge Graph |
-| US-4.1, US-4.2 | Epic 4 — Agents & Harnesses |
-| US-5.1, US-5.2 | Epic 5 — Wiki & Artifacts |
-| US-6.1, US-6.2 | Epic 6 — DX & Packaging |
-
-> All stories: **Planned**, acceptance criteria are target specs; none verifiable against code today.
+| Story                                                                                                           | Epic              |
+| --------------------------------------------------------------------------------------------------------------- | ----------------- |
+| Scan structure, Build dependency tree, Search within structure, Summarize a unit of code, Link module knowledge | Epic 1            |
+| Generate the architecture overview                                                                              | Epic 2            |
+| Summarize each module, Summarize by component, Summarize by MVC                                                 | Epic 3            |
+| List and summarize existing tests                                                                               | Epic 4            |
+| Run the whole pipeline, Configure LLM and sample repos                                                          | Epic 5            |
+| Generate a project overview                                                                                     | Epic 6 (optional) |
