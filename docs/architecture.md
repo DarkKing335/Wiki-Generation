@@ -8,6 +8,7 @@ The pipeline has two phases:
 
 1. **Build the structure** — scan the whole repository, break it into a hierarchy (repo → folder → file → class → function), then add the call relationships between those pieces. This structure is the map that later steps use to decide what to read and in what order, instead of wandering through files aimlessly.
 2. **Summarize guided by that structure, bottom-up** — summarize individual functions/classes first, merge those into component/module summaries, then merge those into the overall architecture picture. This mirrors how a summary agent works in practice: it doesn't hold the whole repo in context at once, it keeps building up a description of what each piece does and where it lives, without carrying the raw code forward at every step.
+   ![Ảnh minh họa](figure1.jpg)
 
 ## Toolset (the Harness)
 
