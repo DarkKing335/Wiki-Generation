@@ -13,27 +13,27 @@
 
 ## Analysis Tools
 
-RepoAtlas provides a small, fixed set of tools for repository analysis.
+RepoAtlas provides a fixed set of analysis tools for repository indexing and documentation generation.
 
 | Tool                 | Purpose                                                                    | Notes                                              |
 | -------------------- | -------------------------------------------------------------------------- | -------------------------------------------------- |
 | `scan_structure`     | Scan the repository and build the directory and file structure.            | Read-only                                          |
-| `save_structure`     | Save the scanned structure to a local file such as `index/structure.json`. | Used only during the current execution             |
-| `read_file`          | Read repository files with configurable size and line limits.              | Used for manifests and representative source files |
-| `build_import_graph` | Build an import/dependency graph from source code.                         | Used for Architecture and Modules documentation    |
-| `summarize`          | Generate natural-language summaries from structural information.           | The only tool that invokes an LLM                  |
+| `save_structure`     | Save the scanned structure to a local file such as `index/structure.json`. | Used during current execution                      |
+| `read_file`          | Read repository files with configurable size and line limits.              | Used for manifests and configuration files         |
+| `parse_java_ast`     | Parse Java files into structured AST nodes and extract metadata.           | Language-specific parser (JavaParser/Tree-sitter)  |
+| `parse_csharp_ast`   | Parse C# files into structured AST nodes and extract metadata.             | Language-specific parser (Roslyn/Tree-sitter)      |
+| `build_import_graph` | Build dependency and symbol call graphs from extracted AST nodes.          | Used for Architecture and Modules documentation    |
+| `summarize`          | Generate natural-language summaries via bottom-up hierarchical chunking.    | Invokes local SLM with AST skeletons               |
 
-All tools are read-only and operate only on the analyzed repository. No plugin system, permission model, or policy layer is required.
+All tools are read-only and operate only on the analyzed repository.
 
 ## LLM Configuration
 
 RepoAtlas supports three execution modes:
 
-- **Local LLM (default)** — A locally hosted model, such as one served through Ollama or another compatible inference server.
+- **Local SLM (default)** — A locally hosted small language model (e.g. Llama 3 8B, Phi-3), using 6-tier AST chunking to optimize context usage.
 - **Remote LLM** — A hosted language model accessed through a configured API endpoint.
-- **No LLM** — Structural documentation is still generated, while descriptive sections are omitted or simplified.
-
-The selected mode is controlled through a single configuration option.
+- **No LLM** — Structural documentation is generated strictly from AST symbol tables and graph analysis.
 
 ## Processing Pipeline
 
@@ -41,37 +41,29 @@ The selected mode is controlled through a single configuration option.
 Input (Repository Path or URL)
         │
         ▼
-scan_structure
+scan_structure & save_structure
         │
         ▼
-save_structure
+parse_java_ast / parse_csharp_ast
         │
         ▼
-read_file
+build_import_graph (Symbol Index & Call Graph)
         │
         ▼
-build_import_graph
+Hierarchical Chunker (6-Tier Taxonomy)
         │
         ▼
-summarize (optional)
+summarize (Local SLM Bottom-Up Summarization)
         │
         ▼
-Graph Builder
+Graph Builder ──► graph.json
         │
         ▼
-graph.json
+HTML Static Site Generator
         │
         ▼
-Generator
-        │
-        ▼
-Tech.md
-Tests.md
-Architecture.md
-Modules.md
+wiki/ Output Bundle (index.html, tech.html, architecture.html, etc.)
 ```
-
-Running the command again performs a complete analysis and regenerates both the knowledge graph and the wiki documentation.
 
 ## Data Flow
 
@@ -79,31 +71,30 @@ Running the command again performs a complete analysis and regenerates both the 
 graph TD
     A[Repository Path or Git URL] --> B[scan_structure]
     B --> C[save_structure]
-    B --> D[read_file]
-    B --> E[build_import_graph]
-    D --> F[summarize]
-    E --> F
-    C --> G[Graph Builder]
-    D --> G
-    E --> G
-    F --> G
-    G --> H[(graph.json)]
-    H --> I[Generator]
-    I --> J[Tech.md]
-    I --> K[Tests.md]
-    I --> L[Architecture.md]
-    I --> M[Modules.md]
+    B --> D[parse_java_ast / parse_csharp_ast]
+    D --> E[build_import_graph]
+    D --> F[Hierarchical Chunker]
+    F --> G[summarize Local SLM]
+    E --> H[Graph Builder]
+    G --> H
+    H --> I[(graph.json)]
+    I --> J[HTML Static Site Generator]
+    J --> K[wiki/index.html]
+    J --> L[wiki/tech.html]
+    J --> M[wiki/tests.html]
+    J --> N[wiki/architecture.html]
+    J --> O[wiki/modules/*.html & wiki/symbols/*.html]
 ```
 
 ## Documentation Generation
 
 ### Architecture
 
-The Architecture document is generated from the repository structure and the import graph. Repository layers and major architectural components are identified through heuristic analysis, after which the LLM optionally produces concise descriptions for each identified component.
+The Architecture view is generated from the repository structure, symbol table, and import/call graph. Architectural layers are identified via AST package/namespace clustering, after which the local SLM produces concise layer descriptions guided by AST skeletons.
 
-### Modules
+### Modules & Symbols
 
-Modules are identified by grouping related files based on import relationships and directory organization. The LLM optionally summarizes the purpose and responsibilities of each module. For repositories containing distinct frontend and backend sections, the Generator may present specialized views such as Components or MVC while using the same underlying graph.
+Modules are identified by grouping AST nodes according to container and component boundaries. For each class/interface node, detailed AST views (`symbols/<fqn>.html`) are rendered with dynamic breadcrumbs (`Repository > Module > Container > Component > Class > Method`) and cross-referencing hyperlinks.
 
 ## Design Decisions
 

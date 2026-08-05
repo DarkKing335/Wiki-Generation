@@ -13,17 +13,17 @@ The current repository represents the initial stage of the project. It mainly co
 | `agents/`       |      0 | AI analysis and prompt templates           |
 | `graphs/`       |      0 | Knowledge graph output (`graph.json`)      |
 | `indexes/`      |      0 | Repository indexing results                |
-| `output/`       |      0 | Generated documentation output             |
-| `wiki/`         |      0 | Generated wiki documents                   |
+| `output/`       |      0 | Generated analysis artifacts               |
+| `wiki/`         |      0 | Generated static HTML wiki site bundle     |
 | `packages/`     |      0 | Reserved for future project packages       |
 | `repositories/` |      0 | Temporary repository workspace             |
 | `research/`     | 15,403 | Reference materials and research resources |
 | `templates/`    | 26,892 | Documentation and prompt templates         |
-| `docs/`         |      2 | Project design documents                   |
+| `docs/`         |     13 | Project design documents & specifications  |
 
 ### Observation
 
-The repository currently serves as a project scaffold. Most directories are placeholders for future implementation.
+The repository currently serves as a project scaffold. Placeholder directories are reserved for runtime implementations detailed in [`docs/designs/`](file:///e:/FPT/Wiki%20Generation/docs/designs).
 
 ---
 
@@ -39,7 +39,7 @@ The intended implementation is expected to provide a single command-line executa
 
 No application framework has been identified.
 
-The project is expected to remain lightweight and rely only on libraries required for repository analysis and command-line interaction.
+The project will remain lightweight, incorporating targeted dependencies for language parsing, static site rendering, and local SLM interaction.
 
 ---
 
@@ -50,8 +50,8 @@ No configuration mechanism currently exists.
 The expected configuration includes:
 
 - Repository input path or URL.
-- Optional LLM configuration.
-- Output directory.
+- Optional local SLM / remote LLM configuration.
+- Output directory (`wiki/`).
 
 ---
 
@@ -77,14 +77,14 @@ Current directories are reserved for future functionality.
 
 ## 7. Dependencies
 
-No runtime dependencies have been identified.
+Target runtime implementation requires:
 
-Future implementation is expected to require:
-
-- Git for cloning remote repositories.
-- HTTP client for optional LLM communication.
-- Source code parsers.
-- CLI argument parsing library.
+- **Git** — For cloning remote repositories.
+- **Java Parser** — `JavaParser` / `tree-sitter-java` for AST node extraction.
+- **C# Parser** — `Microsoft.CodeAnalysis.CSharp` (Roslyn) / `tree-sitter-c-sharp` for AST extraction.
+- **HTML Templating Engine** — Handlebars / Jinja templating library for compiling static HTML pages.
+- **HTTP Client** — For communicating with local SLM inference servers (e.g. Ollama) or remote LLM APIs.
+- **CLI Framework** — Command-line argument parsing and terminal formatting library.
 
 ---
 

@@ -27,36 +27,34 @@ Repository Input
         ▼
 Repository Analysis
 (scan_structure, save_structure,
- read_file, build_import_graph)
+ parse_java_ast, parse_csharp_ast)
         │
         ▼
-AI Summarization (optional)
+Hierarchical AST Chunker (6-Tier Taxonomy)
         │
         ▼
-Knowledge Graph
-(graph.json)
+Local SLM Bottom-Up Summarizer
         │
         ▼
-Documentation Generator
+Knowledge Graph (graph.json)
         │
         ▼
-Tech.md
-Tests.md
-Architecture.md
-Modules.md
+HTML Static Site Generator
+        │
+        ▼
+wiki/ Static Site Bundle (index.html, tech.html, architecture.html, etc.)
 ```
 
 ```mermaid
 graph TD
-    A[Repository Input] --> B[Repository Analysis]
-    B --> C[AI Summarization]
-    B --> D[Knowledge Graph]
-    C --> D
-    D --> E[Documentation Generator]
-    E --> F[Tech]
-    E --> G[Tests]
-    E --> H[Architecture]
-    E --> I[Modules]
+    A[Repository Input] --> B[AST Parser Engine Java & C#]
+    B --> C[Hierarchical AST Chunker]
+    C --> D[Local SLM Summarizer]
+    B --> E[Repository Symbol Index]
+    D --> F[Knowledge Graph Builder graph.json]
+    E --> F
+    F --> G[HTML Static Site Generator]
+    G --> H[wiki/ Static HTML Bundle]
 ```
 
 ---
@@ -66,46 +64,34 @@ graph TD
 | Directory       | Responsibility                                       |
 | --------------- | ---------------------------------------------------- |
 | `repositories/` | Temporary repository checkout and analysis workspace |
-| `indexes/`      | Repository metadata generated during analysis        |
+| `indexes/`      | AST repository metadata and symbol tables           |
 | `graphs/`       | Knowledge graph (`graph.json`)                       |
-| `agents/`       | AI summarization logic and prompt templates          |
-| `wiki/`         | Generated documentation                              |
+| `agents/`       | Hierarchical SLM summarization logic & prompt templates |
+| `wiki/`         | Generated interactive HTML static website output     |
 | `output/`       | Exported analysis artifacts                          |
-| `templates/`    | Documentation and prompt templates                   |
+| `templates/`    | HTML Handlebars/Jinja layout & prompt templates      |
 
 ---
 
 ## 3. Component Architecture
 
-The intended architecture consists of five major components:
+The target architecture consists of seven core components:
 
-- **Input** — Accepts repository paths or Git URLs.
-- **Indexer** — Extracts repository metadata and dependency information.
-- **Analysis** — Generates repository summaries using an optional LLM.
-- **Graph Builder** — Produces the knowledge graph.
-- **Generator** — Generates documentation from the graph.
+- **Input Component** — Accepts repository paths or Git URLs.
+- **AST Parser Subsystem** — Parses Java (`JavaParser`) and C# (`Roslyn`) into normalized AST nodes.
+- **Repository Indexer** — Maintains symbol lookup tables and dependency call graphs.
+- **Hierarchical Chunker** — Structures AST nodes along the 6-tier taxonomy (`Repository → Module → Container → Component → Class → Method`).
+- **SLM Summarizer Engine** — Performs bottom-up summarization using local SLMs guided by AST skeletons.
+- **Graph Builder** — Produces the persistent `graph.json` knowledge graph.
+- **HTML Static Site Renderer** — Generates an interactive static HTML website (`wiki/`) with sidebar trees, breadcrumbs, search, and dynamic symbol cross-links.
 
 ---
 
 ## 4. Module Architecture
 
 ```text
-Input
-    │
-    ▼
-Indexer
-    │
-    ▼
-Analysis
-    │
-    ▼
-Graph Builder
-    │
-    ▼
-Generator
+Input ──► AST Parser Engine ──► Indexer & Chunker ──► Local SLM ──► Graph Builder ──► HTML Renderer
 ```
-
-Each module performs a single responsibility within the analysis workflow.
 
 ---
 
@@ -120,7 +106,7 @@ Characteristics include:
 - No database server.
 - One execution per analysis request.
 
-An optional local or remote LLM service may be used during documentation generation.
+An optional local SLM (via Ollama or local inference server) or remote LLM API is used for summarization.
 
 ---
 
@@ -129,17 +115,19 @@ An optional local or remote LLM service may be used during documentation generat
 ```mermaid
 sequenceDiagram
     participant User
-    participant Indexer
-    participant Analysis
+    participant AST_Parser
+    participant Chunker
+    participant Local_SLM
     participant Graph
-    participant Generator
+    participant HTML_Renderer
 
-    User->>Indexer: Analyze Repository
-    Indexer->>Graph: Repository Metadata
-    Indexer->>Analysis: Repository Context
-    Analysis->>Graph: Generated Summaries
-    Graph->>Generator: graph.json
-    Generator-->>User: Documentation
+    User->>AST_Parser: repoatlas analyze <path|url>
+    AST_Parser->>Chunker: AST Nodes & Symbol Metadata
+    Chunker->>Local_SLM: Hierarchical AST Skeletons
+    Local_SLM->>Graph: Summarized Descriptions
+    AST_Parser->>Graph: Symbol Tables & Dependency Graph
+    Graph->>HTML_Renderer: graph.json & Symbol Index
+    HTML_Renderer-->>User: Interactive HTML Wiki Site (wiki/)
 ```
 
 ---

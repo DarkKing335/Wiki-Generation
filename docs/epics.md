@@ -8,17 +8,21 @@ Analyze a repository from a local path or Git URL and extract its structural inf
 
 ### Scope
 
+### Scope
+
 - `scan_structure`
 - `save_structure`
 - `read_file`
-- `build_import_graph`
+- `parse_java_ast` (Java AST Parser)
+- `parse_csharp_ast` (C# AST Parser)
+- `build_import_graph` (Symbol Index & Call Graph)
 
 ### Acceptance Criteria
 
 - The system successfully scans a local repository or Git repository.
-- A directory and file structure is generated.
-- An import graph is created from the source code.
-- Repository structure is saved locally for use during the current analysis.
+- Java and C# source files are parsed into normalized AST symbol trees.
+- An AST-based symbol table and dependency call graph are created.
+- Repository structure and symbol index are saved locally for current analysis.
 
 ### Dependencies
 
@@ -30,12 +34,12 @@ None.
 
 ### Goal
 
-Build a knowledge graph from the repository metadata and persist it as `graph.json`.
+Build a knowledge graph from repository AST metadata and persist it as `graph.json`.
 
 ### Acceptance Criteria
 
-- A `graph.json` file is generated from repository metadata.
-- Repository entities and relationships are represented in the graph.
+- A `graph.json` file is generated from AST metadata and symbol tables.
+- Repository entities and relationships (inheritance, calls, compositions) are represented in the graph.
 - Basic relationship queries can be performed using the generated graph.
 - Running the analysis again completely regenerates the knowledge graph.
 
@@ -49,20 +53,20 @@ Epic 1.
 
 ### Goal
 
-Generate descriptive content for the documentation using structural repository information and an optional LLM.
+Generate descriptive content for documentation using hierarchical AST chunking and an optional local SLM or remote LLM.
 
 ### Scope
 
-- Support local and remote LLM providers.
-- Summarize repository technologies.
-- Summarize testing information.
-- Describe architectural layers.
-- Summarize repository modules.
+- Support local SLM (default) and remote LLM providers.
+- Implement 6-tier AST taxonomy chunking (`Repository → Module → Container → Component → Class → Method`).
+- Perform bottom-up summarization (Method → Class → Component → Module → Repository).
+- Summarize repository technologies, testing infrastructure, architecture layers, and module responsibilities.
 
 ### Acceptance Criteria
 
-- When an LLM is available, all documentation includes generated descriptions.
-- Without an LLM, documentation is generated from structural analysis with reduced descriptive content.
+- Code chunks are constructed strictly along AST node boundaries without line cuts.
+- Prompts use compact AST skeletons to adhere to Local SLM context limits (<2k tokens).
+- Without an LLM, documentation is generated from AST symbol tables with reduced natural-language summaries.
 
 ### Dependencies
 
@@ -76,22 +80,25 @@ Provides information for Epics 2 and 4.
 
 ### Goal
 
-Generate documentation from the knowledge graph.
+Generate an interactive static HTML documentation website from the knowledge graph and AST summaries.
 
 ### Scope
 
-Generate the following Markdown documents:
+Generate a self-contained static HTML site in `wiki/`:
 
-- `tech.md`
-- `tests.md`
-- `architecture.md`
-- `modules.md`
+- `index.html` (Master Dashboard & Overview)
+- `tech.html` (Tech Stack & Environment)
+- `tests.html` (Test Suites & Run Guides)
+- `architecture.html` (System Architecture & Diagrams)
+- `modules/*.html` (Module & Component pages)
+- `symbols/*.html` (AST Class/Interface detail pages)
+- Static CSS/JS assets (sidebar tree view, breadcrumbs, search, syntax highlighter)
 
 ### Acceptance Criteria
 
-- All four documents are generated for every analysis.
-- Documentation is produced from the generated knowledge graph.
-- Documentation formatting adapts to repository structure when appropriate (for example, frontend components or backend MVC layouts).
+- A complete, self-contained HTML website is generated in `wiki/`.
+- Sidebar navigation tree, sticky header, live search bar, and dynamic breadcrumbs operate smoothly (<100ms load time).
+- Code blocks contain cross-symbol hyperlinks connecting parameter types to `symbols/<fqn>.html` pages.
 
 ### Dependencies
 
@@ -111,14 +118,13 @@ Provide a single CLI command that executes the complete repository analysis work
 
 - `repoatlas analyze <path|url>`
 - Repository configuration
-- LLM configuration
+- LLM / SLM configuration
 - Console logging
 
 ### Acceptance Criteria
 
-- One command executes the complete workflow.
-- Documentation is generated successfully.
-- Local or disabled LLM configurations are supported.
+- One command executes the complete workflow (scan, AST parse, chunk, summarize, render HTML).
+- Interactive static HTML site is generated successfully in `wiki/`.
 
 ### Dependencies
 
@@ -130,10 +136,10 @@ Epics 1–4.
 
 ```mermaid
 graph LR
-    E1[Repository Indexing] --> E2[Knowledge Graph]
-    E1 --> E3[AI Analysis]
+    E1[AST Indexing & Parsing] --> E2[Knowledge Graph]
+    E1 --> E3[Hierarchical SLM Analysis]
     E3 --> E2
-    E2 --> E4[Wiki Generation]
+    E2 --> E4[HTML Wiki Generation]
     E1 --> E5[CLI]
     E2 --> E5
     E3 --> E5

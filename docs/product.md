@@ -9,39 +9,47 @@ RepoAtlas is a lightweight CLI tool that analyzes a single repository and genera
 | ID    | Requirement                | Description                                                                                                          | Status |
 | ----- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------ |
 | FR-1  | Repository Input           | Accept a local repository path or Git URL for a single analysis.                                                     | —      |
-| FR-2  | Repository Analysis        | Scan the repository structure, read source files, and build an import graph.                                         | —      |
-| FR-3  | LLM Support                | Support both local and remote LLM providers through configuration.                                                   | —      |
-| FR-4  | Tech Documentation         | Generate a **Tech** document containing programming languages, frameworks, dependencies, and build/run instructions. | —      |
-| FR-5  | Tests Documentation        | Generate a **Tests** document describing available test suites and how to execute them.                              | —      |
-| FR-6  | Architecture Documentation | Generate an **Architecture** document describing repository layers and component relationships.                      | —      |
-| FR-7  | Modules Documentation      | Generate a **Modules** document describing repository modules and their responsibilities.                            | —      |
-| FR-8  | Knowledge Graph            | Build a knowledge graph and save it as `graph.json`.                                                                 | —      |
-| FR-9  | Operation Without LLM      | Continue generating documentation from structural analysis even when no LLM is configured.                           | —      |
-| FR-10 | Full Re-analysis           | Regenerate the knowledge graph and documentation whenever the analysis is executed again.                            | —      |
+| FR-2  | Repository Analysis        | Scan repository structure and file layout.                                                                          | —      |
+| FR-3  | LLM / SLM Support          | Support local SLMs (default) and remote LLM providers through configuration.                                         | —      |
+| FR-4  | Tech View Generation       | Generate **Tech** documentation (`tech.html`) describing tech stack, dependencies, and environment.                | —      |
+| FR-5  | Tests View Generation      | Generate **Tests** documentation (`tests.html`) describing test suites and execution instructions.                   | —      |
+| FR-6  | Architecture View          | Generate **Architecture** documentation (`architecture.html`) describing layers and system diagrams.                | —      |
+| FR-7  | Modules & Symbol View      | Generate **Modules** & AST symbol pages (`modules/*.html`, `symbols/*.html`) describing components and types.        | —      |
+| FR-8  | Knowledge Graph            | Build a persistent knowledge graph and save it as `graph.json`.                                                      | —      |
+| FR-9  | Operation Without LLM      | Continue generating structural HTML documentation from AST symbol tables even without an LLM.                        | —      |
+| FR-10 | Full Re-analysis           | Regenerate the knowledge graph and HTML wiki site whenever the analysis command is executed again.                   | —      |
+| FR-11 | Java AST Parsing           | Parse Java code into normalized AST nodes, extracting classes, annotations, fields, methods, and Javadoc.           | —      |
+| FR-12 | C# AST Parsing             | Parse C# code into normalized AST nodes, extracting classes, attributes, properties, methods, and XML docs.         | —      |
+| FR-13 | Hierarchical AST Chunking  | Structure code context along the 6-tier AST taxonomy (`Repository → Module → Container → Component → Class → Method`).| —      |
+| FR-14 | HTML Wiki Site Storage     | Standardize wiki storage as an interactive static HTML website (`wiki/`) with trees, breadcrumbs, search, and links.| —      |
+| FR-15 | Local SLM Optimization     | Inject compact AST skeletons to enforce prompt token limits (<2,000 tokens) for local 7B/8B models.                | —      |
 
 ## 3. Non-Functional Requirements
 
-- **Simplicity** — The system consists of a single CLI command, a fixed analysis workflow, and four generated documents.
-- **Privacy** — Local LLM execution is supported to avoid sending repository code to external services.
-- **Reproducibility** — Identical repository states should produce consistent knowledge graphs and documentation.
-- **Portability** — The application runs entirely on the user's machine without requiring backend services.
+- **Simplicity** — Executed via a single CLI command, producing a clean, self-contained HTML website (`wiki/`).
+- **Privacy & Local-First** — Source code stays on the local machine; local SLM execution is default.
+- **SLM Performance** — Prompts adhere to strict context limits (<2k tokens), achieving <10s generation per module.
+- **HTML UX & Responsiveness** — Generated pages load in <100ms with working search, breadcrumb trails, and deep hyperlinking.
+- **Reproducibility** — Identical repository states produce identical AST symbol graphs and static wiki pages.
+- **Portability** — Static HTML site runs locally (`file://`) or hosted without requiring database or backend services.
 
 ## 4. Personas
 
 | Persona                   | Goal                                                                                                             |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **Software Engineer**     | Understand an unfamiliar repository by generating documentation with a single command.                           |
-| **Repository Maintainer** | Regenerate project documentation whenever the repository changes while keeping source code on the local machine. |
+| **Software Engineer**     | Understand an unfamiliar repository by generating an interactive HTML wiki with a single command.                |
+| **Repository Maintainer** | Regenerate project documentation whenever the codebase changes, keeping code local.                              |
 
 ## 5. Core Capabilities
 
 | Capability          | Implementation                                      |
 | ------------------- | --------------------------------------------------- |
-| Repository Input    | CLI command                                         |
-| Structural Analysis | `scan_structure`, `read_file`, `build_import_graph` |
-| AI Summarization    | `summarize`                                         |
-| Knowledge Graph     | `graph.json`                                        |
-| Wiki Generation     | Tech, Tests, Architecture, Modules                  |
+| Repository Input    | CLI command (`repoatlas analyze <path\|url>`)       |
+| Language Parsing    | `parse_java_ast`, `parse_csharp_ast` (Java & C#)    |
+| AST Context Engine  | 6-tier taxonomy Hierarchical Chunker                |
+| AI Summarization    | `summarize` (Local SLM bottom-up processing)        |
+| Knowledge Graph     | `graph.json` & Repository Symbol Index              |
+| Wiki Rendering      | Interactive Static HTML Site Engine (`wiki/`)       |
 
 ## 6. Summary
 

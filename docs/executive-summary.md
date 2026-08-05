@@ -2,20 +2,20 @@
 
 ## Project Overview
 
-**RepoAtlas** is a lightweight CLI tool that analyzes a repository (provided as a local path or repository URL) and generates a wiki consisting of exactly **four documents**: **Tech**, **Tests**: **Architecture**, and **Modules**. The wiki is produced from a knowledge graph built using a fixed set of **five tools**. The LLM used for summarization can run **locally** by default or use a remote API if configured.
+**RepoAtlas** is a lightweight CLI tool that analyzes a repository (provided as a local path or repository URL) and generates an **interactive static HTML wiki website** (covering **Tech**, **Tests**, **Architecture**, and **Modules**). The wiki is produced from a knowledge graph built using language-specific AST parsers (Java and C#) and a fixed analysis toolset. The LLM used for summarization is optimized for **Local SLMs** (using hierarchical AST chunking) by default, or can use a remote API if configured.
 
-At the time of this analysis, the `/RepoAtlas/` repository contains no product implementation. It currently consists of the project scaffolding, a vendored research corpus, a vendored template library, and the project design documentation.
+At the time of this analysis, the `/RepoAtlas/` repository contains project scaffolding, vendored research resources, templates, and comprehensive project design documentation.
 
 ## Key Design
 
 | Component                          | Description                                                                                                                                                                                               |
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Local or remote LLM                | The `summarize` tool uses a local LLM endpoint by default and can optionally use a remote API through a single configuration setting.                                                                     |
-| Fixed wiki                         | The generated wiki always contains four documents: Tech, Tests, Architecture, and Modules.                                                                                                                |
-| Fixed toolset                      | The system provides five tools: `scan_structure`, `save_structure`, `read_file`, `build_import_graph`, and `summarize`.                                                                                   |
-| Architecture and module extraction | Repository structure is identified through heuristic clustering based on directory layout and import graph density. The LLM is responsible only for generating descriptions of the identified components. |
+| Local SLM or Remote LLM            | Summarization uses a local SLM endpoint by default (leveraging a 6-tier AST taxonomy: Repository → Module → Container → Component → Class → Method) or an optional remote API. |
+| Interactive HTML Wiki Storage      | Output is rendered as a standalone static HTML website (`wiki/`) with collapsible navigation trees, breadcrumbs, search, and dynamic symbol cross-hyperlinking.                                          |
+| AST-Driven Toolset                 | The system provides analysis tools: `scan_structure`, `save_structure`, `read_file`, `parse_java_ast`, `parse_csharp_ast`, `build_import_graph`, and `summarize`.                                      |
+| Architecture & Module Extraction   | Code structures are identified via language-specific AST parsers (Java & C#) and symbol table indices. The LLM generates concise descriptions guided by AST skeletons.                                |
 
-The overall design intentionally remains small and focused. The workflow is executed in a single CLI run, persists only a single `graph.json` knowledge graph, and does not include a repository catalog, background refresh process, plugin system, or API/Gateway layer.
+The overall design remains focused and deterministic. The workflow is executed in a single CLI run, persists a single `graph.json` knowledge graph, and outputs a complete static HTML documentation site.
 
 ## Business Purpose
 
@@ -28,8 +28,8 @@ Current observations include:
 - Empty project directories such as `agents/`, `graphs/`, `indexes/`, `output/`, `packages/`, `repositories/`, and `wiki/`.
 - A vendored research corpus containing approximately **15,403** files.
 - A vendored template library containing approximately **26,892** files.
-- A single staged Git commit.
+- Comprehensive technical design specifications under `docs/designs/` for Java/C# AST parsing, HTML Wiki storage, and hierarchical SLM prompting.
 
 ## Summary
 
-RepoAtlas is currently in the **preparation and research stage**. The project is intentionally limited to one CLI command, five fixed tools, one knowledge graph (`graph.json`), four generated wiki documents, and a single configuration option for selecting the summarization mode (local LLM, remote LLM, or no LLM).
+RepoAtlas is currently in the **preparation and research stage**. The system is designed to execute via one CLI command, parse code using language-specific AST drivers (Java & C#), construct a knowledge graph (`graph.json`), perform hierarchical bottom-up summarization using local SLMs, and render a self-contained interactive static HTML wiki site.
