@@ -1,1 +1,20 @@
 RepoAtlas/
+
+# Local working plan — kept in the repo for reference, never committed
+docs/epic3-implementation-plan.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# RepoAtlas pipeline output
+indexes/
+analysis/
+graphs/
+wiki/
