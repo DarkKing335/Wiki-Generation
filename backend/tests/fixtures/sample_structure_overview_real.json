@@ -1,0 +1,37 @@
+{
+  "repository": "sample_repo",
+  "languages": [
+    "csharp",
+    "java"
+  ],
+  "total_symbols": 32,
+  "modules": [
+    {
+      "name": "billing",
+      "path": "billing",
+      "containers": [
+        {
+          "name": "payment-service",
+          "path": "billing/payment-service",
+          "marker_file": "billing/payment-service/pom.xml"
+        },
+        {
+          "name": "invoice-service",
+          "path": "billing/invoice-service",
+          "marker_file": "billing/invoice-service/pom.xml"
+        }
+      ]
+    },
+    {
+      "name": "identity",
+      "path": "identity",
+      "containers": [
+        {
+          "name": "IdentityApi",
+          "path": "identity/IdentityApi",
+          "marker_file": "identity/IdentityApi/IdentityApi.csproj"
+        }
+      ]
+    }
+  ]
+}

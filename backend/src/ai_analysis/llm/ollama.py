@@ -38,6 +38,19 @@ DEFAULT_SEED = 42
 #: Generous enough for a cold model load on first call.
 DEFAULT_TIMEOUT = 180.0
 
+#: Context window requested from the backend.
+#:
+#: Sized to what Epic 3 can actually produce rather than to the model's maximum.
+#: FR-15 caps every prompt at 2,000 tokens and the largest per-tier generation
+#: cap is ~380 (``prompts.completion_limit`` at Tier.REPOSITORY), so ~2,400 is
+#: the true ceiling for a single exchange; 4,096 leaves comfortable headroom.
+#:
+#: This is not a micro-optimisation.  KV cache scales linearly with ``num_ctx``,
+#: and it is allocated up front — requesting 8,192 reserved several hundred MB of
+#: VRAM that no prompt could ever occupy, which on a 4 GB card is the difference
+#: between a 7B model loading and failing with ``cudaMalloc failed``.
+DEFAULT_NUM_CTX = 4096
+
 
 class OllamaError(RuntimeError):
     """Raised when the Ollama server cannot fulfil a request."""
@@ -56,7 +69,7 @@ class OllamaClient(LLMClient):
         *,
         seed: int = DEFAULT_SEED,
         timeout: float = DEFAULT_TIMEOUT,
-        num_ctx: int = 8192,
+        num_ctx: int = DEFAULT_NUM_CTX,
         max_tokens: int = 400,
         client: Optional[httpx.Client] = None,
     ):

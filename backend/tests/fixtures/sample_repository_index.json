@@ -1,0 +1,2450 @@
+{
+  "repository_name": "sample_repo",
+  "repository_path": "<SAMPLE_REPO>",
+  "languages": [
+    "csharp",
+    "java"
+  ],
+  "directory_tree": {
+    "name": "sample_repo",
+    "path": ".",
+    "is_directory": true,
+    "children": [
+      {
+        "name": "billing",
+        "path": "billing",
+        "is_directory": true,
+        "children": [
+          {
+            "name": "invoice-service",
+            "path": "billing/invoice-service",
+            "is_directory": true,
+            "children": [
+              {
+                "name": "src",
+                "path": "billing/invoice-service/src",
+                "is_directory": true,
+                "children": [
+                  {
+                    "name": "main",
+                    "path": "billing/invoice-service/src/main",
+                    "is_directory": true,
+                    "children": [
+                      {
+                        "name": "java",
+                        "path": "billing/invoice-service/src/main/java",
+                        "is_directory": true,
+                        "children": [
+                          {
+                            "name": "com",
+                            "path": "billing/invoice-service/src/main/java/com",
+                            "is_directory": true,
+                            "children": [
+                              {
+                                "name": "acme",
+                                "path": "billing/invoice-service/src/main/java/com/acme",
+                                "is_directory": true,
+                                "children": [
+                                  {
+                                    "name": "billing",
+                                    "path": "billing/invoice-service/src/main/java/com/acme/billing",
+                                    "is_directory": true,
+                                    "children": [
+                                      {
+                                        "name": "invoice",
+                                        "path": "billing/invoice-service/src/main/java/com/acme/billing/invoice",
+                                        "is_directory": true,
+                                        "children": [
+                                          {
+                                            "name": "InvoiceRenderer.java",
+                                            "path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+                                            "is_directory": false,
+                                            "children": [],
+                                            "language": "java"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "company",
+                                "path": "billing/invoice-service/src/main/java/com/company",
+                                "is_directory": true,
+                                "children": [
+                                  {
+                                    "name": "billing",
+                                    "path": "billing/invoice-service/src/main/java/com/company/billing",
+                                    "is_directory": true,
+                                    "children": [
+                                      {
+                                        "name": "pdf",
+                                        "path": "billing/invoice-service/src/main/java/com/company/billing/pdf",
+                                        "is_directory": true,
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "pom.xml",
+                "path": "billing/invoice-service/pom.xml",
+                "is_directory": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "payment-service",
+            "path": "billing/payment-service",
+            "is_directory": true,
+            "children": [
+              {
+                "name": "src",
+                "path": "billing/payment-service/src",
+                "is_directory": true,
+                "children": [
+                  {
+                    "name": "main",
+                    "path": "billing/payment-service/src/main",
+                    "is_directory": true,
+                    "children": [
+                      {
+                        "name": "java",
+                        "path": "billing/payment-service/src/main/java",
+                        "is_directory": true,
+                        "children": [
+                          {
+                            "name": "com",
+                            "path": "billing/payment-service/src/main/java/com",
+                            "is_directory": true,
+                            "children": [
+                              {
+                                "name": "acme",
+                                "path": "billing/payment-service/src/main/java/com/acme",
+                                "is_directory": true,
+                                "children": [
+                                  {
+                                    "name": "billing",
+                                    "path": "billing/payment-service/src/main/java/com/acme/billing",
+                                    "is_directory": true,
+                                    "children": [
+                                      {
+                                        "name": "payment",
+                                        "path": "billing/payment-service/src/main/java/com/acme/billing/payment",
+                                        "is_directory": true,
+                                        "children": [
+                                          {
+                                            "name": "PaymentGateway.java",
+                                            "path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentGateway.java",
+                                            "is_directory": false,
+                                            "children": [],
+                                            "language": "java"
+                                          },
+                                          {
+                                            "name": "PaymentProcessor.java",
+                                            "path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+                                            "is_directory": false,
+                                            "children": [],
+                                            "language": "java"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "company",
+                                "path": "billing/payment-service/src/main/java/com/company",
+                                "is_directory": true,
+                                "children": [
+                                  {
+                                    "name": "billing",
+                                    "path": "billing/payment-service/src/main/java/com/company/billing",
+                                    "is_directory": true,
+                                    "children": [
+                                      {
+                                        "name": "service",
+                                        "path": "billing/payment-service/src/main/java/com/company/billing/service",
+                                        "is_directory": true,
+                                        "children": []
+                                      },
+                                      {
+                                        "name": "web",
+                                        "path": "billing/payment-service/src/main/java/com/company/billing/web",
+                                        "is_directory": true,
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "test",
+                    "path": "billing/payment-service/src/test",
+                    "is_directory": true,
+                    "children": [
+                      {
+                        "name": "java",
+                        "path": "billing/payment-service/src/test/java",
+                        "is_directory": true,
+                        "children": [
+                          {
+                            "name": "com",
+                            "path": "billing/payment-service/src/test/java/com",
+                            "is_directory": true,
+                            "children": [
+                              {
+                                "name": "acme",
+                                "path": "billing/payment-service/src/test/java/com/acme",
+                                "is_directory": true,
+                                "children": [
+                                  {
+                                    "name": "billing",
+                                    "path": "billing/payment-service/src/test/java/com/acme/billing",
+                                    "is_directory": true,
+                                    "children": [
+                                      {
+                                        "name": "payment",
+                                        "path": "billing/payment-service/src/test/java/com/acme/billing/payment",
+                                        "is_directory": true,
+                                        "children": [
+                                          {
+                                            "name": "PaymentProcessorTest.java",
+                                            "path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+                                            "is_directory": false,
+                                            "children": [],
+                                            "language": "java"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "company",
+                                "path": "billing/payment-service/src/test/java/com/company",
+                                "is_directory": true,
+                                "children": [
+                                  {
+                                    "name": "billing",
+                                    "path": "billing/payment-service/src/test/java/com/company/billing",
+                                    "is_directory": true,
+                                    "children": [
+                                      {
+                                        "name": "service",
+                                        "path": "billing/payment-service/src/test/java/com/company/billing/service",
+                                        "is_directory": true,
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "pom.xml",
+                "path": "billing/payment-service/pom.xml",
+                "is_directory": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "identity",
+        "path": "identity",
+        "is_directory": true,
+        "children": [
+          {
+            "name": "Identity.Api",
+            "path": "identity/Identity.Api",
+            "is_directory": true,
+            "children": [
+              {
+                "name": "Controllers",
+                "path": "identity/Identity.Api/Controllers",
+                "is_directory": true,
+                "children": []
+              },
+              {
+                "name": "Services",
+                "path": "identity/Identity.Api/Services",
+                "is_directory": true,
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "IdentityApi",
+            "path": "identity/IdentityApi",
+            "is_directory": true,
+            "children": [
+              {
+                "name": "Controllers",
+                "path": "identity/IdentityApi/Controllers",
+                "is_directory": true,
+                "children": [
+                  {
+                    "name": "UserController.cs",
+                    "path": "identity/IdentityApi/Controllers/UserController.cs",
+                    "is_directory": false,
+                    "children": [],
+                    "language": "csharp"
+                  }
+                ]
+              },
+              {
+                "name": "Services",
+                "path": "identity/IdentityApi/Services",
+                "is_directory": true,
+                "children": [
+                  {
+                    "name": "UserService.cs",
+                    "path": "identity/IdentityApi/Services/UserService.cs",
+                    "is_directory": false,
+                    "children": [],
+                    "language": "csharp"
+                  }
+                ]
+              },
+              {
+                "name": "IdentityApi.csproj",
+                "path": "identity/IdentityApi/IdentityApi.csproj",
+                "is_directory": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+      "language": "java",
+      "package_or_namespace": "com.acme.billing.invoice",
+      "imports": [
+        {
+          "name": "org.springframework.stereotype.Service",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "java.util.List",
+          "is_wildcard": false,
+          "is_static": false
+        }
+      ],
+      "symbols": [
+        {
+          "symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+          "language": "java",
+          "kind": "CLASS",
+          "name": "InvoiceRenderer",
+          "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer",
+          "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+          "range": {
+            "start_line": 9,
+            "end_line": 33
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [
+            {
+              "name": "Service",
+              "arguments": {}
+            }
+          ],
+          "docstring": "Renders invoices to PDF for delivery to customers.",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.invoice.InvoiceRenderer.templateEngine",
+          "language": "java",
+          "kind": "FIELD",
+          "name": "InvoiceRenderer.templateEngine",
+          "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer.templateEngine",
+          "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+          "range": {
+            "start_line": 12,
+            "end_line": 12
+          },
+          "modifiers": [
+            "private",
+            "final"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+          "field_type": "TemplateEngine",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.invoice.InvoiceRenderer.<init>",
+          "language": "java",
+          "kind": "CONSTRUCTOR",
+          "name": "InvoiceRenderer.<init>",
+          "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer.<init>",
+          "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+          "range": {
+            "start_line": 14,
+            "end_line": 16
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+          "signature": {
+            "parameters": [
+              {
+                "name": "templateEngine",
+                "type": "TemplateEngine",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.invoice.InvoiceRenderer.render",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "InvoiceRenderer.render",
+          "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer.render",
+          "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+          "range": {
+            "start_line": 21,
+            "end_line": 28
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "docstring": "Render one invoice into a PDF byte array.",
+          "parent_symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+          "signature": {
+            "return_type": "byte[]",
+            "parameters": [
+              {
+                "name": "invoice",
+                "type": "Invoice",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.invoice.InvoiceRenderer.countLineItems",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "InvoiceRenderer.countLineItems",
+          "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer.countLineItems",
+          "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+          "range": {
+            "start_line": 30,
+            "end_line": 32
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+          "signature": {
+            "return_type": "int",
+            "parameters": [
+              {
+                "name": "invoice",
+                "type": "Invoice",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        }
+      ]
+    },
+    {
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentGateway.java",
+      "language": "java",
+      "package_or_namespace": "com.acme.billing.payment",
+      "imports": [
+        {
+          "name": "java.util.List",
+          "is_wildcard": false,
+          "is_static": false
+        }
+      ],
+      "symbols": [
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentGateway",
+          "language": "java",
+          "kind": "INTERFACE",
+          "name": "PaymentGateway",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentGateway",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentGateway.java",
+          "range": {
+            "start_line": 8,
+            "end_line": 13
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "docstring": "Contract every payment backend must satisfy.",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentGateway.charge",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentGateway.charge",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentGateway.charge",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentGateway.java",
+          "range": {
+            "start_line": 10,
+            "end_line": 10
+          },
+          "modifiers": [],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentGateway",
+          "signature": {
+            "return_type": "PaymentResult",
+            "parameters": [
+              {
+                "name": "dto",
+                "type": "TransactionDto",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [
+              "PaymentException"
+            ],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentGateway.chargeAll",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentGateway.chargeAll",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentGateway.chargeAll",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentGateway.java",
+          "range": {
+            "start_line": 12,
+            "end_line": 12
+          },
+          "modifiers": [],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentGateway",
+          "signature": {
+            "return_type": "List<PaymentResult>",
+            "parameters": [
+              {
+                "name": "transactions",
+                "type": "List<TransactionDto>",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [
+              "PaymentException"
+            ],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        }
+      ]
+    },
+    {
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "language": "java",
+      "package_or_namespace": "com.acme.billing.payment",
+      "imports": [
+        {
+          "name": "org.springframework.stereotype.Service",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "org.springframework.transaction.annotation.Transactional",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "java.math.BigDecimal",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "java.util.List",
+          "is_wildcard": false,
+          "is_static": false
+        }
+      ],
+      "symbols": [
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessor",
+          "language": "java",
+          "kind": "CLASS",
+          "name": "PaymentProcessor",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+          "range": {
+            "start_line": 11,
+            "end_line": 54
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [
+            {
+              "name": "Service",
+              "arguments": {}
+            }
+          ],
+          "docstring": "Charges customer cards through the configured payment gateway.",
+          "dependencies": [],
+          "implements": [
+            "com.acme.billing.payment.PaymentGateway"
+          ]
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessor.stripeClient",
+          "language": "java",
+          "kind": "FIELD",
+          "name": "PaymentProcessor.stripeClient",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.stripeClient",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+          "range": {
+            "start_line": 14,
+            "end_line": 14
+          },
+          "modifiers": [
+            "private",
+            "final"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+          "field_type": "StripeClient",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessor.minimumCharge",
+          "language": "java",
+          "kind": "FIELD",
+          "name": "PaymentProcessor.minimumCharge",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.minimumCharge",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+          "range": {
+            "start_line": 15,
+            "end_line": 15
+          },
+          "modifiers": [
+            "private",
+            "final"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+          "field_type": "BigDecimal",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessor.<init>",
+          "language": "java",
+          "kind": "CONSTRUCTOR",
+          "name": "PaymentProcessor.<init>",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.<init>",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+          "range": {
+            "start_line": 17,
+            "end_line": 20
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+          "signature": {
+            "parameters": [
+              {
+                "name": "stripeClient",
+                "type": "StripeClient",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessor.charge",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentProcessor.charge",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.charge",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+          "range": {
+            "start_line": 25,
+            "end_line": 34
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [
+            {
+              "name": "Transactional",
+              "arguments": {}
+            }
+          ],
+          "docstring": "Charge a single transaction, rejecting amounts below the gateway minimum.",
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+          "signature": {
+            "return_type": "PaymentResult",
+            "parameters": [
+              {
+                "name": "dto",
+                "type": "TransactionDto",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [
+              "PaymentException"
+            ],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessor.chargeAll",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentProcessor.chargeAll",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.chargeAll",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+          "range": {
+            "start_line": 39,
+            "end_line": 45
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "docstring": "Charge several transactions, stopping at the first failure.",
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+          "signature": {
+            "return_type": "List<PaymentResult>",
+            "parameters": [
+              {
+                "name": "transactions",
+                "type": "List<TransactionDto>",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [
+              "PaymentException"
+            ],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessor.audit",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentProcessor.audit",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.audit",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+          "range": {
+            "start_line": 47,
+            "end_line": 49
+          },
+          "modifiers": [
+            "private"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+          "signature": {
+            "return_type": "void",
+            "parameters": [
+              {
+                "name": "result",
+                "type": "PaymentResult",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessor.getMinimumCharge",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentProcessor.getMinimumCharge",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.getMinimumCharge",
+          "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+          "range": {
+            "start_line": 51,
+            "end_line": 53
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+          "signature": {
+            "return_type": "BigDecimal",
+            "parameters": [],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        }
+      ]
+    },
+    {
+      "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+      "language": "java",
+      "package_or_namespace": "com.acme.billing.payment",
+      "imports": [
+        {
+          "name": "org.junit.jupiter.api.Test",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "org.junit.jupiter.api.BeforeEach",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "java.math.BigDecimal",
+          "is_wildcard": false,
+          "is_static": false
+        }
+      ],
+      "symbols": [
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+          "language": "java",
+          "kind": "CLASS",
+          "name": "PaymentProcessorTest",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest",
+          "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+          "range": {
+            "start_line": 10,
+            "end_line": 35
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "docstring": "Unit tests for {@link PaymentProcessor}.",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessorTest.processor",
+          "language": "java",
+          "kind": "FIELD",
+          "name": "PaymentProcessorTest.processor",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest.processor",
+          "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+          "range": {
+            "start_line": 12,
+            "end_line": 12
+          },
+          "modifiers": [
+            "private"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+          "field_type": "PaymentProcessor",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessorTest.setUp",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentProcessorTest.setUp",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest.setUp",
+          "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+          "range": {
+            "start_line": 14,
+            "end_line": 17
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [
+            {
+              "name": "BeforeEach",
+              "arguments": {}
+            }
+          ],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+          "signature": {
+            "return_type": "void",
+            "parameters": [],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessorTest.chargeRejectsAmountsBelowMinimum",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentProcessorTest.chargeRejectsAmountsBelowMinimum",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest.chargeRejectsAmountsBelowMinimum",
+          "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+          "range": {
+            "start_line": 19,
+            "end_line": 29
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [
+            {
+              "name": "Test",
+              "arguments": {}
+            }
+          ],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+          "signature": {
+            "return_type": "void",
+            "parameters": [],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "com.acme.billing.payment.PaymentProcessorTest.minimumChargeIsFiftyCents",
+          "language": "java",
+          "kind": "METHOD",
+          "name": "PaymentProcessorTest.minimumChargeIsFiftyCents",
+          "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest.minimumChargeIsFiftyCents",
+          "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+          "range": {
+            "start_line": 31,
+            "end_line": 34
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [
+            {
+              "name": "Test",
+              "arguments": {}
+            }
+          ],
+          "parent_symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+          "signature": {
+            "return_type": "void",
+            "parameters": [],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        }
+      ]
+    },
+    {
+      "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+      "language": "csharp",
+      "imports": [
+        {
+          "name": "System",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "System.Collections.Generic",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "System.Threading.Tasks",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "Microsoft.AspNetCore.Mvc",
+          "is_wildcard": false,
+          "is_static": false
+        }
+      ],
+      "symbols": [
+        {
+          "symbol_id": "Acme.Identity.Controllers.UserController",
+          "language": "csharp",
+          "kind": "CLASS",
+          "name": "UserController",
+          "fully_qualified_name": "Acme.Identity.Controllers.UserController",
+          "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+          "range": {
+            "start_line": 11,
+            "end_line": 37
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [
+            {
+              "name": "ApiController",
+              "arguments": {}
+            },
+            {
+              "name": "Route",
+              "arguments": {
+                "arg0": "api/users"
+              }
+            }
+          ],
+          "docstring": "<summary>\nExposes user account operations over HTTP.\n</summary>",
+          "dependencies": [],
+          "extends": "Acme.Identity.Controllers.ControllerBase",
+          "implements": []
+        },
+        {
+          "symbol_id": "Acme.Identity.Controllers.UserController._userService",
+          "language": "csharp",
+          "kind": "FIELD",
+          "name": "UserController._userService",
+          "fully_qualified_name": "Acme.Identity.Controllers.UserController._userService",
+          "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+          "range": {
+            "start_line": 15,
+            "end_line": 15
+          },
+          "modifiers": [
+            "private",
+            "readonly"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "Acme.Identity.Controllers.UserController",
+          "field_type": "IUserService",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "Acme.Identity.Controllers.UserController.<init>",
+          "language": "csharp",
+          "kind": "CONSTRUCTOR",
+          "name": "UserController.<init>",
+          "fully_qualified_name": "Acme.Identity.Controllers.UserController.<init>",
+          "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+          "range": {
+            "start_line": 17,
+            "end_line": 20
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "Acme.Identity.Controllers.UserController",
+          "signature": {
+            "parameters": [
+              {
+                "name": "userService",
+                "type": "IUserService",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "Acme.Identity.Controllers.UserController.GetById",
+          "language": "csharp",
+          "kind": "METHOD",
+          "name": "UserController.GetById",
+          "fully_qualified_name": "Acme.Identity.Controllers.UserController.GetById",
+          "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+          "range": {
+            "start_line": 25,
+            "end_line": 34
+          },
+          "modifiers": [
+            "public",
+            "async"
+          ],
+          "annotations": [
+            {
+              "name": "HttpGet",
+              "arguments": {
+                "arg0": "{id}"
+              }
+            }
+          ],
+          "docstring": "<summary>\nFetch a single user by identifier.\n</summary>",
+          "parent_symbol_id": "Acme.Identity.Controllers.UserController",
+          "signature": {
+            "return_type": "Task<IActionResult>",
+            "parameters": [
+              {
+                "name": "id",
+                "type": "Guid",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": true
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "Acme.Identity.Controllers.UserController.Version",
+          "language": "csharp",
+          "kind": "PROPERTY",
+          "name": "UserController.Version",
+          "fully_qualified_name": "Acme.Identity.Controllers.UserController.Version",
+          "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+          "range": {
+            "start_line": 36,
+            "end_line": 36
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "Acme.Identity.Controllers.UserController",
+          "property_accessors": {
+            "has_getter": true,
+            "has_setter": true,
+            "has_init": false
+          },
+          "field_type": "string",
+          "dependencies": [],
+          "implements": []
+        }
+      ]
+    },
+    {
+      "file_path": "identity/IdentityApi/Services/UserService.cs",
+      "language": "csharp",
+      "imports": [
+        {
+          "name": "System",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "System.Threading.Tasks",
+          "is_wildcard": false,
+          "is_static": false
+        },
+        {
+          "name": "Xunit",
+          "is_wildcard": false,
+          "is_static": false
+        }
+      ],
+      "symbols": [
+        {
+          "symbol_id": "Acme.Identity.Services.UserService",
+          "language": "csharp",
+          "kind": "CLASS",
+          "name": "UserService",
+          "fully_qualified_name": "Acme.Identity.Services.UserService",
+          "file_path": "identity/IdentityApi/Services/UserService.cs",
+          "range": {
+            "start_line": 10,
+            "end_line": 28
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "docstring": "<summary>\nLoads and persists user accounts.\n</summary>",
+          "dependencies": [],
+          "implements": [
+            "Acme.Identity.Services.IUserService"
+          ]
+        },
+        {
+          "symbol_id": "Acme.Identity.Services.UserService._repository",
+          "language": "csharp",
+          "kind": "FIELD",
+          "name": "UserService._repository",
+          "fully_qualified_name": "Acme.Identity.Services.UserService._repository",
+          "file_path": "identity/IdentityApi/Services/UserService.cs",
+          "range": {
+            "start_line": 12,
+            "end_line": 12
+          },
+          "modifiers": [
+            "private",
+            "readonly"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "Acme.Identity.Services.UserService",
+          "field_type": "IUserRepository",
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "Acme.Identity.Services.UserService.<init>",
+          "language": "csharp",
+          "kind": "CONSTRUCTOR",
+          "name": "UserService.<init>",
+          "fully_qualified_name": "Acme.Identity.Services.UserService.<init>",
+          "file_path": "identity/IdentityApi/Services/UserService.cs",
+          "range": {
+            "start_line": 14,
+            "end_line": 17
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "Acme.Identity.Services.UserService",
+          "signature": {
+            "parameters": [
+              {
+                "name": "repository",
+                "type": "IUserRepository",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "Acme.Identity.Services.UserService.FindAsync",
+          "language": "csharp",
+          "kind": "METHOD",
+          "name": "UserService.FindAsync",
+          "fully_qualified_name": "Acme.Identity.Services.UserService.FindAsync",
+          "file_path": "identity/IdentityApi/Services/UserService.cs",
+          "range": {
+            "start_line": 19,
+            "end_line": 27
+          },
+          "modifiers": [
+            "public",
+            "async"
+          ],
+          "annotations": [],
+          "parent_symbol_id": "Acme.Identity.Services.UserService",
+          "signature": {
+            "return_type": "Task<User>",
+            "parameters": [
+              {
+                "name": "id",
+                "type": "Guid",
+                "modifiers": []
+              }
+            ],
+            "thrown_exceptions": [],
+            "is_async": true
+          },
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "Acme.Identity.Services.UserServiceTests",
+          "language": "csharp",
+          "kind": "CLASS",
+          "name": "UserServiceTests",
+          "fully_qualified_name": "Acme.Identity.Services.UserServiceTests",
+          "file_path": "identity/IdentityApi/Services/UserService.cs",
+          "range": {
+            "start_line": 30,
+            "end_line": 38
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [],
+          "dependencies": [],
+          "implements": []
+        },
+        {
+          "symbol_id": "Acme.Identity.Services.UserServiceTests.FindAsyncReturnsNullForUnknownId",
+          "language": "csharp",
+          "kind": "METHOD",
+          "name": "UserServiceTests.FindAsyncReturnsNullForUnknownId",
+          "fully_qualified_name": "Acme.Identity.Services.UserServiceTests.FindAsyncReturnsNullForUnknownId",
+          "file_path": "identity/IdentityApi/Services/UserService.cs",
+          "range": {
+            "start_line": 32,
+            "end_line": 37
+          },
+          "modifiers": [
+            "public"
+          ],
+          "annotations": [
+            {
+              "name": "Fact",
+              "arguments": {}
+            }
+          ],
+          "parent_symbol_id": "Acme.Identity.Services.UserServiceTests",
+          "signature": {
+            "return_type": "void",
+            "parameters": [],
+            "thrown_exceptions": [],
+            "is_async": false
+          },
+          "dependencies": [],
+          "implements": []
+        }
+      ]
+    }
+  ],
+  "symbols": [
+    {
+      "symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+      "language": "java",
+      "kind": "CLASS",
+      "name": "InvoiceRenderer",
+      "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer",
+      "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+      "range": {
+        "start_line": 9,
+        "end_line": 33
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [
+        {
+          "name": "Service",
+          "arguments": {}
+        }
+      ],
+      "docstring": "Renders invoices to PDF for delivery to customers.",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.invoice.InvoiceRenderer.templateEngine",
+      "language": "java",
+      "kind": "FIELD",
+      "name": "InvoiceRenderer.templateEngine",
+      "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer.templateEngine",
+      "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+      "range": {
+        "start_line": 12,
+        "end_line": 12
+      },
+      "modifiers": [
+        "private",
+        "final"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+      "field_type": "TemplateEngine",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.invoice.InvoiceRenderer.<init>",
+      "language": "java",
+      "kind": "CONSTRUCTOR",
+      "name": "InvoiceRenderer.<init>",
+      "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer.<init>",
+      "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+      "range": {
+        "start_line": 14,
+        "end_line": 16
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+      "signature": {
+        "parameters": [
+          {
+            "name": "templateEngine",
+            "type": "TemplateEngine",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.invoice.InvoiceRenderer.render",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "InvoiceRenderer.render",
+      "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer.render",
+      "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+      "range": {
+        "start_line": 21,
+        "end_line": 28
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "docstring": "Render one invoice into a PDF byte array.",
+      "parent_symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+      "signature": {
+        "return_type": "byte[]",
+        "parameters": [
+          {
+            "name": "invoice",
+            "type": "Invoice",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.invoice.InvoiceRenderer.countLineItems",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "InvoiceRenderer.countLineItems",
+      "fully_qualified_name": "com.acme.billing.invoice.InvoiceRenderer.countLineItems",
+      "file_path": "billing/invoice-service/src/main/java/com/acme/billing/invoice/InvoiceRenderer.java",
+      "range": {
+        "start_line": 30,
+        "end_line": 32
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.invoice.InvoiceRenderer",
+      "signature": {
+        "return_type": "int",
+        "parameters": [
+          {
+            "name": "invoice",
+            "type": "Invoice",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentGateway",
+      "language": "java",
+      "kind": "INTERFACE",
+      "name": "PaymentGateway",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentGateway",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentGateway.java",
+      "range": {
+        "start_line": 8,
+        "end_line": 13
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "docstring": "Contract every payment backend must satisfy.",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentGateway.charge",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentGateway.charge",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentGateway.charge",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentGateway.java",
+      "range": {
+        "start_line": 10,
+        "end_line": 10
+      },
+      "modifiers": [],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentGateway",
+      "signature": {
+        "return_type": "PaymentResult",
+        "parameters": [
+          {
+            "name": "dto",
+            "type": "TransactionDto",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [
+          "PaymentException"
+        ],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentGateway.chargeAll",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentGateway.chargeAll",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentGateway.chargeAll",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentGateway.java",
+      "range": {
+        "start_line": 12,
+        "end_line": 12
+      },
+      "modifiers": [],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentGateway",
+      "signature": {
+        "return_type": "List<PaymentResult>",
+        "parameters": [
+          {
+            "name": "transactions",
+            "type": "List<TransactionDto>",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [
+          "PaymentException"
+        ],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessor",
+      "language": "java",
+      "kind": "CLASS",
+      "name": "PaymentProcessor",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "range": {
+        "start_line": 11,
+        "end_line": 54
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [
+        {
+          "name": "Service",
+          "arguments": {}
+        }
+      ],
+      "docstring": "Charges customer cards through the configured payment gateway.",
+      "dependencies": [],
+      "implements": [
+        "com.acme.billing.payment.PaymentGateway"
+      ]
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessor.stripeClient",
+      "language": "java",
+      "kind": "FIELD",
+      "name": "PaymentProcessor.stripeClient",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.stripeClient",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "range": {
+        "start_line": 14,
+        "end_line": 14
+      },
+      "modifiers": [
+        "private",
+        "final"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+      "field_type": "StripeClient",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessor.minimumCharge",
+      "language": "java",
+      "kind": "FIELD",
+      "name": "PaymentProcessor.minimumCharge",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.minimumCharge",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "range": {
+        "start_line": 15,
+        "end_line": 15
+      },
+      "modifiers": [
+        "private",
+        "final"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+      "field_type": "BigDecimal",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessor.<init>",
+      "language": "java",
+      "kind": "CONSTRUCTOR",
+      "name": "PaymentProcessor.<init>",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.<init>",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "range": {
+        "start_line": 17,
+        "end_line": 20
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+      "signature": {
+        "parameters": [
+          {
+            "name": "stripeClient",
+            "type": "StripeClient",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessor.charge",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentProcessor.charge",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.charge",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "range": {
+        "start_line": 25,
+        "end_line": 34
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [
+        {
+          "name": "Transactional",
+          "arguments": {}
+        }
+      ],
+      "docstring": "Charge a single transaction, rejecting amounts below the gateway minimum.",
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+      "signature": {
+        "return_type": "PaymentResult",
+        "parameters": [
+          {
+            "name": "dto",
+            "type": "TransactionDto",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [
+          "PaymentException"
+        ],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessor.chargeAll",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentProcessor.chargeAll",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.chargeAll",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "range": {
+        "start_line": 39,
+        "end_line": 45
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "docstring": "Charge several transactions, stopping at the first failure.",
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+      "signature": {
+        "return_type": "List<PaymentResult>",
+        "parameters": [
+          {
+            "name": "transactions",
+            "type": "List<TransactionDto>",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [
+          "PaymentException"
+        ],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessor.audit",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentProcessor.audit",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.audit",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "range": {
+        "start_line": 47,
+        "end_line": 49
+      },
+      "modifiers": [
+        "private"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+      "signature": {
+        "return_type": "void",
+        "parameters": [
+          {
+            "name": "result",
+            "type": "PaymentResult",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessor.getMinimumCharge",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentProcessor.getMinimumCharge",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessor.getMinimumCharge",
+      "file_path": "billing/payment-service/src/main/java/com/acme/billing/payment/PaymentProcessor.java",
+      "range": {
+        "start_line": 51,
+        "end_line": 53
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessor",
+      "signature": {
+        "return_type": "BigDecimal",
+        "parameters": [],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+      "language": "java",
+      "kind": "CLASS",
+      "name": "PaymentProcessorTest",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest",
+      "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+      "range": {
+        "start_line": 10,
+        "end_line": 35
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "docstring": "Unit tests for {@link PaymentProcessor}.",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessorTest.processor",
+      "language": "java",
+      "kind": "FIELD",
+      "name": "PaymentProcessorTest.processor",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest.processor",
+      "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+      "range": {
+        "start_line": 12,
+        "end_line": 12
+      },
+      "modifiers": [
+        "private"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+      "field_type": "PaymentProcessor",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessorTest.setUp",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentProcessorTest.setUp",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest.setUp",
+      "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+      "range": {
+        "start_line": 14,
+        "end_line": 17
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [
+        {
+          "name": "BeforeEach",
+          "arguments": {}
+        }
+      ],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+      "signature": {
+        "return_type": "void",
+        "parameters": [],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessorTest.chargeRejectsAmountsBelowMinimum",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentProcessorTest.chargeRejectsAmountsBelowMinimum",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest.chargeRejectsAmountsBelowMinimum",
+      "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+      "range": {
+        "start_line": 19,
+        "end_line": 29
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [
+        {
+          "name": "Test",
+          "arguments": {}
+        }
+      ],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+      "signature": {
+        "return_type": "void",
+        "parameters": [],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "com.acme.billing.payment.PaymentProcessorTest.minimumChargeIsFiftyCents",
+      "language": "java",
+      "kind": "METHOD",
+      "name": "PaymentProcessorTest.minimumChargeIsFiftyCents",
+      "fully_qualified_name": "com.acme.billing.payment.PaymentProcessorTest.minimumChargeIsFiftyCents",
+      "file_path": "billing/payment-service/src/test/java/com/acme/billing/payment/PaymentProcessorTest.java",
+      "range": {
+        "start_line": 31,
+        "end_line": 34
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [
+        {
+          "name": "Test",
+          "arguments": {}
+        }
+      ],
+      "parent_symbol_id": "com.acme.billing.payment.PaymentProcessorTest",
+      "signature": {
+        "return_type": "void",
+        "parameters": [],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Controllers.UserController",
+      "language": "csharp",
+      "kind": "CLASS",
+      "name": "UserController",
+      "fully_qualified_name": "Acme.Identity.Controllers.UserController",
+      "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+      "range": {
+        "start_line": 11,
+        "end_line": 37
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [
+        {
+          "name": "ApiController",
+          "arguments": {}
+        },
+        {
+          "name": "Route",
+          "arguments": {
+            "arg0": "api/users"
+          }
+        }
+      ],
+      "docstring": "<summary>\nExposes user account operations over HTTP.\n</summary>",
+      "dependencies": [],
+      "extends": "Acme.Identity.Controllers.ControllerBase",
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Controllers.UserController._userService",
+      "language": "csharp",
+      "kind": "FIELD",
+      "name": "UserController._userService",
+      "fully_qualified_name": "Acme.Identity.Controllers.UserController._userService",
+      "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+      "range": {
+        "start_line": 15,
+        "end_line": 15
+      },
+      "modifiers": [
+        "private",
+        "readonly"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "Acme.Identity.Controllers.UserController",
+      "field_type": "IUserService",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Controllers.UserController.<init>",
+      "language": "csharp",
+      "kind": "CONSTRUCTOR",
+      "name": "UserController.<init>",
+      "fully_qualified_name": "Acme.Identity.Controllers.UserController.<init>",
+      "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+      "range": {
+        "start_line": 17,
+        "end_line": 20
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "Acme.Identity.Controllers.UserController",
+      "signature": {
+        "parameters": [
+          {
+            "name": "userService",
+            "type": "IUserService",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Controllers.UserController.GetById",
+      "language": "csharp",
+      "kind": "METHOD",
+      "name": "UserController.GetById",
+      "fully_qualified_name": "Acme.Identity.Controllers.UserController.GetById",
+      "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+      "range": {
+        "start_line": 25,
+        "end_line": 34
+      },
+      "modifiers": [
+        "public",
+        "async"
+      ],
+      "annotations": [
+        {
+          "name": "HttpGet",
+          "arguments": {
+            "arg0": "{id}"
+          }
+        }
+      ],
+      "docstring": "<summary>\nFetch a single user by identifier.\n</summary>",
+      "parent_symbol_id": "Acme.Identity.Controllers.UserController",
+      "signature": {
+        "return_type": "Task<IActionResult>",
+        "parameters": [
+          {
+            "name": "id",
+            "type": "Guid",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": true
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Controllers.UserController.Version",
+      "language": "csharp",
+      "kind": "PROPERTY",
+      "name": "UserController.Version",
+      "fully_qualified_name": "Acme.Identity.Controllers.UserController.Version",
+      "file_path": "identity/IdentityApi/Controllers/UserController.cs",
+      "range": {
+        "start_line": 36,
+        "end_line": 36
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "Acme.Identity.Controllers.UserController",
+      "property_accessors": {
+        "has_getter": true,
+        "has_setter": true,
+        "has_init": false
+      },
+      "field_type": "string",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Services.UserService",
+      "language": "csharp",
+      "kind": "CLASS",
+      "name": "UserService",
+      "fully_qualified_name": "Acme.Identity.Services.UserService",
+      "file_path": "identity/IdentityApi/Services/UserService.cs",
+      "range": {
+        "start_line": 10,
+        "end_line": 28
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "docstring": "<summary>\nLoads and persists user accounts.\n</summary>",
+      "dependencies": [],
+      "implements": [
+        "Acme.Identity.Services.IUserService"
+      ]
+    },
+    {
+      "symbol_id": "Acme.Identity.Services.UserService._repository",
+      "language": "csharp",
+      "kind": "FIELD",
+      "name": "UserService._repository",
+      "fully_qualified_name": "Acme.Identity.Services.UserService._repository",
+      "file_path": "identity/IdentityApi/Services/UserService.cs",
+      "range": {
+        "start_line": 12,
+        "end_line": 12
+      },
+      "modifiers": [
+        "private",
+        "readonly"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "Acme.Identity.Services.UserService",
+      "field_type": "IUserRepository",
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Services.UserService.<init>",
+      "language": "csharp",
+      "kind": "CONSTRUCTOR",
+      "name": "UserService.<init>",
+      "fully_qualified_name": "Acme.Identity.Services.UserService.<init>",
+      "file_path": "identity/IdentityApi/Services/UserService.cs",
+      "range": {
+        "start_line": 14,
+        "end_line": 17
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "Acme.Identity.Services.UserService",
+      "signature": {
+        "parameters": [
+          {
+            "name": "repository",
+            "type": "IUserRepository",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Services.UserService.FindAsync",
+      "language": "csharp",
+      "kind": "METHOD",
+      "name": "UserService.FindAsync",
+      "fully_qualified_name": "Acme.Identity.Services.UserService.FindAsync",
+      "file_path": "identity/IdentityApi/Services/UserService.cs",
+      "range": {
+        "start_line": 19,
+        "end_line": 27
+      },
+      "modifiers": [
+        "public",
+        "async"
+      ],
+      "annotations": [],
+      "parent_symbol_id": "Acme.Identity.Services.UserService",
+      "signature": {
+        "return_type": "Task<User>",
+        "parameters": [
+          {
+            "name": "id",
+            "type": "Guid",
+            "modifiers": []
+          }
+        ],
+        "thrown_exceptions": [],
+        "is_async": true
+      },
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Services.UserServiceTests",
+      "language": "csharp",
+      "kind": "CLASS",
+      "name": "UserServiceTests",
+      "fully_qualified_name": "Acme.Identity.Services.UserServiceTests",
+      "file_path": "identity/IdentityApi/Services/UserService.cs",
+      "range": {
+        "start_line": 30,
+        "end_line": 38
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [],
+      "dependencies": [],
+      "implements": []
+    },
+    {
+      "symbol_id": "Acme.Identity.Services.UserServiceTests.FindAsyncReturnsNullForUnknownId",
+      "language": "csharp",
+      "kind": "METHOD",
+      "name": "UserServiceTests.FindAsyncReturnsNullForUnknownId",
+      "fully_qualified_name": "Acme.Identity.Services.UserServiceTests.FindAsyncReturnsNullForUnknownId",
+      "file_path": "identity/IdentityApi/Services/UserService.cs",
+      "range": {
+        "start_line": 32,
+        "end_line": 37
+      },
+      "modifiers": [
+        "public"
+      ],
+      "annotations": [
+        {
+          "name": "Fact",
+          "arguments": {}
+        }
+      ],
+      "parent_symbol_id": "Acme.Identity.Services.UserServiceTests",
+      "signature": {
+        "return_type": "void",
+        "parameters": [],
+        "thrown_exceptions": [],
+        "is_async": false
+      },
+      "dependencies": [],
+      "implements": []
+    }
+  ],
+  "relationships": [
+    {
+      "source": "com.acme.billing.invoice.InvoiceRenderer.templateEngine",
+      "target": "TemplateEngine",
+      "kind": "uses_field",
+      "line": 12
+    },
+    {
+      "source": "com.acme.billing.invoice.InvoiceRenderer",
+      "target": "com.acme.billing.invoice.InvoiceRenderer.templateEngine",
+      "kind": "contains",
+      "line": 12
+    },
+    {
+      "source": "com.acme.billing.invoice.InvoiceRenderer",
+      "target": "com.acme.billing.invoice.InvoiceRenderer.<init>",
+      "kind": "contains",
+      "line": 14
+    },
+    {
+      "source": "com.acme.billing.invoice.InvoiceRenderer",
+      "target": "com.acme.billing.invoice.InvoiceRenderer.render",
+      "kind": "contains",
+      "line": 21
+    },
+    {
+      "source": "com.acme.billing.invoice.InvoiceRenderer",
+      "target": "com.acme.billing.invoice.InvoiceRenderer.countLineItems",
+      "kind": "contains",
+      "line": 30
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentGateway",
+      "target": "com.acme.billing.payment.PaymentGateway.charge",
+      "kind": "contains",
+      "line": 10
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentGateway",
+      "target": "com.acme.billing.payment.PaymentGateway.chargeAll",
+      "kind": "contains",
+      "line": 12
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor",
+      "target": "com.acme.billing.payment.PaymentGateway",
+      "kind": "implements",
+      "line": 11
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor.stripeClient",
+      "target": "StripeClient",
+      "kind": "uses_field",
+      "line": 14
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor",
+      "target": "com.acme.billing.payment.PaymentProcessor.stripeClient",
+      "kind": "contains",
+      "line": 14
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor.minimumCharge",
+      "target": "BigDecimal",
+      "kind": "uses_field",
+      "line": 15
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor",
+      "target": "com.acme.billing.payment.PaymentProcessor.minimumCharge",
+      "kind": "contains",
+      "line": 15
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor",
+      "target": "com.acme.billing.payment.PaymentProcessor.<init>",
+      "kind": "contains",
+      "line": 17
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor",
+      "target": "com.acme.billing.payment.PaymentProcessor.charge",
+      "kind": "contains",
+      "line": 25
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor",
+      "target": "com.acme.billing.payment.PaymentProcessor.chargeAll",
+      "kind": "contains",
+      "line": 39
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor",
+      "target": "com.acme.billing.payment.PaymentProcessor.audit",
+      "kind": "contains",
+      "line": 47
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessor",
+      "target": "com.acme.billing.payment.PaymentProcessor.getMinimumCharge",
+      "kind": "contains",
+      "line": 51
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessorTest.processor",
+      "target": "PaymentProcessor",
+      "kind": "uses_field",
+      "line": 12
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessorTest",
+      "target": "com.acme.billing.payment.PaymentProcessorTest.processor",
+      "kind": "contains",
+      "line": 12
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessorTest",
+      "target": "com.acme.billing.payment.PaymentProcessorTest.setUp",
+      "kind": "contains",
+      "line": 14
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessorTest",
+      "target": "com.acme.billing.payment.PaymentProcessorTest.chargeRejectsAmountsBelowMinimum",
+      "kind": "contains",
+      "line": 19
+    },
+    {
+      "source": "com.acme.billing.payment.PaymentProcessorTest",
+      "target": "com.acme.billing.payment.PaymentProcessorTest.minimumChargeIsFiftyCents",
+      "kind": "contains",
+      "line": 31
+    },
+    {
+      "source": "Acme.Identity.Controllers.UserController",
+      "target": "Acme.Identity.Controllers.ControllerBase",
+      "kind": "extends",
+      "line": 11
+    },
+    {
+      "source": "Acme.Identity.Controllers.UserController._userService",
+      "target": "IUserService",
+      "kind": "uses_field",
+      "line": 15
+    },
+    {
+      "source": "Acme.Identity.Controllers.UserController",
+      "target": "Acme.Identity.Controllers.UserController._userService",
+      "kind": "contains",
+      "line": 15
+    },
+    {
+      "source": "Acme.Identity.Controllers.UserController",
+      "target": "Acme.Identity.Controllers.UserController.<init>",
+      "kind": "contains",
+      "line": 17
+    },
+    {
+      "source": "Acme.Identity.Controllers.UserController",
+      "target": "Acme.Identity.Controllers.UserController.GetById",
+      "kind": "contains",
+      "line": 25
+    },
+    {
+      "source": "Acme.Identity.Controllers.UserController.Version",
+      "target": "string",
+      "kind": "uses_field",
+      "line": 36
+    },
+    {
+      "source": "Acme.Identity.Controllers.UserController",
+      "target": "Acme.Identity.Controllers.UserController.Version",
+      "kind": "contains",
+      "line": 36
+    },
+    {
+      "source": "Acme.Identity.Services.UserService",
+      "target": "Acme.Identity.Services.IUserService",
+      "kind": "implements",
+      "line": 10
+    },
+    {
+      "source": "Acme.Identity.Services.UserService._repository",
+      "target": "IUserRepository",
+      "kind": "uses_field",
+      "line": 12
+    },
+    {
+      "source": "Acme.Identity.Services.UserService",
+      "target": "Acme.Identity.Services.UserService._repository",
+      "kind": "contains",
+      "line": 12
+    },
+    {
+      "source": "Acme.Identity.Services.UserService",
+      "target": "Acme.Identity.Services.UserService.<init>",
+      "kind": "contains",
+      "line": 14
+    },
+    {
+      "source": "Acme.Identity.Services.UserService",
+      "target": "Acme.Identity.Services.UserService.FindAsync",
+      "kind": "contains",
+      "line": 19
+    },
+    {
+      "source": "Acme.Identity.Services.UserServiceTests",
+      "target": "Acme.Identity.Services.UserServiceTests.FindAsyncReturnsNullForUnknownId",
+      "kind": "contains",
+      "line": 32
+    }
+  ]
+}

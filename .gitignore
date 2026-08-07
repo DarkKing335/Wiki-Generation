@@ -18,3 +18,6 @@ indexes/
 analysis/
 graphs/
 wiki/
+backend/tests/__pycache__
+backend/src/core_indexing/__pycache__
+backend/src/core_indexing/parsers/__pycache__
