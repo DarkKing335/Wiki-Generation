@@ -1,4 +1,14 @@
 [project]
+name = "repoatlas-core-indexing"
+version = "0.1.0"
+description = "Core Indexing Engine for RepoAtlas — AST-based source code scanner for Java and C#"
+requires-python = ">=3.10"
+dependencies = [
+    "tree-sitter>=0.23",
+    "tree-sitter-java>=0.23",
+    "tree-sitter-c-sharp>=0.23",
+    "pydantic>=2.0",
+    "pathspec>=0.11",
 name = "repoatlas-ai-analysis"
 version = "0.1.0"
 description = "Hierarchical AST chunking and local SLM analysis engine for RepoAtlas (Epic 3)"
@@ -17,6 +27,7 @@ dev = [
 
 [build-system]
 requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
