@@ -16,6 +16,7 @@
 | 10  | `designs/ast-parser-design.md` | Deep-dive Java & C# AST Parser Subsystem architecture and unified schema |
 | 11  | `designs/html-wiki-storage.md` | Deep-dive HTML Static Wiki Site structure, UI components, & rendering pipeline |
 | 12  | `designs/hierarchical-prompting-chunking.md` | Deep-dive 6-tier AST taxonomy & bottom-up Local SLM chunking strategy |
+| 13  | `designs/taxonomy-input-contract.md` | Module/Container tier contract between Epic 1 (Core Indexing) and Epic 3 (AI Analysis) |
 
 ## Reading Order
 
