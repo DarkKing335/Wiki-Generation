@@ -1,7 +1,7 @@
 [project]
 name = "repoatlas-backend"
 version = "0.1.0"
-description = "RepoAtlas backend — Core Indexing Engine (Epic 1) and AI Analysis Engine (Epic 3)"
+description = "RepoAtlas backend — indexing, knowledge graph, and AI analysis engines"
 requires-python = ">=3.10"
 dependencies = [
     "tree-sitter>=0.23",
