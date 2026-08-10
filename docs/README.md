@@ -17,13 +17,14 @@
 | 11  | `designs/html-wiki-storage.md` | Deep-dive HTML Static Wiki Site structure, UI components, & rendering pipeline |
 | 12  | `designs/hierarchical-prompting-chunking.md` | Deep-dive 6-tier AST taxonomy & bottom-up Local SLM chunking strategy |
 | 13  | `designs/taxonomy-input-contract.md` | Module/Container tier contract between Epic 1 (Core Indexing) and Epic 3 (AI Analysis) |
+| 14  | `designs/knowledge-graph-schema.md` | Epic 2 graph schema, generation rules, query API, and CLI contract |
 
 ## Reading Order
 
 1. `executive-summary.md` — facts + what's new in project.
 2. `vision.md` + `system-overview.md` — intended design.
 3. `repository-analysis.md` + `architecture.md` — as-built truth and component design.
-4. `designs/ast-parser-design.md` + `designs/html-wiki-storage.md` + `designs/hierarchical-prompting-chunking.md` — technical design specs.
+4. `designs/ast-parser-design.md` + `designs/knowledge-graph-schema.md` + `designs/html-wiki-storage.md` + `designs/hierarchical-prompting-chunking.md` — technical design specs.
 5. `epics.md` → `user-stories.md` — project backlog.
 6. `adrs.md` — architectural decision records (ADR-001 through ADR-010).
 

@@ -52,7 +52,7 @@ Requires **Python 3.10+**.
 
 ```bash
 cd backend
-pip install -r requirements.txt
+python -m pip install -e ".[dev]"
 ```
 
 ### 2. Running Core Indexing Engine (Source Scanner)
@@ -74,7 +74,31 @@ python -m core_indexing https://github.com/example/repo.git -o indexes/
 - `repository_index.json`: Standardized IR symbol graph consumed by Member 2 (Knowledge Graph).
 - `structure_overview.json`: Compact 6-tier taxonomy map consumed by the Hierarchical Chunker.
 
-### 3. Running Unit Tests
+### 3. Building and Querying the Knowledge Graph
+
+Build `graphs/graph.json` from Epic 1 output:
+
+```bash
+python -m knowledge_graph build indexes/ -o graphs/
+```
+
+Optionally fold Epic 3 summaries and content into the graph:
+
+```bash
+python -m knowledge_graph build indexes/ -a analysis/ -o graphs/
+```
+
+Query a symbol's dependencies or find a directed path:
+
+```bash
+python -m knowledge_graph dependencies graphs/ com.example.OrderService
+python -m knowledge_graph path graphs/ com.example.OrderService com.example.OrderRepository
+```
+
+See [`docs/designs/knowledge-graph-schema.md`](docs/designs/knowledge-graph-schema.md)
+for the graph contract and complete query interface.
+
+### 4. Running Unit Tests
 
 Run the complete backend test suite:
 
@@ -90,7 +114,7 @@ python -m pytest tests/ -v
 | Epic | Component | Responsibility | Status |
 | :--- | :--- | :--- | :--- |
 | **Epic 1** | **Core Indexing Engine** | Repository Scanner, Java (`tree-sitter-java`) & C# (`tree-sitter-c-sharp`) AST Parsers, IR Generation (US-1.1 – US-1.4) | **Completed (Member 1)** |
-| **Epic 2** | **Knowledge Graph** | Convert IR metadata into persistent `graph.json` and graph query engine (US-2.1 – US-2.3) | Planned (Member 2) |
+| **Epic 2** | **Knowledge Graph** | Convert IR metadata into persistent `graph.json` and graph query engine (US-2.1 – US-2.3) | **Completed** |
 | **Epic 3** | **AI Analysis & Chunking** | 6-Tier AST Hierarchical Chunker & Local SLM bottom-up summarizer (US-3.1 – US-3.5) | Planned |
 | **Epic 4** | **Wiki Generation** | Render static HTML site bundle (`wiki/`) with trees, search, breadcrumbs & links (US-4.1 – US-4.5) | Planned |
 | **Epic 5** | **CLI Orchestration** | Single unified CLI command `repoatlas analyze <path\|url>` (US-5.1 – US-5.2) | Planned |
@@ -105,5 +129,6 @@ Detailed design specs and architectural decision records are available in [`docs
 - [System Architecture](docs/architecture.md)
 - [Java & C# AST Parser Design](docs/designs/ast-parser-design.md)
 - [Hierarchical Prompting & Chunking Design](docs/designs/hierarchical-prompting-chunking.md)
+- [Knowledge Graph Schema](docs/designs/knowledge-graph-schema.md)
 - [Standardized HTML Wiki Storage Design](docs/designs/html-wiki-storage.md)
 - [Architectural Decision Records (ADRs)](docs/adrs.md)
