@@ -5,34 +5,191 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}RepoAtlas Wiki{% endblock %}</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; display: flex; color: #333; }
-        .sidebar { width: 250px; background-color: #f4f5f7; padding: 20px; height: 100vh; border-right: 1px solid #e1e4e8; position: fixed; overflow-y: auto; }
-        .sidebar a { display: block; padding: 8px 0; color: #0366d6; text-decoration: none; }
-        .sidebar a:hover { text-decoration: underline; }
-        .main-content { margin-left: 290px; padding: 40px; max-width: 800px; width: 100%; }
-        .search-bar { width: 100%; padding: 8px; margin-bottom: 20px; box-sizing: border-box; }
-        .fact-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .fact-table th, .fact-table td { border: 1px solid #dfe2e5; padding: 10px; text-align: left; }
-        .fact-table th { background-color: #f6f8fa; width: 30%; }
-        .breadcrumb { font-size: 0.9em; color: #586069; margin-bottom: 20px; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            color: #24292e; /* Màu chữ dịu mắt hơn */
+            line-height: 1.6; /* Giãn dòng chuẩn để đọc text dài */
+        }
+        .sidebar { 
+            width: 260px; 
+            background-color: #f8f9fa; 
+            padding: 20px; 
+            height: 100vh; 
+            border-right: 1px solid #e1e4e8; 
+            position: fixed; 
+            overflow-y: auto; 
+        }
+        .sidebar a { 
+            display: block; 
+            padding: 8px 12px; 
+            color: #0366d6; 
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 2px;
+        }
+        .sidebar a:hover { 
+            background-color: #e1e4e8; 
+            text-decoration: none; 
+        }
+        .main-content { 
+            margin-left: 300px; 
+            padding: 40px 60px; 
+            max-width: 900px; 
+            width: 100%; 
+        }
+        .search-bar { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 20px; 
+            border: 1px solid #d1d5da;
+            border-radius: 6px;
+            box-sizing: border-box; 
+        }
+        .search-bar:focus {
+            outline: none;
+            border-color: #0366d6;
+            box-shadow: 0 0 0 3px rgba(3,102,214,0.3);
+        }
+        h1, h2, h3 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        
+        /* Bảng đẹp hơn */
+        .fact-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .fact-table th, .fact-table td { 
+            border: 1px solid #dfe2e5; 
+            padding: 12px 15px; 
+            text-align: left; 
+        }
+        .fact-table th { 
+            background-color: #f6f8fa; 
+            width: 25%; 
+            font-weight: 600;
+        }
+        .breadcrumb { 
+            font-size: 0.9em; 
+            color: #586069; 
+            margin-bottom: 30px; 
+        }
+        
+        /* Class mới dành riêng cho text của AI */
+        .ai-insight {
+            font-size: 1.05em;
+            color: #333;
+            white-space: pre-line; /* Bắt HTML tôn trọng dấu xuống dòng của AI */
+            background-color: #f1f8ff;
+            border-left: 4px solid #0366d6;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <h3>RepoAtlas</h3>
-        <input type="text" class="search-bar" placeholder="Search...">
+        
+        <!-- Khu vực Live Search đã được bọc trong relative div để hiển thị dropdown -->
+        <div style="position: relative;">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search files, symbols...">
+            <div id="searchResults" style="display: none; position: absolute; top: 35px; left: 0; right: 0; background: white; border: 1px solid #ccc; max-height: 300px; overflow-y: auto; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <!-- Kết quả tìm kiếm sẽ được JavaScript render vào đây -->
+            </div>
+        </div>
+
         <strong>Documentation</strong>
-        <a href="tech.html">Technology Stack</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="modules.html">Modules</a>
-        <a href="tests.html">Tests</a>
+        <!-- Dùng đường dẫn linh hoạt để tương thích khi đứng ở trang symbol -->
+        <a href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../tech.html' : 'tech.html'; return false;">Technology Stack</a>
+        <a href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../architecture.html' : 'architecture.html'; return false;">Architecture</a>
+        <a href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../modules.html' : 'modules.html'; return false;">Modules</a>
+        <a href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../tests.html' : 'tests.html'; return false;">Tests</a>
     </div>
     
     <div class="main-content">
         <div class="breadcrumb">
-            Home / {% block breadcrumb %}Page{% endblock %}
+            <a href="#" style="text-decoration: none; color: inherit;" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../tech.html' : 'tech.html'; return false;">Home</a> / {% block breadcrumb %}Page{% endblock %}
         </div>
         {% block content %}{% endblock %}
     </div>
+
+    <!-- Script xử lý Live Search -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("searchInput");
+            const searchResults = document.getElementById("searchResults");
+            let searchIndex = [];
+
+            // Kiểm tra xem file HTML hiện tại có đang nằm trong thư mục /symbols/ hay không để trỏ đúng đường dẫn
+            const isSymbolPage = window.location.pathname.includes('/symbols/');
+            const indexPath = isSymbolPage ? '../search_index.json' : 'search_index.json';
+
+            // Tải dữ liệu index (bất đồng bộ)
+            fetch(indexPath)
+                .then(response => response.json())
+                .then(data => searchIndex = data)
+                .catch(err => console.error("Không thể tải search_index.json", err));
+
+            // Bắt sự kiện người dùng gõ phím
+            searchInput.addEventListener("input", function() {
+                const query = this.value.toLowerCase().trim();
+                searchResults.innerHTML = "";
+                
+                if (!query) {
+                    searchResults.style.display = "none";
+                    return;
+                }
+
+                // Lọc kết quả (tối đa 15 kết quả để tránh quá tải DOM)
+                const results = searchIndex.filter(item => item.name.toLowerCase().includes(query)).slice(0, 15);
+                
+                if (results.length > 0) {
+                    results.forEach(item => {
+                        const a = document.createElement("a");
+                        
+                        // Fix lại URL cho đúng context thư mục
+                        if (isSymbolPage) {
+                            a.href = item.url.startsWith('symbols/') ? '../' + item.url : '../' + item.url;
+                        } else {
+                            a.href = item.url;
+                        }
+                        
+                        a.textContent = item.name;
+                        a.style.padding = "8px 10px";
+                        a.style.borderBottom = "1px solid #eee";
+                        a.style.fontSize = "12px";
+                        a.style.display = "block";
+                        a.style.color = "#0366d6";
+                        a.style.textDecoration = "none";
+                        
+                        a.addEventListener('mouseover', () => a.style.backgroundColor = '#f6f8fa');
+                        a.addEventListener('mouseout', () => a.style.backgroundColor = 'white');
+                        
+                        searchResults.appendChild(a);
+                    });
+                    searchResults.style.display = "block";
+                } else {
+                    const noResult = document.createElement("div");
+                    noResult.textContent = "No results found";
+                    noResult.style.padding = "8px 10px";
+                    noResult.style.fontSize = "12px";
+                    noResult.style.color = "#999";
+                    searchResults.appendChild(noResult);
+                    searchResults.style.display = "block";
+                }
+            });
+
+            // Ẩn bảng kết quả khi click chuột ra ngoài khu vực tìm kiếm
+            document.addEventListener("click", function(e) {
+                if (e.target !== searchInput && e.target !== searchResults) {
+                    searchResults.style.display = "none";
+                }
+            });
+        });
+    </script>
 </body>
 </html>

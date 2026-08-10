@@ -63,3 +63,28 @@ def render_symbol_pages(repository_index: dict):
         with open(output_path, 'w', encoding='utf-8') as out_f:
             out_f.write(html_output)
         count += 1
+def generate_search_index(repository_index):
+    """Tạo file JSON chứa index tìm kiếm cho toàn bộ website"""
+    search_data = [
+        {"name": "Technology Stack", "url": "tech.html"},
+        {"name": "Architecture", "url": "architecture.html"},
+        {"name": "Modules", "url": "modules.html"},
+        {"name": "Tests", "url": "tests.html"}
+    ]
+    
+    # Lấy danh sách symbols
+    for symbol in repository_index.get('symbols', []):
+        fqn = symbol.get('fully_qualified_name')
+        if fqn:
+            safe_filename = fqn.replace('<', '_').replace('>', '_') + '.html'
+            # Dùng đường dẫn tương đối cho thư mục symbols
+            search_data.append({"name": fqn, "url": f"symbols/{safe_filename}"})
+            
+    # Lưu ra file search_index.json
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    repo_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
+    index_path = os.path.join(repo_root, 'wiki', 'search_index.json')
+    
+    with open(index_path, 'w', encoding='utf-8') as f:
+        json.dump(search_data, f, ensure_ascii=False)
+    print("✅ Đã tạo Search Index (search_index.json)")

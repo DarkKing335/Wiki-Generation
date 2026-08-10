@@ -32,3 +32,5 @@ pythonpath = ["src"]
 markers = [
     "live: tests requiring a running Ollama server and a pulled model (deselect with '-m \"not live\"')",
 ]
+[project.scripts]
+repoatlas = "cli:main"
