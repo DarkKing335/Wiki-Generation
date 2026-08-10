@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }} - RepoAtlas{% endblock %}
+{% block breadcrumb %}{{ section.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ section.title }}</h1>
+    
+    <p style="font-size: 1.1em; line-height: 1.6;">
+        {{ section.body }}
+    </p>
+
+    <h2>Test Suite Details</h2>
+    <table class="fact-table">
+        <tbody>
+            <tr>
+                <th>Test Frameworks</th>
+                <td>
+                    {% if section.facts.get('test_frameworks') %}
+                        {{ section.facts.get('test_frameworks') | join(', ') }}
+                    {% else %}
+                        <span style="color: #999;">None detected</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Run Commands</th>
+                <td>
+                    {% if section.facts.get('run_commands') %}
+                        <code>{{ section.facts.get('run_commands') | join('</code>, <code>') }}</code>
+                    {% else %}
+                        <span style="color: #999;">N/A</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Test Classes ({{ section.facts.get('test_types', []) | length }})</th>
+                <td>
+                    <ul style="margin: 0; padding-left: 20px;">
+                    {% for item in section.facts.get('test_types', []) %}
+                        <li><code>{{ item }}</code></li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
