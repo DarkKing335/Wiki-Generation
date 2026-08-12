@@ -61,9 +61,30 @@ def render_symbol_pages(repository_index: dict):
             out_f.write(html_output)
         count += 1
 
+def render_index_page(repository_index: dict, analysis_data: dict = None):
+    """
+    Renders the master landing page wiki/index.html.
+    """
+    env = get_template_env()
+    template = env.get_template('index.html')
+    
+    repo_data = {
+        'name': repository_index.get('repository_name', 'Project'),
+        'languages': repository_index.get('languages', []),
+        'files': repository_index.get('files', []),
+        'symbols': repository_index.get('symbols', []),
+        'relationships': repository_index.get('relationships', []),
+    }
+    
+    html_output = template.render(repository=repo_data, analysis=analysis_data or {})
+    output_path = WIKI_OUTPUT_DIR / "index.html"
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(html_output)
+
 def generate_search_index(repository_index):
     """Tạo file JSON chứa index tìm kiếm cho toàn bộ website"""
     search_data = [
+        {"name": "Dashboard", "url": "index.html"},
         {"name": "Technology Stack", "url": "tech.html"},
         {"name": "Architecture", "url": "architecture.html"},
         {"name": "Modules", "url": "modules.html"},
@@ -82,4 +103,4 @@ def generate_search_index(repository_index):
     
     with open(index_path, 'w', encoding='utf-8') as f:
         json.dump(search_data, f, ensure_ascii=False)
-    print("✅ Đã tạo Search Index (search_index.json)")
+    print("✅ Đã tạo Search Index (search_index.json)")

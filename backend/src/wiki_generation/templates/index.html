@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - RepoAtlas Wiki{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Project Overview: {{ repository.name }}</h1>
+
+    <div class="ai-insight">
+        Welcome to the RepoAtlas interactive wiki for <strong>{{ repository.name }}</strong>.
+        This documentation is generated from structural AST analysis and repository knowledge graphs.
+    </div>
+
+    <h2>Documentation Sections</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
+        <div style="border: 1px solid #dfe2e5; border-radius: 6px; padding: 20px; background-color: #f8f9fa;">
+            <h3 style="margin-top: 0; border-bottom: none;"><a href="tech.html" style="color: #0366d6; text-decoration: none;">Technology Stack</a></h3>
+            <p style="font-size: 0.9em; color: #586069;">Languages, frameworks, and build tools powering the project.</p>
+        </div>
+        <div style="border: 1px solid #dfe2e5; border-radius: 6px; padding: 20px; background-color: #f8f9fa;">
+            <h3 style="margin-top: 0; border-bottom: none;"><a href="architecture.html" style="color: #0366d6; text-decoration: none;">Architecture</a></h3>
+            <p style="font-size: 0.9em; color: #586069;">System layers, modules, containers, and component organization.</p>
+        </div>
+        <div style="border: 1px solid #dfe2e5; border-radius: 6px; padding: 20px; background-color: #f8f9fa;">
+            <h3 style="margin-top: 0; border-bottom: none;"><a href="modules.html" style="color: #0366d6; text-decoration: none;">Modules</a></h3>
+            <p style="font-size: 0.9em; color: #586069;">Module boundaries, container relationships, and component summaries.</p>
+        </div>
+        <div style="border: 1px solid #dfe2e5; border-radius: 6px; padding: 20px; background-color: #f8f9fa;">
+            <h3 style="margin-top: 0; border-bottom: none;"><a href="tests.html" style="color: #0366d6; text-decoration: none;">Tests</a></h3>
+            <p style="font-size: 0.9em; color: #586069;">Test frameworks, test classes, methods, and execution instructions.</p>
+        </div>
+    </div>
+
+    <h2>Repository Metrics</h2>
+    <table class="fact-table">
+        <tbody>
+            <tr>
+                <th>Repository Name</th>
+                <td><strong>{{ repository.name }}</strong></td>
+            </tr>
+            <tr>
+                <th>Languages</th>
+                <td>{{ repository.languages | join(', ') if repository.languages else 'N/A' }}</td>
+            </tr>
+            <tr>
+                <th>Total Source Files</th>
+                <td>{{ repository.files | length }}</td>
+            </tr>
+            <tr>
+                <th>Total AST Symbols</th>
+                <td>{{ repository.symbols | length }}</td>
+            </tr>
+            <tr>
+                <th>Relationships</th>
+                <td>{{ repository.relationships | length }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

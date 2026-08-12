@@ -41,11 +41,11 @@ class AIConfig:
 def run_analysis_pipeline(target_path: str, use_llm: bool):
     target_dir = Path(target_path).resolve()
     if not target_dir.exists():
-        print(f"❌ Lỗi: Không tìm thấy đường dẫn '{target_dir}'")
+        print(f"ERROR: Khong tim thay duong dan '{target_dir}'")
         sys.exit(1)
 
-    print(f"🚀 Bắt đầu phân tích dự án tại: {target_dir}")
-    print(f"🤖 Chế độ AI (LLM): {'BẬT' if use_llm else 'TẮT'}")
+    print(f"START: Bat dau phan tich du an tai: {target_dir}")
+    print(f"AI MODE: {'ON' if use_llm else 'OFF'}")
     print("-" * 50)
 
     scanner = None
@@ -53,7 +53,7 @@ def run_analysis_pipeline(target_path: str, use_llm: bool):
         # ---------------------------------------------------------
         # 1. EPIC 1: Core Indexing
         # ---------------------------------------------------------
-        print("1️⃣ [Epic 1] Đang quét mã nguồn và tạo AST...")
+        print("1. [Epic 1] Dang quet ma nguon va tao AST...")
         scanner = RepositoryScanner(target=str(target_dir), output_dir="indexes")
         tree, file_indexes = scanner.scan_and_parse()
 
@@ -73,7 +73,7 @@ def run_analysis_pipeline(target_path: str, use_llm: bool):
         # 2. EPIC 3: AI Analysis 
         # (Chạy trước Epic 2 vì Graph cần file summaries.json)
         # ---------------------------------------------------------
-        print("2️⃣ [Epic 3] Đang phân tích kiến trúc và tạo tóm tắt...")
+        print("2. [Epic 3] Dang phan tich kien truc va tao tom tat...")
         ai_args = AIConfig(use_llm)
         # Hứng đối tượng AnalysisResult từ hàm run của Member 3
         analysis_result = run_ai_analysis(ai_args) 
@@ -84,7 +84,7 @@ def run_analysis_pipeline(target_path: str, use_llm: bool):
         # ---------------------------------------------------------
         # 3. EPIC 2: Knowledge Graph
         # ---------------------------------------------------------
-        print("3️⃣ [Epic 2] Đang xây dựng Knowledge Graph...")
+        print("3. [Epic 2] Dang xay dung Knowledge Graph...")
         # Đọc từ 2 thư mục vừa tạo
         graph = build_from_paths("indexes", "analysis") 
         write_graph(graph, "graphs")
@@ -92,28 +92,33 @@ def run_analysis_pipeline(target_path: str, use_llm: bool):
         # ---------------------------------------------------------
         # 4. EPIC 4: Wiki Generation (Phần của bạn)
         # ---------------------------------------------------------
-        print("4️⃣ [Epic 4] Đang tạo tài liệu Wiki HTML tĩnh...")
+        print("4. [Epic 4] Dang tao tai lieu Wiki HTML tinh...")
 
         # Phân rã dữ liệu THẬT từ biến analysis_result (truyền vào Jinja2)
         for section in analysis_result.content:
             page_name = f"{section.key}.html"
             # Ép kiểu Pydantic Model của Member 3 thành dictionary
             render_html_page(page_name, section.model_dump())
-            print(f"  ↳ Đã tạo {page_name}")
+            print(f"  -> Da tao {page_name}")
 
-        print("  ↳ Đang sinh các trang chi tiết symbols...")
+        print("  -> Dang sinh cac trang chi tiet symbols...")
         # Lấy thẳng Pydantic model repo_index từ Member 1
         repo_index_dict = repo_index.model_dump()
         render_symbol_pages(repo_index_dict)
 
-        print("  ↳ Đang sinh Search Index (JavaScript)...")
+        print("  -> Dang sinh Search Index (JavaScript)...")
         generate_search_index(repo_index_dict)
 
+        print("  -> Dang tao trang Dashboard index.html...")
+        from wiki_generation.renderer import render_index_page
+        render_index_page(repo_index_dict, analysis_result.model_dump())
+        print("  -> Da tao index.html")
+
         print("-" * 50)
-        print("✨ Phân tích hoàn tất! Mở thư mục /wiki để xem tài liệu.")
+        print("SUCCESS: Phan tich hoan tat! Mo thu muc /wiki de xem tai lieu.")
 
         backend_dir = Path(__file__).resolve().parent.parent
-        wiki_index_path = backend_dir / "wiki" / "architecture.html"        
+        wiki_index_path = backend_dir / "wiki" / "index.html"        
         try:
             # Nếu là hệ điều hành Windows, dùng os.startfile (chắc chắn 100% hoạt động)
             if os.name == 'nt':
@@ -122,14 +127,19 @@ def run_analysis_pipeline(target_path: str, use_llm: bool):
             else:
                 webbrowser.open(wiki_index_path.as_uri())
         except Exception as e:
-            print(f"⚠️ Không thể tự động bật trình duyệt. Bạn hãy click đúp vào file này nhé: {wiki_index_path}")
+            print(f"WARNING: Khong the tu dong bat trinh duyet. Ban hay click dup vao file nay nhe: {wiki_index_path}")
 
     finally:
         # Dọn dẹp tài nguyên từ Member 1 (nếu clone git)
         if scanner:
             scanner.cleanup()
 
-def main():
+def main(argv=None):
+    if hasattr(sys.stdout, "reconfigure") and sys.stdout.encoding != 'utf-8':
+        try:
+            sys.stdout.reconfigure(encoding='utf-8')
+        except Exception:
+            pass
     parser = argparse.ArgumentParser(
         prog="repoatlas",
         description="RepoAtlas - Trình phân tích mã nguồn và tự động tạo tài liệu Wiki."
@@ -151,11 +161,12 @@ def main():
         help="Tắt LLM, chỉ tạo tài liệu dựa trên phân tích cấu trúc thô (nhanh hơn)"
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     if args.command == "analyze":
         use_llm = not args.no_llm
         run_analysis_pipeline(args.path, use_llm)
+
 
 if __name__ == "__main__":
     main()

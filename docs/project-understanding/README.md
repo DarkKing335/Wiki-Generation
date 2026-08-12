@@ -158,13 +158,15 @@ graph.json + AST summaries
 | Repository Indexer | ✅ **Implemented** (`backend/src/core_indexing/indexer.py`) |
 | IR Generator | ✅ **Implemented** (`backend/src/core_indexing/ir_generator.py`) |
 | Core Indexing CLI | ✅ **Implemented** (`backend/src/core_indexing/__main__.py`) |
-| Unit Tests (73 tests) | ✅ **Implemented** (`backend/tests/`) |
-| Knowledge Graph Builder | 🔲 **Planned** (Member 2 — Epic 2) |
-| Graph Query Engine | 🔲 **Planned** (Member 2 — Epic 2) |
-| Hierarchical Chunker | 🔲 **Planned** (Member 3 — Epic 3) |
-| Local SLM Summarizer | 🔲 **Planned** (Member 3 — Epic 3) |
-| Wiki HTML Generator | 🔲 **Planned** (Member 4 — Epic 4) |
-| Full CLI Orchestration | 🔲 **Planned** (Member 4 — Epic 5) |
+| Knowledge Graph Builder | ✅ **Implemented** (`backend/src/knowledge_graph/builder.py`) |
+| Graph Query Engine | ✅ **Implemented** (`backend/src/knowledge_graph/query.py`) |
+| Hierarchical Chunker | ✅ **Implemented** (`backend/src/ai_analysis/chunker.py`) |
+| Local SLM Summarizer | ✅ **Implemented** (`backend/src/ai_analysis/summarizer.py`) |
+| No-LLM Fallback | ✅ **Implemented** (`backend/src/ai_analysis/llm/null.py`) |
+| Wiki HTML Generator | ✅ **Implemented** (`backend/src/wiki_generation/renderer.py`) |
+| Full CLI Orchestration | ✅ **Implemented** (`backend/src/cli.py`) |
+| Test Suite (289+ tests) | ✅ **Implemented** (`backend/tests/`) |
+
 
 ---
 

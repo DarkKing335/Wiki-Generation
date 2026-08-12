@@ -27,21 +27,21 @@ RepoAtlas is organized into **five sequential processing layers**, each feeding 
 ┌─────────────────────────────────────────────────────────────────┐
 │  LAYER 3: Knowledge Graph                                       │
 │  (Graph Builder → graph.json → Query Engine)                   │
-│  🔲 PLANNED (Member 2)                                         │
+│  ✅ IMPLEMENTED (Member 2)                                      │
 └─────────────────────────────┬───────────────────────────────────┘
                               │  graph.json
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  LAYER 4: AI Analysis                                           │
 │  (Hierarchical Chunker → Local SLM / Remote LLM → Summaries)  │
-│  🔲 PLANNED (Member 3)                                         │
+│  ✅ IMPLEMENTED (Member 3)                                      │
 └─────────────────────────────┬───────────────────────────────────┘
                               │  Component / Module / Architecture summaries
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  LAYER 5: Wiki Generation + CLI Orchestration                   │
 │  (HTML Template Compiler → Hyperlink Resolver → wiki/)         │
-│  🔲 PLANNED (Member 4)                                         │
+│  ✅ IMPLEMENTED (Member 4)                                      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
