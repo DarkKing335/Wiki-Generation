@@ -11,6 +11,11 @@ Python backend subsystem for RepoAtlas code indexing, knowledge graph constructi
   - `models`: Pydantic schemas for the Unified AST Node Representation and IR.
   - `indexer`: Global symbol registry and cross-file relationship builder.
   - `ir_generator`: Exporter for `repository_index.json` and `structure_overview.json`.
+- **`knowledge_graph` (Epic 2)**:
+  - `builder`: Deterministic `graph.json` generation from the repository index.
+  - `models`: Versioned, self-contained graph schema.
+  - `query`: Incoming/outgoing dependencies, neighbors, and shortest paths.
+  - Optional enrichment from Epic 3's `summaries.json`.
 
 - **`ai_analysis` (Member 2 Scope, Epic 3)**:
   - `taxonomy/`: 6-tier taxonomy construction (`Repository → Module → Container →
@@ -31,9 +36,8 @@ Python backend subsystem for RepoAtlas code indexing, knowledge graph constructi
 ## Quickstart
 
 ```bash
-# Install dependencies (the editable install puts both packages on the import path)
-pip install -r requirements.txt
-pip install -e .
+# Install the package and development dependencies
+python -m pip install -e ".[dev]"
 
 # Run unit tests
 python -m pytest tests/ -v
