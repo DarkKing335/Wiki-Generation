@@ -17,6 +17,21 @@
 | 11  | `designs/html-wiki-storage.md` | Deep-dive HTML Static Wiki Site structure, UI components, & rendering pipeline |
 | 12  | `designs/hierarchical-prompting-chunking.md` | Deep-dive 6-tier AST taxonomy & bottom-up Local SLM chunking strategy |
 
+## Project Understanding (New)
+
+> *"How does RepoAtlas understand a repository?"*  
+> This document group traces the full journey: source code → AST → relationships → modules → architecture → summaries → Wiki.
+
+| #   | Document                 | Content                                                                       |
+| --- | ------------------------ | ----------------------------------------------------------------------------- |
+| PU-0 | `project-understanding/README.md` | Index, team ownership map, implementation status summary |
+| PU-1 | `project-understanding/architecture.md` | System layers, end-to-end flow, Mermaid diagrams |
+| PU-2 | `project-understanding/modules.md` | Module definitions, responsibilities, planned vs. implemented |
+| PU-3 | `project-understanding/components.md` | Component deep-dives: Scanner, Parsers, Indexer, Chunker, etc. |
+| PU-4 | `project-understanding/data-flow.md` | Data artifacts, schemas, formats at each pipeline step |
+| PU-5 | `project-understanding/backend-understanding.md` | Python backend structure, execution flow, testing |
+| PU-6 | `project-understanding/frontend-understanding.md` | Generated wiki site structure, UI components, rendering pipeline |
+
 ## Reading Order
 
 1. `executive-summary.md` — facts + what's new in project.
@@ -25,6 +40,7 @@
 4. `designs/ast-parser-design.md` + `designs/html-wiki-storage.md` + `designs/hierarchical-prompting-chunking.md` — technical design specs.
 5. `epics.md` → `user-stories.md` — project backlog.
 6. `adrs.md` — architectural decision records (ADR-001 through ADR-010).
+7. `project-understanding/README.md` → full group — how the system builds understanding.
 
 ## Guiding Constraint for This Version
 
