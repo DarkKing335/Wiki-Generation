@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }} - RepoAtlas{% endblock %}
+{% block breadcrumb %}{{ section.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ section.title }}</h1>
+    
+    <!-- Phần mô tả (body) do AI hoặc code logic tự sinh ra -->
+    <p style="font-size: 1.1em; line-height: 1.6;">
+        {{ section.body }}
+    </p>
+
+    <!-- Bảng hiển thị facts dạng dữ liệu cấu trúc -->
+    <h2>Technical Facts</h2>
+    <table class="fact-table">
+        <tbody>
+            {% for key, values in section.facts.items() %}
+            <tr>
+                <th>{{ key | replace('_', ' ') | title }}</th>
+                <td>
+                    {% if values %}
+                        {{ values | join(', ') }}
+                    {% else %}
+                        <span style="color: #999;">None detected</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,75 @@
+{
+  "repository": "sample_repo",
+  "languages": [
+    "csharp",
+    "java"
+  ],
+  "total_symbols": 32,
+  "modules": [
+    {
+      "name": "sample_repo",
+      "containers": [
+        {
+          "name": "MainContainer",
+          "components": [
+            {
+              "name": "com.acme.billing.invoice",
+              "classes": [
+                {
+                  "fqn": "com.acme.billing.invoice.InvoiceRenderer",
+                  "kind": "CLASS",
+                  "methods": []
+                }
+              ]
+            },
+            {
+              "name": "com.acme.billing.payment",
+              "classes": [
+                {
+                  "fqn": "com.acme.billing.payment.PaymentGateway",
+                  "kind": "INTERFACE",
+                  "methods": []
+                },
+                {
+                  "fqn": "com.acme.billing.payment.PaymentProcessor",
+                  "kind": "CLASS",
+                  "methods": []
+                },
+                {
+                  "fqn": "com.acme.billing.payment.PaymentProcessorTest",
+                  "kind": "CLASS",
+                  "methods": []
+                }
+              ]
+            },
+            {
+              "name": "Acme.Identity.Controllers",
+              "classes": [
+                {
+                  "fqn": "Acme.Identity.Controllers.UserController",
+                  "kind": "CLASS",
+                  "methods": []
+                }
+              ]
+            },
+            {
+              "name": "Acme.Identity.Services",
+              "classes": [
+                {
+                  "fqn": "Acme.Identity.Services.UserService",
+                  "kind": "CLASS",
+                  "methods": []
+                },
+                {
+                  "fqn": "Acme.Identity.Services.UserServiceTests",
+                  "kind": "CLASS",
+                  "methods": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
