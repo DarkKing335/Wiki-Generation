@@ -29,13 +29,14 @@ class AIConfig:
     def __init__(self, use_llm: bool):
         self.index_dir = "indexes"
         self.output_dir = "analysis"
-        self.model = "llama3:latest"
+        self.model = DEFAULT_MODEL
         self.endpoint = DEFAULT_ENDPOINT
         self.no_llm = not use_llm
         self.taxonomy = "auto"
         self.budget = 2000
         self.no_tools = True
         self.verbose = False
+
 
 
 def run_analysis_pipeline(target_path: str, use_llm: bool):

@@ -26,10 +26,22 @@ python -m pip install -e ".[dev]"
 # Run unit tests
 python -m pytest tests/ -v
 
-# Execute Core Indexing Engine CLI
+# Execute End-to-End Analysis CLI (Local-First AI with qwen2.5-coder:3b or No-LLM fallback)
+repoatlas analyze <path-or-git-url>
+repoatlas analyze <path-or-git-url> --no-llm
+
+# Execute Core Indexing Engine CLI individually
 python -m core_indexing <path-or-git-url> -o indexes/
 
-# Build and query the Epic 2 knowledge graph
+# Build and query the Epic 2 knowledge graph individually
 python -m knowledge_graph build indexes/ -o graphs/
 python -m knowledge_graph dependencies graphs/ <symbol-id>
 ```
+
+## Recommended Local AI Model
+
+RepoAtlas is optimized for code-specialized Local Small Language Models (SLMs) via Ollama:
+- **Default / Recommended**: `qwen2.5-coder:3b` (~1.9 GB download, ~2.5 GB RAM, fast & highly accurate for code understanding)
+- **High Detail**: `qwen2.5-coder:7b` (~4.7 GB download, ~5.5 GB RAM)
+- **No-LLM Mode**: `--no-llm` generates deterministic structural documentation without requiring Ollama.
+

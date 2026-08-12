@@ -30,7 +30,7 @@ from ai_analysis.llm.base import LLMClient, LLMResponse, ToolCall
 logger = logging.getLogger(__name__)
 
 DEFAULT_ENDPOINT = "http://localhost:11434"
-DEFAULT_MODEL = "qwen2.5-coder:7b"
+DEFAULT_MODEL = "qwen2.5-coder:3b"
 
 #: Fixed seed for reproducible generation.
 DEFAULT_SEED = 42

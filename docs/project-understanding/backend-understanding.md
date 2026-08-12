@@ -269,18 +269,18 @@ python -m pytest tests/ -v
 
 ### Member 2: Knowledge Graph (`backend/src/knowledge_graph/`)
 
-**Planned implementation:** Load `repository_index.json`, build `graph.json` with nodes and typed edges. Provide query API over the graph.
+**Implemented:** Load `repository_index.json`, build `graph.json` with nodes and typed edges. Provide query API over the graph.
 
 ### Member 3: AI Analysis (`backend/src/ai_analysis/`)
 
-**Planned implementation:**
-- `llm/` — LLM client supporting Ollama (local SLM) and remote API providers
+**Implemented:**
+- `llm/` — LLM client supporting Ollama (local SLM: `qwen2.5-coder:3b` default) and `NullLLMClient` fallback
 - `taxonomy/` — 6-tier hierarchical chunker
 - `tools/` — `summarize()` tool + analysis utilities
 
 ### Member 4: Wiki Generator + CLI
 
-**Planned implementation:** HTML template compiler, hyperlink resolver, static site writer, and full `repoatlas analyze` CLI orchestration.
+**Implemented:** HTML template compiler, hyperlink resolver, static site writer (`wiki/index.html`, `tech.html`, `architecture.html`, `modules.html`, `tests.html`, `symbols/*.html`), and full `repoatlas analyze` CLI orchestration.
 
 ---
 
@@ -288,9 +288,11 @@ python -m pytest tests/ -v
 
 | Claim | Status |
 |-------|--------|
-| Backend is a Python pipeline application (not MVC) | ✅ **Observed Fact** |
-| Backend has 73 passing tests | ✅ **Observed Fact** (README) |
+| Backend is a Python pipeline application | ✅ **Observed Fact** |
+| Backend test suite passes (289+ tests) | ✅ **Observed Fact** (`pytest tests/`) |
 | `tree-sitter-java` and `tree-sitter-c-sharp` are the AST engines | ✅ **Observed Fact** (imports in parsers) |
-| `knowledge_graph/` and `ai_analysis/` directories have no code | ✅ **Observed Fact** |
-| Backend will eventually support a `repoatlas analyze` CLI | 💡 **Inferred** from design docs (currently only `python -m core_indexing` exists) |
-| Backend will use Ollama for local SLM | 💡 **Inferred** from vision.md and system-overview.md |
+| Knowledge Graph builder and Query API implemented | ✅ **Observed Fact** (`knowledge_graph/`) |
+| AI Analysis Engine with 6-tier taxonomy implemented | ✅ **Observed Fact** (`ai_analysis/`) |
+| Default local SLM model is `qwen2.5-coder:3b` via Ollama | ✅ **Observed Fact** (`DEFAULT_MODEL` in `ollama.py`) |
+| CLI `repoatlas analyze` end-to-end orchestration implemented | ✅ **Observed Fact** (`src/cli.py`) |
+
