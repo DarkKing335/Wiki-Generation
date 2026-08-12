@@ -1,21 +1,21 @@
 import os
 import json
 from jinja2 import Environment, FileSystemLoader
+from pathlib import Path
+
+# 1. Khai báo mỏ neo đường dẫn tuyệt đối
+BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
+WIKI_OUTPUT_DIR = BACKEND_DIR / "wiki"
+
+# Đảm bảo thư mục wiki và thư mục con symbols tồn tại trước khi ghi file
+WIKI_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+(WIKI_OUTPUT_DIR / "symbols").mkdir(parents=True, exist_ok=True)
 
 def get_template_env():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    template_dir = os.path.join(current_dir, 'templates')
-    return Environment(loader=FileSystemLoader(template_dir))
-
-def save_html(filename, html_content):
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    repo_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
-    wiki_dir = os.path.join(repo_root, 'wiki')
-    os.makedirs(wiki_dir, exist_ok=True)
-    
-    output_path = os.path.join(wiki_dir, filename)
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(html_content)
+    # Đồng bộ dùng Pathlib cho nhất quán
+    current_dir = Path(__file__).resolve().parent
+    template_dir = current_dir / 'templates'
+    return Environment(loader=FileSystemLoader(str(template_dir)))
 
 def render_html_page(template_name: str, section_data: dict):
     """
@@ -24,19 +24,20 @@ def render_html_page(template_name: str, section_data: dict):
     """
     env = get_template_env()
     
-    # Load đúng template dựa vào tên file (tech.html, architecture.html,...)
+    # Load đúng template dựa vào tên file
     template = env.get_template(template_name)
     
     # Truyền dữ liệu vào Jinja2
     html_output = template.render(section=section_data)
     
-    # Lưu file
-    save_html(template_name, html_output)
+    # 2. Trực tiếp lưu file bằng hằng số WIKI_OUTPUT_DIR
+    output_path = WIKI_OUTPUT_DIR / template_name
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(html_output)
 
 def render_symbol_pages(repository_index: dict):
     """
-    Hàm render symbols nhận thẳng dữ liệu index từ tham số 
-    chứ không tự đọc file JSON cứng nữa.
+    Hàm render symbols nhận thẳng dữ liệu index từ tham số.
     """
     symbols = repository_index.get('symbols', [])
     if not symbols:
@@ -44,11 +45,6 @@ def render_symbol_pages(repository_index: dict):
         
     env = get_template_env()
     template = env.get_template('symbol.html')
-    
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    repo_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
-    symbols_dir = os.path.join(repo_root, 'wiki', 'symbols')
-    os.makedirs(symbols_dir, exist_ok=True)
     
     count = 0
     for symbol in symbols:
@@ -59,10 +55,12 @@ def render_symbol_pages(repository_index: dict):
         safe_filename = fqn.replace('<', '_').replace('>', '_') + '.html'
         html_output = template.render(symbol=symbol)
         
-        output_path = os.path.join(symbols_dir, safe_filename)
+        # 3. Sử dụng hằng số cho đường dẫn thư mục symbols
+        output_path = WIKI_OUTPUT_DIR / "symbols" / safe_filename
         with open(output_path, 'w', encoding='utf-8') as out_f:
             out_f.write(html_output)
         count += 1
+
 def generate_search_index(repository_index):
     """Tạo file JSON chứa index tìm kiếm cho toàn bộ website"""
     search_data = [
@@ -77,13 +75,10 @@ def generate_search_index(repository_index):
         fqn = symbol.get('fully_qualified_name')
         if fqn:
             safe_filename = fqn.replace('<', '_').replace('>', '_') + '.html'
-            # Dùng đường dẫn tương đối cho thư mục symbols
             search_data.append({"name": fqn, "url": f"symbols/{safe_filename}"})
             
-    # Lưu ra file search_index.json
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    repo_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
-    index_path = os.path.join(repo_root, 'wiki', 'search_index.json')
+    # 4. Sử dụng hằng số cho đường dẫn file index
+    index_path = WIKI_OUTPUT_DIR / "search_index.json"
     
     with open(index_path, 'w', encoding='utf-8') as f:
         json.dump(search_data, f, ensure_ascii=False)

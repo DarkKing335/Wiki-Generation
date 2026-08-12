@@ -112,10 +112,8 @@ def run_analysis_pipeline(target_path: str, use_llm: bool):
         print("-" * 50)
         print("✨ Phân tích hoàn tất! Mở thư mục /wiki để xem tài liệu.")
 
-        wiki_index_path = Path("wiki/architecture.html").resolve()
-        print(f"🌐 Đang tự động bật trình duyệt hiển thị tài liệu...")
-        webbrowser.open(wiki_index_path.as_uri())
-        
+        backend_dir = Path(__file__).resolve().parent.parent
+        wiki_index_path = backend_dir / "wiki" / "architecture.html"        
         try:
             # Nếu là hệ điều hành Windows, dùng os.startfile (chắc chắn 100% hoạt động)
             if os.name == 'nt':
