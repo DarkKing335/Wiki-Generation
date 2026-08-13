@@ -35,8 +35,8 @@ DEFAULT_MODEL = "qwen2.5-coder:3b"
 #: Fixed seed for reproducible generation.
 DEFAULT_SEED = 42
 
-#: Generous enough for a cold model load on first call.
-DEFAULT_TIMEOUT = 180.0
+#: Generous enough for CPU execution or slow cold model load on first call.
+DEFAULT_TIMEOUT = 600.0
 
 #: Context window requested from the backend.
 #:
@@ -129,6 +129,11 @@ class OllamaClient(LLMClient):
             raise OllamaError(
                 f"Ollama returned {exc.response.status_code} for model '{self.model}'. "
                 f"Is it pulled? Try: ollama pull {self.model}"
+            ) from exc
+        except httpx.TimeoutException as exc:
+            raise OllamaError(
+                f"Ollama request timed out after {getattr(self._client.timeout, 'read', self._client.timeout)}s for model '{self.model}'. "
+                f"The model may be running slowly (e.g. on CPU) or processing a large prompt."
             ) from exc
         except httpx.HTTPError as exc:
             raise OllamaError(

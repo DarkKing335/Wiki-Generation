@@ -63,7 +63,8 @@ class RepositoryScanner:
 
     @staticmethod
     def _is_git_url(target: str) -> bool:
-        """Check if target string is a Git URL."""
+        """Check if target string is a Git URL or remote repository shorthand."""
+        target_str = target.strip()
         git_patterns = [
             r"^https?://.*\.git$",
             r"^git@.*:.*\.git$",
@@ -71,12 +72,27 @@ class RepositoryScanner:
             r"^https?://gitlab\.com/.*",
             r"^https?://bitbucket\.org/.*",
         ]
-        return any(re.match(pat, target.strip()) for pat in git_patterns)
+        if any(re.match(pat, target_str) for pat in git_patterns):
+            return True
+
+        # Check shorthand format like owner/repo or owner/repo.git if local path does not exist
+        if re.match(r"^[\w\.-]+/[\w\.-]+(?:\.git)?$", target_str):
+            if not Path(target_str).exists():
+                return True
+
+        return False
 
     def prepare_repository(self) -> Path:
         """Prepare repository path: clone if Git URL, or validate local path."""
         if self.is_remote:
+            url = self.target.strip()
+            if not url.startswith(("http://", "https://", "git@")):
+                url = f"https://github.com/{url}"
+                if not url.endswith(".git"):
+                    url += ".git"
+            self.target = url
             logger.info(f"Cloning remote repository: {self.target}")
+            print(f"  -> Dang clone git repository tu: {self.target}...")
             self._temp_dir = tempfile.mkdtemp(prefix="repoatlas_repo_")
             try:
                 subprocess.run(

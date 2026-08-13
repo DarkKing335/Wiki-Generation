@@ -30,6 +30,8 @@ class TestRepositoryScanner:
         assert RepositoryScanner._is_git_url("https://github.com/example/repo.git")
         assert RepositoryScanner._is_git_url("git@github.com:example/repo.git")
         assert RepositoryScanner._is_git_url("https://github.com/example/repo")
+        assert RepositoryScanner._is_git_url("jenkins-docs/simple-java-maven-app.git")
+        assert RepositoryScanner._is_git_url("jenkins-docs/simple-java-maven-app")
         assert not RepositoryScanner._is_git_url("./local/path")
         assert not RepositoryScanner._is_git_url("C:\\path\\to\\repo")
 

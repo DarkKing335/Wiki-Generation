@@ -40,12 +40,16 @@ class AIConfig:
 
 
 def run_analysis_pipeline(target_path: str, use_llm: bool):
-    target_dir = Path(target_path).resolve()
-    if not target_dir.exists():
-        print(f"ERROR: Khong tim thay duong dan '{target_dir}'")
-        sys.exit(1)
+    is_remote = RepositoryScanner._is_git_url(target_path)
+    if not is_remote:
+        target_dir = Path(target_path).resolve()
+        if not target_dir.exists():
+            print(f"ERROR: Khong tim thay duong dan '{target_dir}'")
+            sys.exit(1)
+        print(f"START: Bat dau phan tich du an tai: {target_dir}")
+    else:
+        print(f"START: Bat dau phan tich du an tu Git URL: {target_path}")
 
-    print(f"START: Bat dau phan tich du an tai: {target_dir}")
     print(f"AI MODE: {'ON' if use_llm else 'OFF'}")
     print("-" * 50)
 
@@ -55,7 +59,7 @@ def run_analysis_pipeline(target_path: str, use_llm: bool):
         # 1. EPIC 1: Core Indexing
         # ---------------------------------------------------------
         print("1. [Epic 1] Dang quet ma nguon va tao AST...")
-        scanner = RepositoryScanner(target=str(target_dir), output_dir="indexes")
+        scanner = RepositoryScanner(target=target_path, output_dir="indexes")
         tree, file_indexes = scanner.scan_and_parse()
 
         indexer = RepositoryIndexer(
