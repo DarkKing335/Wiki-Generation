@@ -1,59 +1,160 @@
 {% extends "base.html" %}
 
 {% block title %}Dashboard - RepoAtlas Wiki{% endblock %}
-{% block breadcrumb %}Dashboard{% endblock %}
+{% block breadcrumb %}Project Overview{% endblock %}
 
 {% block content %}
-    <h1>Project Overview: {{ repository.name }}</h1>
+<!-- Page Header -->
+<div class="mb-xl">
+    <h1 class="font-display-lg text-3xl md:text-4xl font-bold text-on-background mb-lg">
+        Project Overview: <span class="text-primary">{{ repository.name }}</span>
+    </h1>
+</div>
 
-    <div class="ai-insight">
-        Welcome to the RepoAtlas interactive wiki for <strong>{{ repository.name }}</strong>.
-        This documentation is generated from structural AST analysis and repository knowledge graphs.
+<!-- Welcome Banner -->
+<div class="bg-primary-container/10 border-l-4 border-primary p-lg rounded-r-lg mb-xxl shadow-sm flex items-start gap-md">
+    <span class="material-symbols-outlined text-primary text-2xl mt-xs">info</span>
+    <div>
+        <p class="font-body-lg text-lg text-on-surface mb-xs">
+            Welcome to the RepoAtlas interactive wiki for <strong>{{ repository.name }}</strong>.
+        </p>
+        <p class="font-body-md text-on-surface-variant">
+            This documentation is generated from structural AST analysis and repository knowledge graphs.
+        </p>
     </div>
+</div>
 
-    <h2>Documentation Sections</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
-        <div style="border: 1px solid #dfe2e5; border-radius: 6px; padding: 20px; background-color: #f8f9fa;">
-            <h3 style="margin-top: 0; border-bottom: none;"><a href="tech.html" style="color: #0366d6; text-decoration: none;">Technology Stack</a></h3>
-            <p style="font-size: 0.9em; color: #586069;">Languages, frameworks, and build tools powering the project.</p>
-        </div>
-        <div style="border: 1px solid #dfe2e5; border-radius: 6px; padding: 20px; background-color: #f8f9fa;">
-            <h3 style="margin-top: 0; border-bottom: none;"><a href="architecture.html" style="color: #0366d6; text-decoration: none;">Architecture</a></h3>
-            <p style="font-size: 0.9em; color: #586069;">System layers, modules, containers, and component organization.</p>
-        </div>
-        <div style="border: 1px solid #dfe2e5; border-radius: 6px; padding: 20px; background-color: #f8f9fa;">
-            <h3 style="margin-top: 0; border-bottom: none;"><a href="modules.html" style="color: #0366d6; text-decoration: none;">Modules</a></h3>
-            <p style="font-size: 0.9em; color: #586069;">Module boundaries, container relationships, and component summaries.</p>
-        </div>
-        <div style="border: 1px solid #dfe2e5; border-radius: 6px; padding: 20px; background-color: #f8f9fa;">
-            <h3 style="margin-top: 0; border-bottom: none;"><a href="tests.html" style="color: #0366d6; text-decoration: none;">Tests</a></h3>
-            <p style="font-size: 0.9em; color: #586069;">Test frameworks, test classes, methods, and execution instructions.</p>
+<!-- Documentation Sections Bento Grid -->
+<div class="mb-xxl">
+    <h2 class="font-headline-md text-2xl font-semibold mb-lg text-on-background border-b border-outline-variant/30 pb-sm">
+        Documentation Sections
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
+        <!-- Tech Stack Card -->
+        <a class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg hover:shadow-md hover:border-primary transition-all group flex flex-col h-full relative overflow-hidden" href="tech.html">
+            <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <h3 class="font-headline-sm text-xl font-semibold text-primary mb-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-primary">layers</span>
+                Technology Stack
+            </h3>
+            <p class="font-body-sm text-sm text-on-surface-variant flex-grow">
+                Languages, frameworks, and build tools powering the project.
+            </p>
+            <div class="mt-md flex justify-end">
+                <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward</span>
+            </div>
+        </a>
+
+        <!-- Architecture Card -->
+        <a class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg hover:shadow-md hover:border-primary transition-all group flex flex-col h-full relative overflow-hidden" href="architecture.html">
+            <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <h3 class="font-headline-sm text-xl font-semibold text-primary mb-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-primary">account_tree</span>
+                Architecture
+            </h3>
+            <p class="font-body-sm text-sm text-on-surface-variant flex-grow">
+                System layers, modules, containers, and component organization.
+            </p>
+            <div class="mt-md flex justify-end">
+                <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward</span>
+            </div>
+        </a>
+
+        <!-- Modules Card -->
+        <a class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg hover:shadow-md hover:border-primary transition-all group flex flex-col h-full relative overflow-hidden" href="modules.html">
+            <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <h3 class="font-headline-sm text-xl font-semibold text-primary mb-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-primary">view_module</span>
+                Modules
+            </h3>
+            <p class="font-body-sm text-sm text-on-surface-variant flex-grow">
+                Module boundaries, container relationships, and component summaries.
+            </p>
+            <div class="mt-md flex justify-end">
+                <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward</span>
+            </div>
+        </a>
+
+        <!-- Tests Card -->
+        <a class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg hover:shadow-md hover:border-primary transition-all group flex flex-col h-full relative overflow-hidden" href="tests.html">
+            <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <h3 class="font-headline-sm text-xl font-semibold text-primary mb-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-primary">terminal</span>
+                Tests
+            </h3>
+            <p class="font-body-sm text-sm text-on-surface-variant flex-grow">
+                Test frameworks, test classes, methods, and execution instructions.
+            </p>
+            <div class="mt-md flex justify-end">
+                <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Repository Metrics Table Card -->
+<div>
+    <h2 class="font-headline-md text-2xl font-semibold mb-lg text-on-background border-b border-outline-variant/30 pb-sm">
+        Repository Metrics
+    </h2>
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-surface-container-low border-b border-outline-variant/50">
+                        <th class="py-sm px-lg font-label-md text-sm text-on-surface font-semibold">Metric</th>
+                        <th class="py-sm px-lg font-label-md text-sm text-on-surface font-semibold">Value</th>
+                    </tr>
+                </thead>
+                <tbody class="font-body-sm text-sm text-on-surface-variant">
+                    <tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors">
+                        <td class="py-md px-lg flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-primary text-sm">folder</span>
+                            Repository Name
+                        </td>
+                        <td class="py-md px-lg font-code-md font-mono text-on-surface font-medium">{{ repository.name }}</td>
+                    </tr>
+                    <tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors">
+                        <td class="py-md px-lg flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-primary text-sm">code</span>
+                            Languages
+                        </td>
+                        <td class="py-md px-lg">
+                            <div class="flex gap-xs flex-wrap">
+                                {% if repository.languages %}
+                                    {% for lang in repository.languages %}
+                                        <span class="bg-surface-container px-sm py-xs rounded text-xs text-on-surface font-medium border border-outline-variant/30">{{ lang }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="text-outline">N/A</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors">
+                        <td class="py-md px-lg flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-primary text-sm">description</span>
+                            Total Source Files
+                        </td>
+                        <td class="py-md px-lg font-code-md font-mono text-on-surface font-semibold">{{ repository.files | length }}</td>
+                    </tr>
+                    <tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors">
+                        <td class="py-md px-lg flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-primary text-sm">data_object</span>
+                            Total AST Symbols
+                        </td>
+                        <td class="py-md px-lg font-code-md font-mono text-on-surface font-semibold">{{ repository.symbols | length }}</td>
+                    </tr>
+                    <tr class="hover:bg-surface-container-lowest transition-colors">
+                        <td class="py-md px-lg flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-primary text-sm">schema</span>
+                            Relationships
+                        </td>
+                        <td class="py-md px-lg font-code-md font-mono text-on-surface font-semibold">{{ repository.relationships | length }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <h2>Repository Metrics</h2>
-    <table class="fact-table">
-        <tbody>
-            <tr>
-                <th>Repository Name</th>
-                <td><strong>{{ repository.name }}</strong></td>
-            </tr>
-            <tr>
-                <th>Languages</th>
-                <td>{{ repository.languages | join(', ') if repository.languages else 'N/A' }}</td>
-            </tr>
-            <tr>
-                <th>Total Source Files</th>
-                <td>{{ repository.files | length }}</td>
-            </tr>
-            <tr>
-                <th>Total AST Symbols</th>
-                <td>{{ repository.symbols | length }}</td>
-            </tr>
-            <tr>
-                <th>Relationships</th>
-                <td>{{ repository.relationships | length }}</td>
-            </tr>
-        </tbody>
-    </table>
+</div>
 {% endblock %}

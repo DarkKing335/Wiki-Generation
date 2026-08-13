@@ -1,48 +1,89 @@
 {% extends "base.html" %}
 
-{% block title %}{{ section.title }} - RepoAtlas{% endblock %}
-{% block breadcrumb %}{{ section.title }}{% endblock %}
+{% block title %}{{ section.title or 'Tests' }} - RepoAtlas{% endblock %}
+{% block breadcrumb %}{{ section.title or 'Tests' }}{% endblock %}
 
 {% block content %}
-    <h1>{{ section.title }}</h1>
-    
-    <p style="font-size: 1.1em; line-height: 1.6;">
-        {{ section.body }}
-    </p>
+<!-- Page Header -->
+<div class="mb-xl border-b border-surface-variant pb-md">
+    <h1 class="font-display-lg text-3xl md:text-4xl font-bold text-text-primary mb-md">
+        {{ section.title or 'Tests' }}
+    </h1>
+    {% if section.body %}
+        <p class="font-body-lg text-base md:text-lg text-text-secondary max-w-3xl leading-relaxed">
+            {{ section.body }}
+        </p>
+    {% endif %}
+</div>
 
-    <h2>Test Suite Details</h2>
-    <table class="fact-table">
-        <tbody>
-            <tr>
-                <th>Test Frameworks</th>
-                <td>
-                    {% if section.facts.get('test_frameworks') %}
-                        {{ section.facts.get('test_frameworks') | join(', ') }}
-                    {% else %}
-                        <span style="color: #999;">None detected</span>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <th>Run Commands</th>
-                <td>
-                    {% if section.facts.get('run_commands') %}
-                        <code>{{ section.facts.get('run_commands') | join('</code>, <code>') }}</code>
-                    {% else %}
-                        <span style="color: #999;">N/A</span>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <th>Test Classes ({{ section.facts.get('test_types', []) | length }})</th>
-                <td>
-                    <ul style="margin: 0; padding-left: 20px;">
-                    {% for item in section.facts.get('test_types', []) %}
-                        <li><code>{{ item }}</code></li>
-                    {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<!-- Test Suite Details Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-surface-variant shadow-sm overflow-hidden mb-xl">
+    <div class="p-lg border-b border-surface-variant bg-surface-container-lowest">
+        <h2 class="font-headline-md text-xl font-semibold text-text-primary flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary">data_table</span>
+            Test Suite Details
+        </h2>
+    </div>
+    <div class="w-full overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[600px]">
+            <tbody class="font-body-md text-sm">
+                <tr class="border-b border-surface-variant hover:bg-surface-container-low/50 transition-colors">
+                    <th class="p-md font-label-md text-label-md text-text-primary w-1/3 bg-surface-container-lowest font-semibold">
+                        Test Frameworks
+                    </th>
+                    <td class="p-md text-text-secondary">
+                        {% if section.facts.get('test_frameworks') %}
+                            <div class="flex gap-xs flex-wrap">
+                                {% for fw in section.facts.get('test_frameworks') %}
+                                    <span class="px-3 py-1 bg-tertiary-fixed-dim text-on-tertiary-fixed rounded-full text-xs font-medium border border-tertiary-fixed shadow-xs">
+                                        {{ fw }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="text-outline">None detected</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr class="border-b border-surface-variant hover:bg-surface-container-low/50 transition-colors">
+                    <th class="p-md font-label-md text-label-md text-text-primary bg-surface-container-lowest font-semibold">
+                        Run Commands
+                    </th>
+                    <td class="p-md">
+                        {% if section.facts.get('run_commands') %}
+                            <div class="flex flex-wrap gap-sm">
+                                {% for cmd in section.facts.get('run_commands') %}
+                                    <code class="font-code-md font-mono text-xs bg-surface-container text-text-primary px-3 py-1 rounded-md border border-outline-variant/30 shadow-xs">
+                                        {{ cmd }}
+                                    </code>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="text-outline">N/A</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr class="hover:bg-surface-container-low/50 transition-colors">
+                    <th class="p-md font-label-md text-label-md text-text-primary align-top bg-surface-container-lowest font-semibold">
+                        Test Classes ({{ section.facts.get('test_types', []) | length }})
+                    </th>
+                    <td class="p-md">
+                        <ul class="space-y-2 font-code-md text-xs text-text-secondary">
+                            {% for item in section.facts.get('test_types', []) %}
+                                <li class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-outline text-[16px]">description</span>
+                                    <span class="bg-surface-container px-2 py-1 rounded border border-outline-variant/30 font-mono text-on-surface">
+                                        {{ item }}
+                                    </span>
+                                </li>
+                            {% else %}
+                                <li class="text-outline">No test classes detected</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}
