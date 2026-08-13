@@ -143,7 +143,7 @@ graph.json + AST summaries
 - [data-flow.md](./data-flow.md) — Steps 7–8 (Summarization → Wiki)
 - Overall end-to-end flow documentation
 
-**User Stories:** US-4.1, US-4.2, US-4.3, US-4.4, US-4.5, US-5.1, US-5.2
+**User Stories:** US-4.1, US-4.2, US-4.3, US-4.4, US-4.5, US-4.6, US-5.1, US-5.2
 
 ---
 
@@ -151,7 +151,7 @@ graph.json + AST summaries
 
 | Layer | Status |
 |-------|--------|
-| Repository Scanner | ✅ **Implemented** (`backend/src/core_indexing/scanner.py`) |
+| Git & Local Repository Scanner | ✅ **Implemented** (`backend/src/core_indexing/scanner.py`) |
 | Java AST Parser | ✅ **Implemented** (`backend/src/core_indexing/parsers/java_parser.py`) |
 | C# AST Parser | ✅ **Implemented** (`backend/src/core_indexing/parsers/csharp_parser.py`) |
 | Unified IR Models | ✅ **Implemented** (`backend/src/core_indexing/models.py`) |
@@ -163,7 +163,8 @@ graph.json + AST summaries
 | Hierarchical Chunker | ✅ **Implemented** (`backend/src/ai_analysis/chunker.py`) |
 | Local SLM Summarizer | ✅ **Implemented** (`backend/src/ai_analysis/summarizer.py`) |
 | No-LLM Fallback | ✅ **Implemented** (`backend/src/ai_analysis/llm/null.py`) |
-| Wiki HTML Generator | ✅ **Implemented** (`backend/src/wiki_generation/renderer.py`) |
+| Wiki M3 HTML Renderer | ✅ **Implemented** (`backend/src/wiki_generation/renderer.py`) |
+| Embedded Local AI Widget | ✅ **Implemented** (`backend/src/wiki_generation/templates/base.html`) |
 | Full CLI Orchestration | ✅ **Implemented** (`backend/src/cli.py`) |
 | Test Suite (289+ tests) | ✅ **Implemented** (`backend/tests/`) |
 

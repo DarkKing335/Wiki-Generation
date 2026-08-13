@@ -376,6 +376,13 @@ class ContentGenerator:
             facts[f"module:{module.name}"] = [
                 c.name for c in module.nodes_at(Tier.CONTAINER)
             ]
+            facts[f"module:{module.name}:summary"] = [text]
+            facts[f"module:{module.name}:components"] = [
+                comp.name for comp in module.nodes_at(Tier.COMPONENT)
+            ]
+            facts[f"module:{module.name}:classes"] = [
+                cl.name for cl in module.nodes_at(Tier.CLASS)
+            ]
 
         return ContentSection(
             key="modules",
@@ -384,6 +391,7 @@ class ContentGenerator:
             facts=facts,
             generated_by="llm" if self._llm_active else "structural",
         )
+
 
     # ------------------------------------------------------------------
     # Helpers

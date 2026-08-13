@@ -75,6 +75,10 @@ class RepositoryScanner:
         if any(re.match(pat, target_str) for pat in git_patterns):
             return True
 
+        # Local filesystem paths (relative or absolute) are never remote git URLs
+        if target_str.startswith((".", "/", "\\")) or Path(target_str).is_absolute():
+            return False
+
         # Check shorthand format like owner/repo or owner/repo.git if local path does not exist
         if re.match(r"^[\w\.-]+/[\w\.-]+(?:\.git)?$", target_str):
             if not Path(target_str).exists():

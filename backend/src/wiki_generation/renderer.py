@@ -28,7 +28,7 @@ def render_html_page(template_name: str, section_data: dict):
     template = env.get_template(template_name)
     
     # Truyền dữ liệu vào Jinja2
-    html_output = template.render(section=section_data)
+    html_output = template.render(section=section_data, rel_prefix="")
     
     # 2. Trực tiếp lưu file bằng hằng số WIKI_OUTPUT_DIR
     output_path = WIKI_OUTPUT_DIR / template_name
@@ -53,7 +53,7 @@ def render_symbol_pages(repository_index: dict):
             continue
             
         safe_filename = fqn.replace('<', '_').replace('>', '_') + '.html'
-        html_output = template.render(symbol=symbol)
+        html_output = template.render(symbol=symbol, rel_prefix="../")
         
         # 3. Sử dụng hằng số cho đường dẫn thư mục symbols
         output_path = WIKI_OUTPUT_DIR / "symbols" / safe_filename
@@ -76,7 +76,7 @@ def render_index_page(repository_index: dict, analysis_data: dict = None):
         'relationships': repository_index.get('relationships', []),
     }
     
-    html_output = template.render(repository=repo_data, analysis=analysis_data or {})
+    html_output = template.render(repository=repo_data, analysis=analysis_data or {}, rel_prefix="")
     output_path = WIKI_OUTPUT_DIR / "index.html"
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html_output)

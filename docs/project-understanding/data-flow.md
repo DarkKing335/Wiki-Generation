@@ -17,17 +17,17 @@ Step 4: Repository Indexing + Relationship Extraction
         ↓  RepositoryIndex (in-memory)
 Step 5: IR Export
         ↓  repository_index.json + structure_overview.json
-Step 6: Knowledge Graph Construction (Planned)
+Step 6: Knowledge Graph Construction
         ↓  graph.json
-Step 7: Hierarchical Chunking + LLM Summarization (Planned)
-        ↓  Component / Module / Architecture summaries
-Step 8: Wiki HTML Generation (Planned)
-        ↓  wiki/ static HTML site
+Step 7: Hierarchical Chunking + LLM Summarization
+        ↓  analysis/summaries.json
+Step 8: Wiki HTML & Search Index Generation
+        ↓  wiki/ static M3 HTML site + search_index.json
 ```
 
 **Implementation status:**
-- Steps 1–5: ✅ Implemented
-- Steps 6–8: 🔲 Planned
+- Steps 1–8: ✅ **Fully Implemented and Verified**
+
 
 ---
 

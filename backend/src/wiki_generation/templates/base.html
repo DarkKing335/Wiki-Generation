@@ -4,9 +4,14 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block title %}RepoAtlas Wiki{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts Preconnect & Load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -98,8 +103,22 @@
       }
     </script>
     <style>
+        html, body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+            margin: 0;
+            padding: 0;
+        }
+        code, pre, .font-mono {
+            font-family: 'JetBrains Mono', monospace !important;
+        }
         .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined' !important;
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1;
         }
     </style>
 </head>
@@ -108,7 +127,7 @@
     <aside class="hidden md:flex bg-surface-container-lowest text-on-surface w-[280px] h-screen fixed left-0 top-0 overflow-y-auto border-r border-outline-variant shadow-sm flex-col py-xl z-50">
         <div class="px-lg mb-xl">
             <h1 class="font-display-lg text-2xl font-bold text-primary mb-xs">
-                <a href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../index.html' : 'index.html'; return false;">RepoAtlas</a>
+                <a href="{{ rel_prefix or '' }}index.html">RepoAtlas</a>
             </h1>
             <p class="text-on-surface-variant text-sm">Documentation</p>
         </div>
@@ -123,23 +142,23 @@
         </div>
 
         <nav class="flex-1 flex flex-col gap-xs pr-md">
-            <a id="nav-overview" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../index.html' : 'index.html'; return false;">
+            <a id="nav-overview" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="{{ rel_prefix or '' }}index.html">
                 <span class="material-symbols-outlined text-primary">analytics</span>
                 Project Overview
             </a>
-            <a id="nav-tech" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../tech.html' : 'tech.html'; return false;">
+            <a id="nav-tech" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="{{ rel_prefix or '' }}tech.html">
                 <span class="material-symbols-outlined text-primary">layers</span>
                 Tech Stack
             </a>
-            <a id="nav-architecture" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../architecture.html' : 'architecture.html'; return false;">
+            <a id="nav-architecture" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="{{ rel_prefix or '' }}architecture.html">
                 <span class="material-symbols-outlined text-primary">account_tree</span>
                 Architecture
             </a>
-            <a id="nav-modules" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../modules.html' : 'modules.html'; return false;">
+            <a id="nav-modules" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="{{ rel_prefix or '' }}modules.html">
                 <span class="material-symbols-outlined text-primary">view_module</span>
                 Modules
             </a>
-            <a id="nav-tests" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../tests.html' : 'tests.html'; return false;">
+            <a id="nav-tests" class="nav-item flex items-center gap-md text-on-surface-variant px-lg py-sm hover:bg-surface-container transition-colors rounded-r-full scale-98 active:scale-95 duration-150" href="{{ rel_prefix or '' }}tests.html">
                 <span class="material-symbols-outlined text-primary">terminal</span>
                 Tests
             </a>
@@ -152,7 +171,7 @@
         <header class="bg-surface-container-lowest text-on-surface font-label-md flex justify-between items-center px-lg h-16 w-full sticky top-0 z-40 border-b border-outline-variant bg-opacity-90 backdrop-blur-sm">
             <div class="flex items-center gap-md">
                 <nav class="flex gap-sm items-center text-sm text-on-surface-variant">
-                    <a class="hover:text-primary transition-colors font-medium" href="#" onclick="window.location.href = window.location.pathname.includes('/symbols/') ? '../index.html' : 'index.html'; return false;">Home</a>
+                    <a class="hover:text-primary transition-colors font-medium" href="{{ rel_prefix or '' }}index.html">Home</a>
                     <span class="material-symbols-outlined text-[16px]">chevron_right</span>
                     <span class="text-primary font-semibold">{% block breadcrumb %}Page{% endblock %}</span>
                 </nav>
@@ -165,21 +184,66 @@
         </div>
     </main>
 
-    <!-- Search & Active Nav Script -->
+    <!-- Floating Local AI Chat Widget -->
+    <div id="aiChatWidget" class="fixed bottom-6 right-6 z-50">
+        <!-- Toggle Button -->
+        <button id="aiChatToggle" class="bg-primary text-on-primary px-4 py-3 rounded-full shadow-xl flex items-center gap-2 hover:scale-105 transition-all duration-200 font-semibold cursor-pointer border border-primary-container">
+            <span class="material-symbols-outlined text-xl">smart_toy</span>
+            <span>Ask Local AI</span>
+        </button>
+
+        <!-- Chat Panel -->
+        <div id="aiChatPanel" class="hidden fixed bottom-20 right-6 w-[380px] sm:w-[420px] h-[520px] bg-surface-container-lowest border border-outline-variant shadow-2xl rounded-2xl flex flex-col overflow-hidden transition-all duration-200">
+            <!-- Header -->
+            <div class="bg-surface-container-low px-md py-sm border-b border-outline-variant flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-2xl">psychology</span>
+                    <div>
+                        <h3 class="text-sm font-bold text-on-surface m-0 leading-tight">RepoAtlas AI</h3>
+                        <p class="text-[11px] text-outline m-0 flex items-center gap-1">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+                            Local Ollama (qwen2.5-coder:3b)
+                        </p>
+                    </div>
+                </div>
+                <button id="aiChatClose" class="text-outline hover:text-on-surface p-1 rounded-lg hover:bg-surface-container transition-colors">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="aiChatMessages" class="flex-1 p-md overflow-y-auto space-y-md text-xs">
+                <div class="bg-surface-container-low p-md rounded-xl text-on-surface max-w-[85%] border border-outline-variant/40">
+                    <p class="m-0 font-medium">👋 Xin chào! Tôi là AI Assistant của dự án. Bạn có thể hỏi tôi bất kỳ câu hỏi nào về vị trí hàm, class hay kiến trúc codebase này!</p>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-sm bg-surface-container-lowest border-t border-outline-variant flex items-center gap-sm">
+                <input type="text" id="aiChatInput" class="flex-1 bg-surface-container-low text-on-surface rounded-xl px-md py-sm text-xs border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Ví dụ: hàm main ở đâu?">
+                <button id="aiChatSend" class="bg-primary text-on-primary p-sm rounded-xl hover:bg-primary-container transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined text-lg">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search, Navigation & Local AI Chat Script -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Live Search
-            const searchInput = document.getElementById("searchInput");
-            const searchResults = document.getElementById("searchResults");
+            const isSymbolPage = window.location.pathname.includes('/symbols/');
+            const relPrefix = isSymbolPage ? '../' : '';
             let searchIndex = [];
 
-            const isSymbolPage = window.location.pathname.includes('/symbols/');
-            const indexPath = isSymbolPage ? '../search_index.json' : 'search_index.json';
-
-            fetch(indexPath)
+            // 1. Load Search Index
+            fetch(relPrefix + 'search_index.json')
                 .then(response => response.json())
                 .then(data => searchIndex = data)
                 .catch(err => console.error("Could not load search_index.json", err));
+
+            // 2. Live Search Logic
+            const searchInput = document.getElementById("searchInput");
+            const searchResults = document.getElementById("searchResults");
 
             if (searchInput && searchResults) {
                 searchInput.addEventListener("input", function() {
@@ -196,7 +260,7 @@
                     if (results.length > 0) {
                         results.forEach(item => {
                             const a = document.createElement("a");
-                            a.href = isSymbolPage ? (item.url.startsWith('symbols/') ? '../' + item.url : '../' + item.url) : item.url;
+                            a.href = relPrefix + item.url;
                             a.textContent = item.name;
                             a.className = "block px-4 py-2 text-xs text-on-surface hover:bg-surface-container border-b border-surface-variant last:border-0 transition-colors";
                             searchResults.appendChild(a);
@@ -218,7 +282,7 @@
                 });
             }
 
-            // Highlight Active Sidebar Item
+            // 3. Highlight Active Sidebar Item
             const path = window.location.pathname;
             let activeId = "nav-overview";
             if (path.includes("tech.html")) activeId = "nav-tech";
@@ -229,6 +293,137 @@
             const activeElem = document.getElementById(activeId);
             if (activeElem) {
                 activeElem.className = "nav-item flex items-center gap-md bg-secondary-container text-primary border-l-4 border-primary px-lg py-sm rounded-r-full font-semibold scale-98 active:scale-95 duration-150";
+            }
+
+            // 4. Local AI Chat Logic
+            const aiToggle = document.getElementById("aiChatToggle");
+            const aiPanel = document.getElementById("aiChatPanel");
+            const aiClose = document.getElementById("aiChatClose");
+            const aiInput = document.getElementById("aiChatInput");
+            const aiSend = document.getElementById("aiChatSend");
+            const aiMessages = document.getElementById("aiChatMessages");
+
+            if (aiToggle && aiPanel && aiClose) {
+                aiToggle.addEventListener("click", () => aiPanel.classList.toggle("hidden"));
+                aiClose.addEventListener("click", () => aiPanel.classList.add("hidden"));
+            }
+
+            async function sendMessage() {
+                const text = aiInput.value.trim();
+                if (!text) return;
+
+                // Add User Message
+                const userMsg = document.createElement("div");
+                userMsg.className = "bg-primary text-on-primary p-md rounded-xl max-w-[85%] ml-auto shadow-xs font-medium";
+                userMsg.textContent = text;
+                aiMessages.appendChild(userMsg);
+                aiInput.value = "";
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+
+                // Parse symbols from index
+                const symbolItems = searchIndex.filter(item => item.url.startsWith('symbols/'));
+                const lowerText = text.toLowerCase();
+
+                // Check for questions about class count / symbol count / listing
+                const isCountQuery = lowerText.includes("bao nhiêu class") || lowerText.includes("mấy class") || lowerText.includes("bao nhieu class") || lowerText.includes("danh sách class") || lowerText.includes("thống kê");
+                
+                // Search for matching symbols by keywords
+                const words = lowerText.split(/\s+/).filter(w => w.length > 2 && !["bao", "nhiêu", "trong", "đâu", "nào", "class", "hàm", "dự", "án"].includes(w));
+                const matchedSymbols = symbolItems.filter(item => {
+                    const itemName = item.name.toLowerCase();
+                    return words.some(word => itemName.includes(word));
+                }).slice(0, 10);
+
+                // Add AI Loading Message
+                const aiMsg = document.createElement("div");
+                aiMsg.className = "bg-surface-container-low p-md rounded-xl text-on-surface max-w-[85%] border border-outline-variant/40 leading-relaxed space-y-2";
+                aiMsg.innerHTML = `<span class="animate-pulse text-outline">Đang suy nghĩ...</span>`;
+                aiMessages.appendChild(aiMsg);
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+
+                // Build context for Ollama
+                let contextStr = "";
+                if (matchedSymbols.length > 0) {
+                    contextStr = "\nSymbols matched in index:\n" + matchedSymbols.map(s => `- ${s.name} (${relPrefix}${s.url})`).join("\n");
+                }
+
+                let ollamaSuccess = false;
+                try {
+                    const promptText = `Bạn là RepoAtlas AI Assistant cho codebase này. Dưới đây là thông tin index:${contextStr}\n\nTổng số symbols trong index: ${symbolItems.length}.\nCâu hỏi người dùng: ${text}\nTrả lời ngắn gọn, chính xác bằng tiếng Việt. Nêu rõ tên class/hàm và đường dẫn nếu có.`;
+                    
+                    const response = await fetch("http://localhost:11434/api/generate", {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain" },
+                        body: JSON.stringify({
+                            model: "qwen2.5-coder:3b",
+                            prompt: promptText,
+                            stream: true
+                        })
+                    });
+
+                    if (response.ok) {
+                        ollamaSuccess = true;
+                        const reader = response.body.getReader();
+                        const decoder = new TextDecoder();
+                        aiMsg.innerHTML = "";
+
+                        while (true) {
+                            const { done, value } = await reader.read();
+                            if (done) break;
+                            const chunk = decoder.decode(value, { stream: true });
+                            const lines = chunk.split("\n").filter(l => l.trim() !== "");
+                            for (const line of lines) {
+                                try {
+                                    const parsed = JSON.parse(line);
+                                    if (parsed.response) {
+                                        aiMsg.innerText += parsed.response;
+                                        aiMessages.scrollTop = aiMessages.scrollHeight;
+                                    }
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                } catch (err) {
+                    // Ollama fetch failed (CORS or server not bound)
+                }
+
+                // If Ollama didn't reply, provide intelligent fallback from local search index
+                if (!ollamaSuccess) {
+                    let htmlResult = "";
+                    if (isCountQuery) {
+                        htmlResult += `<p class="font-semibold text-primary m-0">📊 Thống kê Codebase từ Search Index:</p>`;
+                        htmlResult += `<p class="m-0 mt-1">Dự án có tổng cộng <strong>${symbolItems.length}</strong> symbols/classes được ghi nhận trong index:</p>`;
+                        htmlResult += `<ul class="list-disc pl-4 space-y-1 mt-2">`;
+                        symbolItems.forEach(s => {
+                            htmlResult += `<li><a href="${relPrefix}${s.url}" class="text-primary hover:underline font-mono">${s.name}</a></li>`;
+                        });
+                        htmlResult += `</ul>`;
+                    } else if (matchedSymbols.length > 0) {
+                        htmlResult += `<p class="font-semibold text-primary m-0">🔍 Kết quả tìm kiếm từ Search Index:</p>`;
+                        htmlResult += `<ul class="list-disc pl-4 space-y-1 mt-2">`;
+                        matchedSymbols.forEach(s => {
+                            htmlResult += `<li><a href="${relPrefix}${s.url}" class="text-primary hover:underline font-mono">${s.name}</a></li>`;
+                        });
+                        htmlResult += `</ul>`;
+                    } else {
+                        htmlResult += `<p class="m-0">Tóm tắt codebase: Có <strong>${symbolItems.length}</strong> symbols. Bạn có thể gõ tên class (ví dụ <em>App</em>, <em>getMessage</em>, <em>test</em>) để tìm vị trí.</p>`;
+                    }
+
+                    htmlResult += `<div class="mt-3 pt-2 border-t border-outline-variant/30 text-[11px] text-outline">
+                        <span class="font-medium text-on-surface-variant">💡 Để mở kết nối Ollama AI trực tiếp từ file HTML local:</span><br/>
+                        Mở PowerShell gõ: <code class="bg-surface-container px-1 py-0.5 rounded text-primary">$env:OLLAMA_ORIGINS="*" ; ollama serve</code>
+                    </div>`;
+
+                    aiMsg.innerHTML = htmlResult;
+                    aiMessages.scrollTop = aiMessages.scrollHeight;
+                }
+            }
+
+            if (aiSend && aiInput) {
+                aiSend.addEventListener("click", sendMessage);
+                aiInput.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") sendMessage();
+                });
             }
         });
     </script>

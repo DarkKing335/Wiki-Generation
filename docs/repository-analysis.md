@@ -57,9 +57,7 @@ The expected configuration includes:
 
 ## 5. Entry Point
 
-No executable entry point currently exists.
-
-The planned interface is a single CLI command:
+The system is executed via a single CLI command:
 
 ```bash
 repoatlas analyze <path|url>
@@ -69,43 +67,44 @@ repoatlas analyze <path|url>
 
 ## 6. Project Packages
 
-No software packages have been implemented.
+The Python backend subsystem is implemented in `backend/src/`:
 
-Current directories are reserved for future functionality.
+- `core_indexing` — Repository scanner, AST parsers (`tree-sitter-java`, `tree-sitter-c-sharp`), and IR exporter.
+- `knowledge_graph` — Graph builder and dependency query engine.
+- `ai_analysis` — 6-tier AST hierarchical chunker and Ollama LLM summarizer (`qwen2.5-coder:3b`).
+- `wiki_generation` — Static M3 HTML renderer, Ask Local AI widget, and search index generator.
+- `cli.py` — Orchestrator entrypoint.
 
 ---
 
 ## 7. Dependencies
 
-Target runtime implementation requires:
-
-- **Git** — For cloning remote repositories.
-- **Java Parser** — `JavaParser` / `tree-sitter-java` for AST node extraction.
-- **C# Parser** — `Microsoft.CodeAnalysis.CSharp` (Roslyn) / `tree-sitter-c-sharp` for AST extraction.
-- **HTML Templating Engine** — Handlebars / Jinja templating library for compiling static HTML pages.
-- **HTTP Client** — For communicating with local SLM inference servers (e.g. Ollama) or remote LLM APIs.
-- **CLI Framework** — Command-line argument parsing and terminal formatting library.
+- **Python 3.10+**
+- **tree-sitter** & **tree-sitter-java** & **tree-sitter-c-sharp** — AST node extraction.
+- **pydantic** — Unified IR and graph data modeling.
+- **pathspec** — `.gitignore` matching.
+- **httpx** — Async/sync HTTP client for local Ollama SLM API.
+- **jinja2** — HTML template engine for static site generation.
 
 ---
 
 ## 8. System Layers
 
-The intended architecture consists of a simple sequential workflow:
-
 ```text
-Repository Input
+Repository Input (Git URL or local path)
         │
         ▼
-Repository Analysis
+AST Parsing & Symbol Indexing (core_indexing)
         │
         ▼
-Knowledge Graph
+Knowledge Graph Builder (knowledge_graph)
         │
         ▼
-Documentation Generation
+Hierarchical Chunker & SLM Summarizer (ai_analysis)
+        │
+        ▼
+Static M3 HTML Wiki Generator (wiki_generation)
 ```
-
-No service layer or distributed architecture is planned.
 
 ---
 
@@ -113,11 +112,13 @@ No service layer or distributed architecture is planned.
 
 | Aspect               | Status                         |
 | -------------------- | ------------------------------ |
-| Repository Structure | Available                      |
-| Build System         | Not implemented                |
-| Framework            | Not determined                 |
-| Configuration        | Not implemented                |
-| Entry Point          | Planned                        |
-| Packages             | Placeholder only               |
-| Dependencies         | Minimal, future implementation |
-| System Layers        | Planned                        |
+| Repository Structure | Available (`backend/src/`)     |
+| Build System         | `pyproject.toml`               |
+| Framework            | Python 3.10+ CLI application   |
+| Configuration        | CLI flags & Environment vars   |
+| Entry Point          | `repoatlas analyze` (`cli.py`) |
+| Packages             | Fully Implemented              |
+| Dependencies         | `requirements.txt`             |
+| System Layers        | 5 Sequential Pipeline Layers   |
+| Test Suite           | 289+ Passing pytest tests      |
+

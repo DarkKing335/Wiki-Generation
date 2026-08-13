@@ -27,21 +27,21 @@ RepoAtlas is organized into **five sequential processing layers**, each feeding 
 ┌─────────────────────────────────────────────────────────────────┐
 │  LAYER 3: Knowledge Graph                                       │
 │  (Graph Builder → graph.json → Query Engine)                   │
-│  ✅ IMPLEMENTED (Member 2)                                      │
+│  ✅ IMPLEMENTED                                                 │
 └─────────────────────────────┬───────────────────────────────────┘
                               │  graph.json
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  LAYER 4: AI Analysis                                           │
-│  (Hierarchical Chunker → Local SLM / Remote LLM → Summaries)  │
-│  ✅ IMPLEMENTED (Member 3)                                      │
+│  (Hierarchical Chunker → Ollama SLM Summarizer)                 │
+│  ✅ IMPLEMENTED                                                 │
 └─────────────────────────────┬───────────────────────────────────┘
-                              │  Component / Module / Architecture summaries
+                              │  analysis/summaries.json
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│  LAYER 5: Wiki Generation + CLI Orchestration                   │
-│  (HTML Template Compiler → Hyperlink Resolver → wiki/)         │
-│  ✅ IMPLEMENTED (Member 4)                                      │
+│  LAYER 5: Wiki Generation & CLI Orchestration                   │
+│  (Jinja2 Renderer → Ask Local AI Widget → wiki/)                │
+│  ✅ IMPLEMENTED                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -65,23 +65,23 @@ graph TD
 
     H --> I["RepositoryIndex\n(Unified IR)"]
 
-    I --> J["IRGenerator\nir_generator.py"]
-    J --> K["repository_index.json\n(Full IR for Member 2)"]
-    J --> L["structure_overview.json\n(6-tier skeleton for Member 3)"]
+    H --> J["IRGenerator\nir_generator.py"]
+    J --> K["repository_index.json\n(Full IR for Graph & Wiki)"]
+    J --> L["structure_overview.json\n(6-tier skeleton for Chunker)"]
 
-    K --> M["Knowledge Graph Builder\n🔲 PLANNED - Member 2"]
+    K --> M["Knowledge Graph Builder\n✅ IMPLEMENTED"]
     M --> N["graph.json"]
 
-    L --> O["Hierarchical Chunker\n🔲 PLANNED - Member 3"]
+    L --> O["Hierarchical Chunker\n✅ IMPLEMENTED"]
     N --> O
-    O --> P["Local SLM / Remote LLM\n🔲 PLANNED - Member 3"]
-    P --> Q["Component + Module + Architecture\nSummaries"]
+    O --> P["Local SLM (qwen2.5-coder:3b) / NullLLM\n✅ IMPLEMENTED"]
+    P --> Q["summaries.json\n(Component/Module/System)"]
 
-    N --> R["HTML Template Compiler\n🔲 PLANNED - Member 4"]
+    N --> R["Jinja2 Wiki Renderer\n✅ IMPLEMENTED"]
     K --> R
     Q --> R
-    R --> S["Hyperlink Resolver"]
-    S --> T["wiki/ Static HTML Site"]
+    R --> S["Hyperlink Resolver & Search Indexer"]
+    S --> T["wiki/ Static M3 HTML Site"]
 
     style A fill:#4a90d9,color:#fff
     style B fill:#27ae60,color:#fff
@@ -89,17 +89,16 @@ graph TD
     style D fill:#27ae60,color:#fff
     style H fill:#27ae60,color:#fff
     style J fill:#27ae60,color:#fff
-    style M fill:#e67e22,color:#fff
-    style O fill:#e67e22,color:#fff
-    style P fill:#e67e22,color:#fff
-    style R fill:#e67e22,color:#fff
-    style T fill:#8e44ad,color:#fff
+    style M fill:#27ae60,color:#fff
+    style O fill:#27ae60,color:#fff
+    style P fill:#27ae60,color:#fff
+    style R fill:#27ae60,color:#fff
+    style T fill:#27ae60,color:#fff
 ```
 
 **Legend:**
-- 🟢 Green = Implemented (`backend/src/core_indexing/`)
-- 🟠 Orange = Planned
-- 🟣 Purple = Final output
+- 🟢 Green = Fully Implemented (`backend/src/`)
+
 
 ---
 

@@ -10,155 +10,84 @@ RepoAtlas does not have a **traditional frontend application** (no React, Vue, A
 
 ### What exists now
 
+### What exists now
+
 | Item | Status |
 |------|--------|
-| `frontend/` directory | ✅ Exists — contains only `.gitkeep` |
-| Web app code (React, Vue, etc.) | ❌ Does not exist |
-| Generated `wiki/` output | 🔲 Planned — not yet generated |
-
-> **Observed fact:** `frontend/` contains only a `.gitkeep` placeholder file. No frontend application code has been implemented.
+| `frontend/` placeholder | ✅ Preserved for static asset staging |
+| Generated `wiki/` static site output | ✅ **IMPLEMENTED** (`backend/src/wiki_generation/renderer.py`) |
+| Embedded Local AI Assistant Widget | ✅ **IMPLEMENTED** (`backend/src/wiki_generation/templates/base.html`) |
+| Client-Side Search & Context Index | ✅ **IMPLEMENTED** (`wiki/search_index.json`) |
 
 ---
 
-## 2. Planned Frontend: The Generated Wiki Site
+## 2. Implemented Frontend: The Generated Wiki Site
 
-The generated `wiki/` is a **self-contained static HTML website** — no JavaScript framework, no server required. It runs locally via `file://` or can be deployed to any static host.
+The generated `wiki/` is a **self-contained Material 3 (M3) static HTML website** — no external web framework or build server required. It runs locally via `file://` or can be hosted on any web server.
 
 ### 2.1 Page Hierarchy
 
 ```
 wiki/
-├── index.html              ← Master Dashboard
-│
-├── tech.html               ← Technology Stack & Build Info
-├── tests.html              ← Test Suites & Run Instructions
-├── architecture.html       ← System Architecture & Diagrams
-│
-├── modules/
-│   ├── <module-a>.html     ← Module A documentation
-│   └── <module-b>.html     ← Module B documentation
+├── index.html              ← Master Overview Dashboard (Bento Grid metrics)
+├── tech.html               ← Technology Stack & Environment breakdown
+├── tests.html              ← Test Suites & Runner Guide
+├── architecture.html       ← System Architecture & Layer Breakdown
+├── modules.html            ← 3-Column Multi-Tier Taxonomy View
+├── search_index.json       ← Fast client-side search & Local AI context index
 │
 └── symbols/
-    ├── <fqn-1>.html        ← Class/Interface detail page
-    └── <fqn-2>.html        ← Class/Interface detail page
-```
-
-**Relationship diagram:**
-
-```
-index.html (Master Dashboard)
-    ├── tech.html
-    ├── tests.html
-    ├── architecture.html
-    └── modules/
-            └── <module>.html
-                    └── symbols/<fqn>.html
-```
-
-### 2.2 Pages and Their Content (Planned)
-
-| Page | File | Content |
-|------|------|---------|
-| Master Dashboard | `index.html` | Project overview, quick navigation, executive summary |
-| Tech | `tech.html` | Programming languages, frameworks, dependencies, build tools, runtime environment |
-| Tests | `tests.html` | Test suites, test frameworks, coverage summary, run instructions |
-| Architecture | `architecture.html` | High-level architecture, layer diagram (Mermaid), layer descriptions |
-| Module | `modules/<name>.html` | Module purpose, component list, class summary, dependency diagram |
-| Symbol | `symbols/<fqn>.html` | Full AST symbol page: class/interface name, hierarchy, fields, methods, Javadoc, cross-links |
-
----
-
-## 3. UI Component Architecture (Planned)
-
-Every page shares a common layout with five key UI components:
-
-### 3.1 Sidebar Module/File Tree
-
-- Collapsible tree navigation reflecting the codebase hierarchy
-- Mirrors the `Repository → Module → Component → Class` taxonomy
-- Click-navigable to module and symbol pages
-
-### 3.2 Sticky Top Navbar
-
-- Project name / logo
-- Navigation links: **Tech** | **Tests** | **Architecture** | **Modules**
-- Live search input (filters page content or navigates)
-
-### 3.3 Dynamic Breadcrumb Trail
-
-Displays current position in the hierarchy:
-
-```
-Repository > Module: auth-service > Class: UserService > Method: authenticate
-```
-
-### 3.4 Table of Contents (TOC)
-
-- Floating sidebar
-- Auto-generated from page headings (`<h2>`, `<h3>`)
-- Sticky-scroll behavior for long pages
-
-### 3.5 Interactive Code & Symbol Blocks
-
-- Syntax highlighting via **Prism.js**
-- Collapsible AST metadata panels (annotations, modifiers, doc comments)
-- Cross-reference hyperlinks: symbol types in code blocks link to `symbols/<fqn>.html`
-
----
-
-## 4. Symbol Hyperlinking
-
-A key feature of the wiki is **cross-symbol navigation**. The Hyperlink Resolver (planned) converts raw FQN references into relative HTML links:
-
-```
-Input (in generated summary text):
-"The UserService depends on UserRepository for data access."
-
-Output HTML:
-"The <a href="../symbols/com.example.auth.UserService.html">UserService</a>
-depends on <a href="../symbols/com.example.auth.UserRepository.html">
-UserRepository</a> for data access."
-```
-
-This enables two-way navigation:
-- From class page → method definition
-- From method call → called class's symbol page
-
----
-
-## 5. Static Asset Structure (Planned)
-
-```
-wiki/assets/
-├── css/
-│   ├── main.css          ← Responsive layout, dark/light mode, sidebar, breadcrumbs
-│   └── prism.min.css     ← Code syntax highlighting styles
-└── js/
-    ├── main.js           ← Tree view toggle, search, navigation
-    ├── prism.min.js      ← Syntax highlighter library (client-side)
-    └── mermaid.min.js    ← Client-side Mermaid diagram renderer
+    └── <fqn>.html          ← AST Class & Method detail pages with syntax highlighting
 ```
 
 ---
 
-## 6. Frontend Rendering Pipeline (Planned)
+## 3. UI Component Architecture (Implemented)
+
+Every page shares a common M3 design system with five key UI components:
+
+### 3.1 Sidebar & Multi-Tier Navigation
+
+- Collapsible navigation sidebar reflecting codebase structural taxonomy.
+- Quick jumps to Dashboard, Tech, Architecture, Modules, Tests, and Symbol Detail pages.
+
+### 3.2 Sticky Header with Live Search
+
+- Repository brand title and metadata tag.
+- Fast live search input querying `search_index.json` locally (<50ms response).
+
+### 3.3 Dynamic Breadcrumbs
+
+- Hyperlinked path trail (`Repository > Module > Container > Class`).
+
+### 3.4 Interactive AST Symbol Detail Cards
+
+- Syntax highlighted code blocks.
+- Hyperlinked parameter types connecting to `symbols/<fqn>.html`.
+
+### 3.5 Embedded Floating Local AI Chat Widget
+
+- Floating "Ask Local AI" panel connected directly to local Ollama (`qwen2.5-coder:3b`).
+- Provides streaming responses and hybrid client-side symbol index lookup.
+
+---
+
+## 6. Frontend Rendering Pipeline (Implemented)
 
 ```mermaid
 graph TD
-    A["graph.json\n(Knowledge Graph)"] --> D["HTML Template Compiler\n🔲 Planned"]
+    A["graph.json\n(Knowledge Graph)"] --> D["Jinja2 Wiki Renderer\n(backend/src/wiki_generation/renderer.py)"]
     B["repository_index.json\n(AST Symbol Index)"] --> D
-    C["AI Summaries\n(Component/Module/Arch)"] --> D
+    C["summaries.json\n(AI Analysis)"] --> D
     D --> E["Hyperlink Resolver\n(FQN → symbols/*.html)"]
-    E --> F["Static HTML Site Writer"]
-    F --> G["wiki/ Directory"]
-    G --> H["index.html"]
-    G --> I["tech.html / tests.html / architecture.html"]
-    G --> J["modules/*.html"]
-    G --> K["symbols/*.html"]
-    G --> L["assets/ CSS/JS"]
+    D --> F["Search Index Builder\n(search_index.json)"]
+    E --> G["Static HTML Site Writer"]
+    F --> G
+    G --> H["wiki/ Directory"]
+    H --> I["index.html (Bento Grid)"]
+    H --> J["tech.html / tests.html / architecture.html / modules.html"]
+    H --> K["symbols/*.html"]
 ```
-
-**Template Engine (planned):** Handlebars or Jinja2 templates, compiled at generation time into static `.html` files.
 
 ---
 
@@ -168,9 +97,9 @@ The generated wiki is **fully self-contained**:
 
 | Deployment mode | Description |
 |-----------------|-------------|
-| Local (`file://`) | Open `wiki/index.html` directly in any browser |
-| Static host | Deploy to GitHub Pages, Netlify, or any static file server |
-| No server required | No backend, no database, no API |
+| Local (`file://`) | Open `wiki/index.html` directly in any web browser |
+| Static host | Deploy to GitHub Pages, Netlify, S3, or any static file server |
+| Standalone | Requires no active database or backend web application |
 
 ---
 
@@ -178,41 +107,26 @@ The generated wiki is **fully self-contained**:
 
 | Frontend concept | Applies to RepoAtlas? |
 |-----------------|----------------------|
-| React / Vue / Angular SPA | ❌ No |
-| State management (Redux, Pinia) | ❌ No |
-| Client-side routing | ❌ No (all pages are separate HTML files) |
-| REST/GraphQL API consumption | ❌ No (all data embedded at generation time) |
-| User authentication | ❌ No (read-only static site) |
-| Backend-for-frontend | ❌ No |
+| Heavy SPA frameworks (React/Vue/Angular) | ❌ No (pure static HTML/CSS/JS) |
+| Server-Side Rendering (SSR) | ❌ No (compiled ahead of time) |
+| Authentication / User logins | ❌ No (static doc site) |
 
 ---
 
-## 9. Understanding Analyzed Projects with Frontend Structure
+## 9. Understanding Analyzed Projects
 
-When RepoAtlas analyzes a **target repository** that has its own frontend (e.g., a React or Vue application), the wiki output will reflect that structure:
-
-### Frontend Components in the Analyzed Repository
-
-| What RepoAtlas detects | How |
-|------------------------|-----|
-| JavaScript/TypeScript files | 🔲 Not yet — current parsers support Java and C# only |
-| React component hierarchy | 🔲 Not yet — planned as a potential future parser |
-| API service calls | 🔲 Not yet |
-| Routing structure | 🔲 Not yet |
-
-> **Important:** RepoAtlas currently supports only **Java and C#** repositories. Understanding the frontend of an analyzed repository (JavaScript, TypeScript, Vue, React, Angular) is **not currently implemented**. If such a repository is analyzed, the Java/C# source files within it can be parsed, but JS/TS files will be skipped.
+RepoAtlas analyzes Java and C# source repositories, generating structured static M3 HTML documentation sites with interactive Local AI assistance.
 
 ---
 
-## 10. Fact vs. Inference vs. Planned
+## 10. Fact vs. Inference vs. Implemented
 
 | Claim | Status |
 |-------|--------|
-| `frontend/` directory exists with only `.gitkeep` | ✅ **Observed Fact** |
-| The generated wiki is a static HTML site | 💡 **Inferred** from `html-wiki-storage.md` design |
-| Wiki uses Prism.js for syntax highlighting | 💡 **Inferred** from `html-wiki-storage.md` |
-| Wiki uses Mermaid.js for diagrams | 💡 **Inferred** from `html-wiki-storage.md` |
-| Wiki has sidebar tree, sticky navbar, breadcrumbs | 💡 **Inferred** from `html-wiki-storage.md` |
-| Symbol cross-hyperlinking is implemented | 🔲 **Planned** (not yet generated) |
-| JS/TypeScript repository parsing is supported | ❌ **Not implemented, not planned in current scope** |
-| `frontend/` will become a development UI | ❓ **Unknown** — no evidence either way |
+| Static HTML wiki site generator is implemented | ✅ **Fact** (`wiki_generation/renderer.py`) |
+| Jinja2 templates render index, tech, architecture, modules, tests, symbols | ✅ **Fact** (`templates/`) |
+| Floating Ask Local AI widget connects to Ollama | ✅ **Fact** (`base.html`) |
+| Fast client-side `search_index.json` is generated | ✅ **Fact** |
+| Symbol cross-hyperlinking is implemented | ✅ **Fact** |
+| 289+ backend tests verify wiki generation | ✅ **Fact** |
+

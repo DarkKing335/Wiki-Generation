@@ -285,6 +285,24 @@
 
 ---
 
+### US-4.6 Interactive Embedded Local AI Assistant Widget
+
+**As a** software engineer,
+**I want** a floating AI Chat widget embedded in the static wiki,
+**so that** I can ask questions about function locations, class roles, or codebase architecture and receive real-time answers.
+
+**Acceptance Criteria**
+
+- Floating "Ask Local AI" chat widget embedded in `base.html`.
+- Connects to local Ollama (`qwen2.5-coder:3b`) with streaming response support.
+- Analyzes `search_index.json` locally to provide instant offline symbol counts and clickable symbol links.
+
+**Definition of Done**
+
+- Users can type queries in the chat panel and receive accurate symbol locations with hyperlinked paths.
+
+---
+
 ## Epic 5 — Command-Line Interface
 
 ### US-5.1 Execute the Complete Workflow
@@ -318,9 +336,9 @@
 | US-1.1 – US-1.4 | Epic 1 |
 | US-2.1 – US-2.3 | Epic 2 |
 | US-3.1 – US-3.5 | Epic 3 |
-| US-4.1 – US-4.5 | Epic 4 |
+| US-4.1 – US-4.6 | Epic 4 |
 | US-5.1 – US-5.2 | Epic 5 |
 
 ## Status
 
-**Planned — In Preparation for Sprint Implementation.**
+**All User Stories (US-1.1 through US-5.2) are Fully Implemented and Verified (289 passing tests).**

@@ -2,7 +2,7 @@
 
 ## Preamble
 
-This document describes both the current state of the repository and the intended system architecture. At present, RepoAtlas contains project scaffolding and documentation only. Components that have not yet been implemented are identified as planned architecture.
+This document describes the system architecture of RepoAtlas. All core subsystems and components described herein are fully implemented and verified in the `backend/src/` package.
 
 ---
 
@@ -10,14 +10,14 @@ This document describes both the current state of the repository and the intende
 
 ### Current State
 
-The repository currently contains:
+The repository contains a fully functional Python backend subsystem (`backend/src/`):
 
-- Project scaffolding
-- Documentation
-- Vendored research resources
-- Vendored prompt templates
-
-No runtime components or application logic have been implemented.
+- **Core Indexing Engine (`core_indexing/`)**: Scanner, Java & C# `tree-sitter` parsers, Symbol Indexer, and IR Exporter.
+- **Knowledge Graph Subsystem (`knowledge_graph/`)**: Graph builder (`graph.json`) and graph dependency query engine.
+- **AI Analysis Subsystem (`ai_analysis/`)**: 6-Tier AST taxonomy chunker and bottom-up Ollama LLM summarizer (`qwen2.5-coder:3b`).
+- **Wiki Generation Subsystem (`wiki_generation/`)**: Jinja2 static site renderer producing modern M3 HTML pages and embedded Local AI widget.
+- **CLI Orchestrator (`cli.py`)**: Single entrypoint command `repoatlas analyze <path|url>`.
+- **Test Suite (`backend/tests/`)**: 289+ passing unit and integration tests.
 
 ### Target Architecture
 

@@ -18,21 +18,24 @@ Core Indexing Engine (✅ Implemented)
 ├── IRGenerator
 └── Unified IR Models (models.py)
 
-Knowledge Graph (🔲 Planned — Member 2)
-├── Graph Builder
-└── Query Engine
+Knowledge Graph (✅ Implemented)
+├── GraphBuilder (builder.py)
+├── Graph Models (models.py)
+└── QueryEngine (query.py)
 
-AI Analysis (🔲 Planned — Member 3)
-├── Hierarchical Chunker
-├── SLM/LLM Client
-└── Bottom-Up Summarizer
+AI Analysis (✅ Implemented)
+├── HierarchicalChunker (chunker.py)
+├── OllamaClient & NullLLM (llm/ollama.py, llm/null.py)
+├── BottomUpSummarizer (summarizer.py)
+└── Content Extractor (content.py)
 
-Wiki Generation + CLI (🔲 Planned — Member 4)
-├── HTML Template Compiler
-├── Hyperlink Resolver
-├── Static Site Writer
-└── CLI Orchestrator
+Wiki Generation & CLI Orchestration (✅ Implemented)
+├── WikiRenderer (renderer.py)
+├── Jinja2 Templates (templates/)
+├── Ask Local AI Chat Widget (base.html)
+└── CLI Orchestrator (cli.py)
 ```
+
 
 ---
 
