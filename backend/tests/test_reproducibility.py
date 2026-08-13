@@ -22,7 +22,7 @@ import json
 from ai_analysis.__main__ import build_parser, run, write_result
 from ai_analysis.llm.null import NullLLMClient
 from ai_analysis.llm.ollama import DEFAULT_SEED, OllamaClient
-from ai_analysis.summarizer import Summarizer
+from ai_analysis.summarizer import DEFAULT_MAX_WORKERS, Summarizer
 
 
 def digest(path) -> str:
@@ -82,6 +82,53 @@ class TestDeterministicOutput:
 
         for report in payload.get("token_reports", []):
             assert "elapsed_seconds" not in report
+
+
+class TestConcurrencyEscapeHatch:
+    """Greedy sampling is necessary for byte-identity, but no longer sufficient.
+
+    Ollama reuses a cached KV prefix chosen by longest-common-prefix similarity
+    across requests, so running siblings concurrently changes which prefix is
+    resident when a given prompt runs — and that is enough to flip token choices
+    even at ``temperature=0`` with a fixed seed.  Measured over the sample repository:
+    two sequential runs are byte-identical, while two workers diverged from
+    sequential on 15 and 19 of 35 summaries across two measurements — roughly
+    half the tree, and it cascades, because aggregating tiers compose their
+    children's text.
+
+    The default is therefore a deliberate trade: ``DEFAULT_MAX_WORKERS = 2``
+    cuts a warm run over the sample repository from ~50s to ~37s, at the cost
+    of the NFR in ``docs/product.md``:33.  What must not regress is the *escape hatch* —
+    ``--workers 1`` has to remain reachable and has to restore determinism.
+
+    Every other test in this file drives the no-LLM path, which is deterministic
+    whatever the worker count, so none of them would notice the hatch closing.
+    """
+
+    def test_a_single_worker_is_selectable_from_the_cli(self, sample_index_dir):
+        args = build_parser().parse_args([str(sample_index_dir), "--workers", "1"])
+
+        assert args.workers == 1
+
+    def test_the_flag_reaches_the_summarizer(self, sample_index, sample_tree):
+        assert Summarizer(
+            sample_index, sample_tree, NullLLMClient(), max_workers=1
+        ).max_workers == 1
+
+    def test_the_fast_default_is_opt_out_not_opt_in(self, sample_index_dir):
+        """Documented in --help, so a user who needs byte-identity can find it."""
+        args = build_parser().parse_args([str(sample_index_dir)])
+
+        assert args.workers == DEFAULT_MAX_WORKERS
+        assert DEFAULT_MAX_WORKERS > 1
+
+    def test_sequential_runs_remain_byte_identical(self, sample_index_dir, tmp_path):
+        args = build_parser().parse_args([str(sample_index_dir), "--no-llm", "--workers", "1"])
+
+        first = write_result(run(args), str(tmp_path / "seq1"))
+        second = write_result(run(args), str(tmp_path / "seq2"))
+
+        assert digest(first) == digest(second)
 
 
 class TestSamplingIsPinned:

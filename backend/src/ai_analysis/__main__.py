@@ -24,7 +24,7 @@ from ai_analysis.llm.embeddings import EmbeddingClient
 from ai_analysis.llm.null import NullLLMClient
 from ai_analysis.llm.ollama import DEFAULT_ENDPOINT, DEFAULT_MODEL, OllamaClient
 from ai_analysis.models import AnalysisResult, Tier
-from ai_analysis.summarizer import Summarizer
+from ai_analysis.summarizer import DEFAULT_MAX_WORKERS, Summarizer
 from ai_analysis.taxonomy.provider import resolve_provider
 from ai_analysis.tokens import DEFAULT_BUDGET
 from ai_analysis.tools.definitions import build_registry
@@ -81,6 +81,16 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-tools",
         action="store_true",
         help="Disable lazy source loading via tool calls",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=DEFAULT_MAX_WORKERS,
+        help=(
+            "Sibling nodes summarized concurrently within a tier "
+            f"(default: {DEFAULT_MAX_WORKERS}). Use 1 for reproducible output — "
+            "batched inference makes concurrent runs vary run-to-run"
+        ),
     )
     parser.add_argument(
         "-v", "--verbose",
@@ -145,6 +155,7 @@ def run(args: argparse.Namespace) -> AnalysisResult:
         chunker=chunker,
         dispatcher=dispatcher,
         budget=args.budget,
+        max_workers=getattr(args, "workers", DEFAULT_MAX_WORKERS),
     )
 
     print(f"Summarizing {len(tree.bottom_up())} nodes bottom-up...")

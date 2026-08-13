@@ -13,7 +13,9 @@ token counts.
 
 from __future__ import annotations
 
+import hashlib
 import re
+import threading
 from typing import Any, Dict, List, Optional
 
 import pytest
@@ -83,6 +85,42 @@ class RecordingLLMClient(LLMClient):
 
     def prompts_at(self, tier_name: str) -> List[str]:
         return [p for p in self.prompts if self.tier_of(p) == tier_name]
+
+
+class DeterministicLLMClient(LLMClient):
+    """A recorder whose answers depend on the prompt, not on call order.
+
+    ``RecordingLLMClient`` numbers its replies by how many calls it has seen,
+    which is exactly the thing concurrency perturbs — it would report a
+    difference between worker counts that the summarizer did not cause.  This
+    variant hashes the prompt instead, so identical work yields identical text
+    however the calls interleave, and guards ``prompts`` with a lock because
+    ``list.append`` is only atomic by CPython accident.
+    """
+
+    name = "deterministic"
+    enabled = True
+
+    def __init__(self):
+        self.prompts: List[str] = []
+        self._lock = threading.Lock()
+
+    def generate(
+        self,
+        prompt: str,
+        *,
+        system: Optional[str] = None,
+        tools: Optional[List[Dict[str, Any]]] = None,
+        max_tokens: Optional[int] = None,
+    ) -> LLMResponse:
+        with self._lock:
+            self.prompts.append(prompt)
+
+        digest = hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:8]
+        return LLMResponse(
+            text=f"{MOCK_SUMMARY} {digest}",
+            prompt_token_count=len(prompt) // 4,
+        )
 
 
 @pytest.fixture
@@ -323,6 +361,78 @@ class TestLazySourceLoading:
         summarizer.run()
 
         assert len([p for p in recorder.prompts if "SOURCE EXCERPT" in p]) == 1
+
+
+class TestConcurrentTiers:
+    """Siblings may run in parallel; the pipeline around them must not notice.
+
+    ``bottom_up`` orders strictly by descending tier, so a tier's nodes have all
+    of their children already summarized and are mutually independent.  What
+    these tests pin down is that widening ``max_workers`` changes *only* how
+    fast the walk runs — not what it produces, and not the order it records.
+
+    A real model is still free to answer differently when Ollama batches
+    concurrent requests; that is the documented trade-off asserted from the
+    other side in ``test_reproducibility.py``.  Here the client is deterministic
+    per prompt so any divergence is the summarizer's own doing.
+    """
+
+    def summarize(self, sample_index, sample_tree, workers: int):
+        return Summarizer(
+            sample_index, sample_tree, DeterministicLLMClient(), max_workers=workers
+        ).run()
+
+    def test_concurrency_does_not_change_the_summaries(self, sample_index, sample_tree):
+        sequential = self.summarize(sample_index, sample_tree, workers=1)
+        concurrent = self.summarize(sample_index, sample_tree, workers=4)
+
+        assert [(n.node_id, n.summary) for n in sequential] == [
+            (n.node_id, n.summary) for n in concurrent
+        ]
+
+    def test_results_follow_the_walk_not_the_completion_order(
+        self, sample_index, sample_tree
+    ):
+        """Threads finish out of order; ``nodes`` must still read bottom-up."""
+        nodes = self.summarize(sample_index, sample_tree, workers=4)
+
+        assert [n.node_id for n in nodes] == [n.node_id for n in sample_tree.bottom_up()]
+
+    def test_token_reports_stay_aligned_with_nodes(self, sample_index, sample_tree):
+        """US-3.5's evidence is per-node, so a shuffled report list would mislabel it."""
+        summarizer = Summarizer(
+            sample_index, sample_tree, DeterministicLLMClient(), max_workers=4
+        )
+        nodes = summarizer.run()
+
+        assert [r.node_id for r in summarizer.token_reports] == [n.node_id for n in nodes]
+
+    def test_every_node_is_summarized_exactly_once(self, sample_index, sample_tree):
+        """A race in the shared ``summaries`` dict would drop or duplicate nodes."""
+        nodes = self.summarize(sample_index, sample_tree, workers=4)
+
+        node_ids = [n.node_id for n in nodes]
+        assert len(node_ids) == len(set(node_ids)) == len(sample_tree.bottom_up())
+
+    def test_a_parent_still_sees_its_children_under_concurrency(
+        self, sample_index, sample_tree
+    ):
+        """The bottom-up contract, re-asserted where a race could break it."""
+        client = DeterministicLLMClient()
+        Summarizer(sample_index, sample_tree, client, max_workers=4).run()
+
+        repository = [p for p in client.prompts if _LEVEL.search(p) and "Level 1" in p]
+        assert repository, "no repository-tier prompt was issued"
+        assert MOCK_SUMMARY in repository[0]
+
+    def test_worker_count_is_clamped_to_at_least_one(self, sample_index, sample_tree):
+        """``--workers 0`` should degrade to sequential, not raise from the pool."""
+        summarizer = Summarizer(
+            sample_index, sample_tree, DeterministicLLMClient(), max_workers=0
+        )
+
+        assert summarizer.max_workers == 1
+        assert len(summarizer.run()) == len(sample_tree.bottom_up())
 
 
 class TestFallbacks:

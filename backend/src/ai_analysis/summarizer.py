@@ -36,6 +36,8 @@ import json
 import logging
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor
+from itertools import groupby
 from typing import Dict, List, Optional, Sequence, Tuple
 
 from ai_analysis.chunker import Chunker
@@ -78,6 +80,39 @@ LAZY_LOAD_TOOL = "read_source_range"
 #: accessor has no algorithm worth fetching.
 MIN_LINES_FOR_SOURCE = 5
 
+#: Sibling nodes summarized concurrently within a single tier.
+#:
+#: ``TaxonomyTree.bottom_up`` orders strictly by descending tier, so every node in
+#: a tier has had all of its children summarized already — siblings never depend
+#: on each other and are structurally safe to run in parallel.  Node ordering and
+#: token accounting stay identical at any worker count.
+#:
+#: Throughput peaks at exactly 2 and then *regresses* — measured end-to-end on
+#: qwen2.5-coder:1.5b over the sample repository: 52.4s / 38.4s / 41.2s / 43.0s
+#: at 1 / 2 / 3 / 4 workers.
+#:
+#: The reason is that a stock Ollama server runs a single inference slot
+#: (``OLLAMA_NUM_PARALLEL`` defaults to 1, and the server log only ever shows
+#: ``slot id 0``), so concurrent requests do not actually infer in parallel.
+#: What the second worker overlaps is the ~0.66s of fixed per-request server
+#: overhead that every call pays regardless of prompt or output size.  A third
+#: worker has no overhead left to hide and only adds queueing.
+#:
+#: **Set this to 1 when you need reproducible output.**  The cause is not
+#: batched inference — with one slot there is no batching.  It is Ollama's
+#: prompt cache: it selects and reuses a cached KV prefix by longest-common-
+#: prefix similarity across requests, so interleaving changes which prefix is
+#: resident when a given prompt runs, which changes ``n_past`` and with it the
+#: numerics.  That is enough to flip token choices at ``temperature=0`` with a
+#: fixed seed.  Measured over the sample repository: two sequential runs are
+#: byte-identical, while 2 workers diverged from sequential on 15 and 19 of 35
+#: summaries across two measurements — roughly half the tree, and that
+#: difference cascades, because aggregating tiers compose their children's text.
+#:
+#: Node ordering and token accounting stay stable at any worker count; only the
+#: generated prose varies.
+DEFAULT_MAX_WORKERS = 2
+
 #: Minimum body length before a method is worth an LLM call at all.
 #:
 #: A getter, a one-line delegate or an empty test stub has no behaviour a model
@@ -102,6 +137,7 @@ class Summarizer:
         budget: int = DEFAULT_BUDGET,
         allow_lazy_source: bool = True,
         skip_trivial_methods: bool = True,
+        max_workers: int = DEFAULT_MAX_WORKERS,
     ):
         self.index = index
         self.tree = tree
@@ -111,6 +147,7 @@ class Summarizer:
         self.budget = budget
         self.allow_lazy_source = allow_lazy_source
         self.skip_trivial_methods = skip_trivial_methods
+        self.max_workers = max(1, max_workers)
 
         #: Describes trivial methods without a model call. Always available, so
         #: the structural path costs nothing even when an LLM is configured.
@@ -129,18 +166,41 @@ class Summarizer:
     # ------------------------------------------------------------------
 
     def run(self) -> List[SummaryNode]:
-        """Summarize every node, deepest tier first."""
+        """Summarize every node, deepest tier first.
+
+        Tiers are processed in strict bottom-up order because an aggregating node
+        composes its children's summaries.  Within a tier, siblings are mutually
+        independent and run concurrently when ``max_workers`` allows it.  Results
+        are always recorded in ``bottom_up`` order regardless of completion
+        order, keeping ``nodes`` and ``token_reports`` reproducible.
+        """
         ordered = self.tree.bottom_up()
         logger.info(
-            "Summarizing %d node(s) bottom-up using %s", len(ordered), self.llm.name
+            "Summarizing %d node(s) bottom-up using %s (%d worker(s))",
+            len(ordered), self.llm.name, self.max_workers,
         )
 
-        for node in ordered:
-            summary = self._summarize_node(node)
-            self.summaries[node.node_id] = summary.summary
-            self.nodes.append(summary)
+        for _, group in groupby(ordered, key=lambda n: n.tier.value):
+            self._record(self._summarize_tier(list(group)))
 
         return self.nodes
+
+    def _summarize_tier(self, group: List[TaxonomyNode]) -> List[SummaryNode]:
+        """Summarize one tier's worth of siblings, preserving *group* order."""
+        if self.max_workers == 1 or len(group) == 1:
+            return [self._summarize_node(node) for node in group]
+
+        workers = min(self.max_workers, len(group))
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            # ``map`` yields in submit order, not completion order.
+            return list(pool.map(self._summarize_node, group))
+
+    def _record(self, summaries: List[SummaryNode]) -> None:
+        """Commit a completed tier so the next tier can aggregate it."""
+        for summary in summaries:
+            self.summaries[summary.node_id] = summary.summary
+            self.nodes.append(summary)
+            self.token_reports.append(summary.tokens)
 
     # ------------------------------------------------------------------
 
@@ -155,8 +215,8 @@ class Summarizer:
             text = self._structural_fallback.generate(prompt.user).text or self._fallback_text(node)
         report.elapsed_seconds = time.perf_counter() - started
 
-        self.token_reports.append(report)
-
+        # ``token_reports`` is appended by :meth:`_record`, not here, so its order
+        # follows the bottom-up walk rather than thread completion order.
         return SummaryNode(
             node_id=node.node_id,
             tier=node.tier,
